@@ -6,6 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface CarRepository {
+@Repository
+public interface CarRepository extends JpaRepository<Car,Long>{
     // implement jpa repository here
+
+    //Custom finder method
+    List<Car> findByStatus(String status);
 }

@@ -7,8 +7,6 @@ import com.wecp.car_rental_management_system.repository.BookingRepository;
 import com.wecp.car_rental_management_system.repository.CarRepository;
 import com.wecp.car_rental_management_system.repository.UserRepository;
 
-import ch.qos.logback.core.status.Status;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

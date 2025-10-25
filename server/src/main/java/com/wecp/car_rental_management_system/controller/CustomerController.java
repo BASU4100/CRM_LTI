@@ -37,7 +37,7 @@ public class CustomerController {
     public ResponseEntity<Booking> bookCar(@RequestParam Long userId, @RequestParam Long carId,
                                            @RequestBody BookingDto bookingDto) {
         // book a car
-        return new ResponseEntity<Booking>(bookingService.bookCar(userId,carId),HttpStatus.CREATED);
+        return new ResponseEntity<Booking>(bookingService.bookCar(userId,carId, bookingDto.getRentalStartDate(), bookingDto.getRentalEndDate()),HttpStatus.CREATED);
     }
 
 }

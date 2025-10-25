@@ -69,7 +69,7 @@ public class AgentController {
     public ResponseEntity<Payment> createPayment(@PathVariable Long bookingId,
                                                    @RequestBody Payment paymentRequest) {
         // create payment of a booking
-        Payment obj = paymentService.createPayment(bookingId,paymentRequest);
+        Payment obj = paymentService.generateInvoice(bookingId, paymentRequest);
         return new ResponseEntity<>(obj,HttpStatus.OK);
     }
 }

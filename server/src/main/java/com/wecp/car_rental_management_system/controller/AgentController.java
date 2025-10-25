@@ -14,38 +14,63 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@RestController
 public class AgentController {
+
+    private CarService carService;
+    private BookingService bookingService;
+    private PaymentService paymentService;
+
+    @Autowired
+    public AgentController(CarService carService, BookingService bookingService, PaymentService paymentService) {
+        this.carService = carService;
+        this.bookingService = bookingService;
+        this.paymentService = paymentService;
+    }
 
     @PostMapping("/api/agent/car")
     public ResponseEntity<Car> addCar(@RequestBody Car car) {
         // add a car and return created car
+        Car obj = carService.addCar(car);
+        return new ResponseEntity<Car>(obj, HttpStatus.CREATED);
     }
 
     @GetMapping("/api/agent/cars")
     public ResponseEntity<List<Car>> getAllCars() {
         // get all cars
+        List<Car> obj = carService.getAllCars();
+        return new ResponseEntity<>(obj, HttpStatus.OK);
+
     }
 
     @PutMapping("/api/agent/car/{carId}")
     public ResponseEntity<Car> updateCar(@PathVariable Long carId, @RequestBody Car updatedCar) {
         // update a car
+        Car obj = carService.updateCar(carId, updatedCar);
+        return new ResponseEntity<>(obj,HttpStatus.OK);
     }
 
     @GetMapping("/api/agent/bookings")
     public ResponseEntity<List<Booking>> getAllBookings() {
         // get all bookings
+        List<Booking> obj = bookingService.getAllBookings();
+        return new ResponseEntity<>(obj,HttpStatus.OK);
+        
     }
 
     @PutMapping("/api/agent/bookings/{bookingId}/status")
     public ResponseEntity<Booking> updateBookingStatus(@PathVariable Long bookingId, @RequestParam String status) {
        // update booking status
+       Booking obj = bookingService.updateBookingStatus(bookingId,status);
+       return new ResponseEntity<>(obj,HttpStatus.OK);
     }
 
     @PostMapping("/api/agent/payment/{bookingId}")
     public ResponseEntity<Payment> createPayment(@PathVariable Long bookingId,
                                                    @RequestBody Payment paymentRequest) {
         // create payment of a booking
+        Payment obj = paymentService.createPayment(bookingId,paymentRequest);
+        return new ResponseEntity<>(obj,HttpStatus.OK);
     }
 }
 

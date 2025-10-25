@@ -10,16 +10,34 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+// import java.util.ArrayList;
+// import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService{
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     //User Register
-    public User registerUser(User user){
+    public User registerUser(User user) throws Exception{
+       String role = user.getRole();
+    //    String email = user.getEmail();
+       String username = user.getUsername();
+
+       if(!role.equalsIgnoreCase("ADMINISTRATOR") && !role.equalsIgnoreCase("AGENT") && !role.equalsIgnoreCase("CUSTOMER")){
+            throw new Exception("Invalid role. Only 'ADMINISTRATOR' or 'AGENT' or 'CUSTOMER' allowed.");
+       }
+
+       if(userRepository.findByUsername(username) != null){
+            throw new Exception("Username '" + username + "' already exists.");
+       }
+       
+    //    user.setUsername(username);
+       user.setPassword(passwordEncoder.encode(user.getPassword()));
+       user.setRole((role.toUpperCase()));
+
         return userRepository.save(user);
     }
 

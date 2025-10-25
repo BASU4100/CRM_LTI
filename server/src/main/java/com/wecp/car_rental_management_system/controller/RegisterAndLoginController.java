@@ -32,9 +32,9 @@ public class RegisterAndLoginController {
     private JwtUtil jwtutil;
 
     @PostMapping("/api/user/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
+    public ResponseEntity<User> registerUser(@RequestBody User user) throws Exception {
       // register a user
-      return new ResponseEntity<>(userService.registerUser(user),HttpStatus.CREATED);
+      return new ResponseEntity<User>(userService.registerUser(user),HttpStatus.CREATED);
     }
 
     @PostMapping("/api/user/login")

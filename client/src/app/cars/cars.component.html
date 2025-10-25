@@ -1,1 +1,66 @@
-//todo: complete missing code.
+<div>
+    <h2>Available Cars</h2>
+
+    <div *ngIf = "showError">
+        {{errorMessage}}
+    </div>
+
+    <div *ngIf="showMessage">
+        {{ responseMessage }}
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>sr#</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>ManufactureYear</th>
+                <th>RegistrationNumber</th>
+                <th>Status</th>
+                <th>ReantalRatePerDay</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let car of carList">
+                <td>{{ car.carId }}</td>
+                <td>{{ car.make }}</td>
+                <td>{{ car.model }}</td>
+                <td> {{ car.manufactureYear }} </td>
+                <td>{{ car.registrationNumber }}</td>
+                <td>{{ car.status }}</td>
+                <td>{{ car.rentalRatePerDay }}</td>
+                <td>
+                    <button (click)="Book(car)" >Book</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="toBook">
+        <h4>Book a Car</h4>
+        <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+            <div>
+                <label for="rentalStartDate">Rental End Date</label>
+                <input type="datetime-local" id="rentalStartDate">
+                <div *ngIf="itemForm.get('rentalStartDate')?.invalid && itemForm.get('rentalStartDate)?.touched">
+                    Start date is required.
+                </div>
+            </div>
+
+            <div>
+                <label for="rentalEndDate">Rental End Date</label>
+                <input type="datetime-local" id="rentalEndDate">
+                <div *ngIf="itemForm.get('rentalEndDate')?.invalid && itemForm.get('rentalEndDate)?.touched">
+                    End date is required.
+                </div>
+            </div>
+
+            <button type="submit" [disabled]="itemForm.invalid">Submit</button>
+
+        </form>
+    </div>
+
+
+</div>

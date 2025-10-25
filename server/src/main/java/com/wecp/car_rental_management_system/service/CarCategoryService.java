@@ -27,9 +27,10 @@ public class CarCategoryService {
     public CarCategory updateCarCategory(Long categoryId,CarCategory updatedCarCategory){
         CarCategory carCategory=carCategoryRepository.findById(categoryId).get();
         if(carCategory !=null && carCategory.getId()!=updatedCarCategory.getId()){
-            return null;
-        }
+            updatedCarCategory.setId(categoryId);
             return carCategoryRepository.save(updatedCarCategory);
+        }
+        return null;
     }
 }
 

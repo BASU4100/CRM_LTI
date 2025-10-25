@@ -12,30 +12,34 @@ public class CarCategory {
     // implement entity
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-    String name;
-    Double baseRate;
-    @OneToMany(mappedBy = "category")
-    List<Car> cars;
+    private Long id;
+    private String name;
+    private String description;
+    private Double baseRate;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Car> cars;
 
     //constructors
     public CarCategory() {
     }
     
-    public CarCategory(String name, Double baseRate, List<Car> cars) {
+    public CarCategory(String name, String description, Double baseRate, List<Car> cars) {
         this.name = name;
         this.baseRate = baseRate;
         this.cars = cars;
+        this.description = description;
     }
-
-    public CarCategory(Long id, String name, Double baseRate, List<Car> cars) {
+    
+    public CarCategory(Long id, String name, String description, Double baseRate, List<Car> cars) {
         this.id = id;
         this.name = name;
         this.baseRate = baseRate;
         this.cars = cars;
+        this.description = description;
     }
 
-    //getter and setter for id
+    //getter and setter
 
     public Long getId() {
         return id;
@@ -44,16 +48,12 @@ public class CarCategory {
         this.id = id;
     }
 
-    //getter and setter for Name
-
     public String getName() {
         return name;
     }
     public void setName(String name) {
         this.name = name;
     }
-
-    //getter and setter for BaseRate
 
     public Double getBaseRate() {
         return baseRate;
@@ -62,8 +62,6 @@ public class CarCategory {
         this.baseRate = baseRate;
     }
 
-    //getter and setter for List of Cars
-
     public List<Car> getCars() {
         return cars;
     }
@@ -71,5 +69,12 @@ public class CarCategory {
         this.cars = cars;
     }
     
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 }

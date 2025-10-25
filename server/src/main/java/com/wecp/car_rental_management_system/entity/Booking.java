@@ -12,14 +12,16 @@ public class Booking {
     // implement booking entity
 
     //Attributes
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bookingId;
+    private Long id;
     private Date rentalStartDate;
     private Date rentalEndDate;
     private String status;
     private Double totalAmount;
     private String paymentStatus;
-    @OneToOne
+    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Payment payment;
     @ManyToOne
     private User user;
@@ -45,10 +47,10 @@ public class Booking {
 
     //getters and setters
     public Long getId() {
-        return bookingId;
+        return id;
     }
     public void setId(Long id) {
-        this.bookingId = id;
+        this.id = id;
     }
     public Date getRentalStartDate() {
         return rentalStartDate;

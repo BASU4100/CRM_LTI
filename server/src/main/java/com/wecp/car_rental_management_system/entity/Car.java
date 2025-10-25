@@ -3,6 +3,9 @@ package com.wecp.car_rental_management_system.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+
+import org.hibernate.action.internal.OrphanRemovalAction;
+
 import java.util.List;
 
 @Entity
@@ -12,8 +15,8 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String make;
+    private String model;
     private String manufactureYear;
     private String registrationNumber;
     private String status;
@@ -22,10 +25,13 @@ public class Car {
     @ManyToOne
     private CarCategory category;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Booking> bookings;
 
-    public Car(Long id, String make, String manufactureYear, String registrationNumber, String status,
+    //constructors
+
+    public Car(Long id, String make,  String model, String manufactureYear, String registrationNumber, String status,
             Double rentalRatePerDay, CarCategory category, List<Booking> bookings) {
         this.id = id;
         this.make = make;
@@ -35,10 +41,11 @@ public class Car {
         this.rentalRatePerDay = rentalRatePerDay;
         this.category = category;
         this.bookings = bookings;
+        this.model = model;
     }
-
-    public Car(String make, String manufactureYear, String registrationNumber, String status, Double rentalRatePerDay,
-            CarCategory category, List<Booking> bookings) {
+    
+    public Car(String make, String model, String manufactureYear, String registrationNumber, String status, Double rentalRatePerDay,
+    CarCategory category, List<Booking> bookings) {
         this.make = make;
         this.manufactureYear = manufactureYear;
         this.registrationNumber = registrationNumber;
@@ -46,10 +53,13 @@ public class Car {
         this.rentalRatePerDay = rentalRatePerDay;
         this.category = category;
         this.bookings = bookings;
+        this.model = model;
     }
 
     public Car() {
     }
+
+    //getter and setter
 
     public Long getId() {
         return id;
@@ -115,6 +125,11 @@ public class Car {
         this.bookings = bookings;
     }
 
-    
+    public String getModel() {
+        return model;
+    }
 
+    public void setModel(String model) {
+        this.model = model;
+    }
 }

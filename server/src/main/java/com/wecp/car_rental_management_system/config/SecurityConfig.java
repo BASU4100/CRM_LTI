@@ -1,6 +1,5 @@
 package com.wecp.car_rental_management_system.config;
 
-import com.wecp.car_rental_management_system.jwt.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,25 +15,55 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.wecp.car_rental_management_system.jwt.JwtRequestFilter;
 
-public class SecurityConfig {
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final UserDetailsService userDetailsService;
+    private final JwtRequestFilter jwtRequestFilter;
+    private final PasswordEncoder passwordEncoder;
 
-    // configure the security of the application such that
-    // /api/user/register and /api/user/login are permitted to all
-    // /api/administrator/car-categories is permitted to ADMINISTRATOR
-    // /api/administrator/car-categories is permitted to ADMINISTRATOR
-    // /api/administrator/car-categories/{categoryId} is permitted to ADMINISTRATOR
-    // /api/administrator/reports/bookings is permitted to ADMINISTRATOR
-    // /api/administrator/reports/payments is permitted to ADMINISTRATOR
-    // /api/agent/car is permitted to AGENT
-    // /api/agent/car/{carId} is permitted to AGENT
-    // /api/agent/bookings is permitted to AGENT
-    // /api/agent/bookings/{bookingId}/status is permitted to AGENT
-    // /api/agent/payment/{bookingId}  is permitted to AGENT
-    // /api/customers/cars/available is permitter to CUSTOMER
-    // /api/customers/booking is permitter to CUSTOMER
+    @Autowired
+    public SecurityConfig(UserDetailsService userDetailsService,
+                          JwtRequestFilter jwtRequestFilter,
+                          PasswordEncoder passwordEncoder) {
+        this.userDetailsService = userDetailsService;
+        this.jwtRequestFilter = jwtRequestFilter;
+        this.passwordEncoder = passwordEncoder;
+    }
 
-    // note that check the permission with respect to authority
-    // for example hasAuthority("ADMINISTRATOR")
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/register", "/login").permitAll()
+                // .antMatchers(HttpMethod.GET, "/customers/**").hasAnyAuthority("USER", "ADMIN")
+                // .antMatchers(HttpMethod.POST, "/customers/**").hasAuthority("ADMIN")
+                // .antMatchers(HttpMethod.PUT, "/customers/**").hasAuthority("ADMIN")
+                // .antMatchers(HttpMethod.DELETE, "/customers/**").hasAuthority("ADMIN")
+                // .antMatchers(HttpMethod.GET, "/accounts/**").hasAnyAuthority("USER", "ADMIN")
+                // .antMatchers(HttpMethod.POST, "/accounts/**").hasAuthority("ADMIN")
+                // .antMatchers(HttpMethod.PUT, "/accounts/**").hasAuthority("ADMIN")
+                // .antMatchers(HttpMethod.DELETE, "/accounts/**").hasAuthority("ADMIN")
+                // .antMatchers("/transactions/**").hasAnyAuthority("USER", "ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 }

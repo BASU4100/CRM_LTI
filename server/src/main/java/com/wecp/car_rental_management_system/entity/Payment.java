@@ -16,6 +16,7 @@ public class Payment {
     private Date paymentDate;
     private String paymentMethod;
     private String paymentStatus;
+    @OneToOne
     private Booking booking;
 
 

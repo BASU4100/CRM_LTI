@@ -33,7 +33,7 @@ public class CustomerController {
 
     }
 
-    @PostMapping("/api/customers/booking")
+    @PostMapping("/api/customers/booking/{userId}/{carId}")
     public ResponseEntity<Booking> bookCar(@RequestParam Long userId, @RequestParam Long carId,
                                            @RequestBody BookingDto bookingDto) {
         // book a car

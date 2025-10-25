@@ -15,13 +15,14 @@ public class User {
     Long id;
 
     @Column(unique = true)
-    String username;
-    String password;
+    private String username;
+    private String password;
     @Column(unique = true)
-    String email;
-    String role;
-    @OneToMany(mappedBy = "users")
-    List<Booking> bookings;
+    private String email;
+    private String role;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Booking> bookings;
 
     //Constructors
     public User() {

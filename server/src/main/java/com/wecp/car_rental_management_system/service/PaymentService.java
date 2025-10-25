@@ -10,7 +10,23 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public class PaymentService {
     // implement payment service
+    @Autowired
+    private PaymentRepository paymentRepository;
+    @Autowired
+    private BookingRepository bookingRepository;
+
+    // fetch all payments from database
+    public List<Payment> getAllPayments() {
+        return paymentRepository.findAll();
+    }
+
+    // create a new payment after fetching the booking with bookingId
+    public Payment generateInvoice(Long bookingId, Payment paymentRequest) {
+        Booking booking = bookingRepository.findById(bookingId);
+        paymentRequest.setBooking(booking);
+        return paymentRepository.save(paymentRequest);
+    }
 }

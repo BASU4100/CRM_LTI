@@ -17,9 +17,9 @@ import java.util.List;
 @RestController
 public class AgentController {
 
-    private CarService carService;
-    private BookingService bookingService;
-    private PaymentService paymentService;
+    private final CarService carService;
+    private final BookingService bookingService;
+    private final PaymentService paymentService;
 
     @Autowired
     public AgentController(CarService carService, BookingService bookingService, PaymentService paymentService) {

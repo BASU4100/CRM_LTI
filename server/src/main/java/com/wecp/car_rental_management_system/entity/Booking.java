@@ -100,5 +100,4 @@ public class Booking {
     public void setCar(Car car) {
         this.car = car;
     }
-
 }

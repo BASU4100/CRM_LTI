@@ -45,20 +45,19 @@ public class BookingService{
 
     //book a car for a user between rentalStartDate and rentalEndDate.
     public Booking bookCar(Long userId , Long carId, Date rentalStartDate, Date rentalEndDate){
-        User user = userRepository.findById(userId).get();
-        Car car = carRepository.findById(carId).get();
-        if(Optional.of(user).isPresent() && Optional.of(car).isPresent()){
-            
+        Optional<User> user = userRepository.findById(userId);
+        Optional<Car> car = carRepository.findById(carId);
+        if(user.isPresent() && car.isPresent()){
             Booking booking = new Booking();
-            booking.setUser(user);
-            booking.setCar(car);
+            booking.setUser(user.get());
+            booking.setCar(car.get());
             booking.setRentalEndDate(rentalEndDate);
             booking.setRentalStartDate(rentalStartDate);
             booking.setStatus("pending");
             booking.setPaymentStatus("unpaid");
 
             long durationInDays = (rentalEndDate.getTime() - rentalStartDate.getTime()) / (1000 * 60 * 60 * 24);
-            double totalAmount =  durationInDays * car.getRentalRatePerDay();
+            double totalAmount =  durationInDays * car.get().getRentalRatePerDay();
             booking.setTotalAmount(totalAmount);
 
             // car.setStatus("booked");

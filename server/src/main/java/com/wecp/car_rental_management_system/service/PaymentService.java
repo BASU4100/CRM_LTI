@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PaymentService {
@@ -25,8 +26,11 @@ public class PaymentService {
 
     // create a new payment after fetching the booking with bookingId
     public Payment generateInvoice(Long bookingId, Payment paymentRequest) {
-        Booking booking = bookingRepository.findById(bookingId).get();
-        paymentRequest.setBooking(booking);
-        return paymentRepository.save(paymentRequest);
+        Optional<Booking> booking = bookingRepository.findById(bookingId);
+        if (booking.isPresent()) {
+            paymentRequest.setBooking(booking.get());
+            return paymentRepository.save(paymentRequest);
+        }
+        return null;
     }
 }

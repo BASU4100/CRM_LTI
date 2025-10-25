@@ -42,7 +42,7 @@ public class CarService {
     //get available cars after checking the availale status
     public List<Car> getAvailableCars()
     {
-        return carRepository.findByStatus("Available");
+        return carRepository.findByStatus("available");
     }
 
     //gets all cars

@@ -43,17 +43,7 @@ public class CarService {
     //get available cars after checking the availale status
     public List<Car> getAvailableCars()
     {
-        List<Car> allcars = carRepository.findByStatus(status);
-        List<Car> availableCars = new ArrayList<>();
-
-        for(Car car: allcars)
-        {
-            if(car.getBookings() == null || car.getBookings().isEmpty())
-            {
-                availableCars.add(car);
-            }
-        }
-        return availableCars;
+        return carRepository.findByStatus("Available");
     }
 
     //gets all cars

@@ -34,6 +34,7 @@ export class CarsComponent implements OnInit{
     })
     this.getCars();
   }
+
   onSubmit():void{
     const carData = this.itemForm.value;
     this.httpService.post(`${environment.apiUrl}/api/agent/car`, carData).subscribe({
@@ -48,6 +49,7 @@ export class CarsComponent implements OnInit{
       }
     });
   }
+  
   getCars():void{
     this.httpService.get(`${environment.apiUrl}/api/agent/cars`).subscribe({
       next: (res: any)=> this.carList = res,

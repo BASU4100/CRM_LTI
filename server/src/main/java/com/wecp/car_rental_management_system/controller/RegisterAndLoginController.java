@@ -38,41 +38,42 @@ public class RegisterAndLoginController {
 
     @PostMapping("/api/user/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {
-        // try {
-        //     Authentication authentication = authenticationManager.authenticate(
-        //         new UsernamePasswordAuthenticationToken(
-        //             loginRequest.getUsername(),
-        //             loginRequest.getPassword()
-        //         )
-        //     );
-
-        //     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        //     String token = jwtUtil.generateToken(userDetails.getUsername());
-
-        //     User user = userService.getUserByUsername(userDetails.getUsername());
-
-        //     LoginResponse response = new LoginResponse(
-        //         user.getId(),
-        //         token,
-        //         user.getUsername(),
-        //         user.getEmail(),
-        //         user.getRole()
-        //     );
-
-        //     return ResponseEntity.ok(response);
-
-        // } catch (AuthenticationException e) {
-        //     throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Username or Password", e);
-        // }
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        }
-        catch (AuthenticationException e) {
+            Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    loginRequest.getUsername(),
+                    loginRequest.getPassword()
+                )
+            );
+
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String token = jwtUtil.generateToken(userDetails.getUsername());
+
+            User user = userService.getUserByUsername(userDetails.getUsername());
+
+            LoginResponse response = new LoginResponse(
+                user.getId(),
+                token,
+                user.getUsername(),
+                user.getEmail(),
+                user.getRole()
+            );
+
+            return ResponseEntity.ok(response);
+
+        } catch (AuthenticationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Username or Password", e);
         }
-        final UserDetails userDetails = userService.loadUserByUsername(loginRequest.getUsername());
-        final String token = jwtUtil.generateToken(userDetails.getUsername());
-        User user = userService.getUserByUsername(userDetails.getUsername());
-        return new ResponseEntity<>(new LoginResponse(user.getId(), token, user.getUsername(), user.getEmail(), user.getRole()), HttpStatus.OK);
+        // try {
+        //     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            
+        // }
+        // catch (AuthenticationException e) {
+        //     throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Username or Password", e);
+        // }
+        // final UserDetails userDetails = userService.loadUserByUsername(loginRequest.getUsername());
+        // final String token = jwtUtil.generateToken(userDetails.getUsername());
+        // User user = userService.getUserByUsername(userDetails.getUsername());
+        // return new ResponseEntity<>(new LoginResponse(user.getId(), token, user.getUsername(), user.getEmail(), user.getRole()), HttpStatus.OK);
     }
 }

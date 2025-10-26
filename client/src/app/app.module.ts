@@ -26,14 +26,12 @@ import { PaymentReportComponent } from './payment-report/payment-report.componen
     LoginComponent,
     RegistrationComponent,
     DashbaordComponent,
- 
-      CategoryComponent,
-      AddCarComponent,
-      CarsComponent,
-      GetBookingsComponent,
-      BookingReportComponent,
-      PaymentReportComponent
-     
+    CategoryComponent,
+    AddCarComponent,
+    CarsComponent,
+    GetBookingsComponent,
+    BookingReportComponent,
+    PaymentReportComponent
   ],
   imports: [
     BrowserModule,

@@ -10,4 +10,6 @@ import { HttpService } from '../../services/http.service';
   templateUrl: './booking-report.component.html',
   styleUrls: ['./booking-report.component.scss']
 })
-export class BookingReportComponent //todo: complete missing code.
+export class BookingReportComponent{
+  
+}

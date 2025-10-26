@@ -49,6 +49,7 @@ export class CategoryComponent implements OnInit{
         }
       });
     }
+
     getCategories():void{
       this.httpService.get(`${environment.apiUrl}/api/administrator/car-categories`).subscribe({
         next:(res:any) => this.categoryList = res,

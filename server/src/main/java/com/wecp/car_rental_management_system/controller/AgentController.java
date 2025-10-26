@@ -55,7 +55,6 @@ public class AgentController {
         // get all bookings
         List<Booking> obj = bookingService.getAllBookings();
         return new ResponseEntity<>(obj,HttpStatus.OK);
-        
     }
 
     @PutMapping("/api/agent/bookings/{bookingId}/status")

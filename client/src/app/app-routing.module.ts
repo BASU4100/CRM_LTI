@@ -20,8 +20,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'dashboard', component: DashbaordComponent },
-
-
   { path: 'get-bookings', component: GetBookingsComponent }, 
   { path: 'payment-report', component: PaymentReportComponent }, 
   { path: 'booking-report', component: BookingReportComponent }, 

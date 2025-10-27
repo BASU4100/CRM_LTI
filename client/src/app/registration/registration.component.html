@@ -1,1 +1,75 @@
-//todo: complete missing code.
+<div class="container mt-5">
+  <h2 class="text-center">Register for Car Rental</h2>
+
+  <form [formGroup]="itemForm" (ngSubmit)="onRegister()" novalidate>
+    <!-- Username -->
+    <div class="form-group mb-3">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        class="form-control"
+        formControlName="username"
+        placeholder="Enter username"
+      />
+      <div *ngIf="itemForm.get('username')?.invalid && itemForm.get('username')?.touched" class="text-danger">
+        <small *ngIf="itemForm.get('username')?.errors?.['required']">Username is required.</small>
+        <small *ngIf="itemForm.get('username')?.errors?.['pattern']">Only letters, numbers, dots, underscores, and hyphens allowed.</small>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group mb-3">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        formControlName="email"
+        placeholder="Enter email"
+      />
+      <div *ngIf="itemForm.get('email')?.invalid && itemForm.get('email')?.touched" class="text-danger">
+        <small *ngIf="itemForm.get('email')?.errors?.['required']">Email is required.</small>
+        <small *ngIf="itemForm.get('email')?.errors?.['email']">Enter a valid email address.</small>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group mb-3">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        formControlName="password"
+        placeholder="Enter password"
+      />
+      <div *ngIf="itemForm.get('password')?.invalid && itemForm.get('password')?.touched" class="text-danger">
+        <small *ngIf="itemForm.get('password')?.errors?.['required']">Password is required.</small>
+        <small *ngIf="itemForm.get('password')?.errors?.['pattern']">
+          Must contain at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character (!@$%&*?).
+        </small>
+      </div>
+    </div>
+
+    <!-- Role -->
+    <div class="form-group mb-3">
+      <label for="role">Role</label>
+      <select id="role" class="form-control" formControlName="role">
+        <option value="">Select role</option>
+        <option value="USER">User</option>
+        <option value="ADMIN">Admin</option>
+      </select>
+      <div *ngIf="itemForm.get('role')?.invalid && itemForm.get('role')?.touched" class="text-danger">
+        <small>Role is required.</small>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary" [disabled]="itemForm.invalid">Register</button>
+
+    <!-- Message -->
+    <div *ngIf="showMessage" class="mt-3">
+      <div class="alert alert-info">{{ responseMessage }}</div>
+    </div>
+ 

@@ -17,6 +17,7 @@ export class RegistrationComponent implements OnInit{
   showMessage :  any = false; 
   responseMessage : any = '';
 
+  // form structure and placeholder value before the user interacts with the form.
   constructor(private router : Router, private httpService : HttpService, private fb : FormBuilder){}
 
   ngOnInit(): void {
@@ -25,25 +26,45 @@ export class RegistrationComponent implements OnInit{
       email : ['',[Validators.required,Validators.email]],
       password : ['',Validators.required,Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@$%&*?])[A-Za-z\d!@$%&*?]+$/)],
       role : ['',Validators.required]
-    })
+    });
+
+    this.formModel = {
+      username : 'Username',
+      email : 'name@example.com',
+      password : '********',
+      role : 'Select Role'
+    }
   }
 
+  // the user clicks on Register button, if valid then success message is displayed.
   onRegister() : void{
     if(this.itemForm.valid){
-      this.httpService.post(`${environment.apiUrl}/api/user/register`,this.itemForm.value).subscribe({
-        next:  (response : any) =>{
+      this.httpService.registerUser(this.itemForm.value).subscribe({
+        next:  () =>{
           this.showMessage = true
           this.responseMessage = "Registration successfull!"
-          this.router.navigate(['login'])   // if this does not work try /login.
+          
+          setTimeout(() => {
+            this.showMessage = false
+            this.responseMessage = ''
+            this.router.navigate(['/login']) 
+          }, 1500);
+          
         },
+        // error - scenario
         error : (error : any) =>{
           this.showMessage = true
           this.responseMessage = "Registration failed, please try again."
           console.error('Registration error :',error) 
           error.error.responseMessage('Registration error :',error) 
+          setTimeout(() => {
+            this.showMessage = false
+            this.responseMessage = ''
+          }, 1500);
         }
       });
 
+      // in case the user enters the fields incorrectly, the response message is displayed.
     }else{
       this.showMessage = true
       this.responseMessage = 'Please fill all the fields correctly.'

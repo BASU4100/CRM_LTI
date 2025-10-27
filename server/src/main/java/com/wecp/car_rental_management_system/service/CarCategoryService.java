@@ -3,10 +3,13 @@ package com.wecp.car_rental_management_system.service;
 import com.wecp.car_rental_management_system.entity.CarCategory;
 import com.wecp.car_rental_management_system.repository.CarCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 @Service
 public class CarCategoryService {
@@ -24,13 +27,12 @@ public class CarCategoryService {
     }
 
     //update car category
+    @Modifying
+    @Transactional
     public CarCategory updateCarCategory(Long categoryId,CarCategory updatedCarCategory){
-        CarCategory carCategory=carCategoryRepository.findById(categoryId).get();
-        if(carCategory !=null && carCategory.getId()!=updatedCarCategory.getId()){
-            updatedCarCategory.setId(categoryId);
-            return carCategoryRepository.save(updatedCarCategory);
-        }
-        return null;
+        carCategoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("Car category not found."));
+        updatedCarCategory.setId(categoryId);
+        return carCategoryRepository.save(updatedCarCategory);
     }
 }
 

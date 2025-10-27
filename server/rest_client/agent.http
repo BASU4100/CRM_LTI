@@ -1,0 +1,13 @@
+POST http://localhost:5000/api/agent/car
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE1NjQyMjEsImV4cCI6MTc2MTY1MDYyMX0.lU2uH4_f8fu9t3CpPNQ86u_I8sOMMC4u0KykU7ovOhylmBrECPulYLYGmCL_1iE7Rt_tOP9aX-aVbV8bdmdCrQ
+
+{
+    "make": "Audi Make",
+    "model": "Audi Model",
+    "manufactureYear": "1983",
+    "registrationNumber": "TZ123456",
+    "status": "available",
+    "rentalRatePerDay": 20000,
+    "category": { "id": 2}
+}

@@ -1,6 +1,8 @@
 package com.wecp.car_rental_management_system.service;
 
 import com.wecp.car_rental_management_system.entity.Car;
+import com.wecp.car_rental_management_system.entity.CarCategory;
+import com.wecp.car_rental_management_system.repository.CarCategoryRepository;
 import com.wecp.car_rental_management_system.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,17 +13,29 @@ import java.util.Optional;
 @Service
 public class CarService {
     // implement car service
-    private CarRepository carRepository;
+    private final CarRepository carRepository;
+    private final CarCategoryRepository carCategoryRepository;
 
     @Autowired
-    public CarService(CarRepository carRepository) {
+    public CarService(CarRepository carRepository, CarCategoryRepository carCategoryRepository) {
         this.carRepository = carRepository;
+        this.carCategoryRepository = carCategoryRepository;
     }
 
-    //adds a new car
-    public Car addCar(Car car)
-    {
-        return carRepository.save(car);
+    //adds a new car when the car category is present
+    public Car addCar(Car car){
+        if (car.getCategory()==null || car.getCategory().getId()==null){
+            return null;
+        }
+        else {
+            Optional<CarCategory> carCategory= carCategoryRepository.findById(car.getCategory().getId());
+            if (carCategory.isPresent()) {
+                car.setCategory(carCategory.get());
+                return carRepository.save(car);
+            }
+            else
+                return null;
+        }
     }
 
     //updates an existing car

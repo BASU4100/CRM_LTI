@@ -1,0 +1,9 @@
+POST http://localhost:5000/api/administrator/car-categories
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCQVNVNDEwMCIsInJvbGUiOiJBRE1JTklTVFJBVE9SIiwiaWF0IjoxNzYxNTYzODIwLCJleHAiOjE3NjE2NTAyMjB9.sLSRNXPA1rxU3DsyfgjUYiXX306IvRd4JzC_lwaGATkYRgA1VmjiId3RMwZT5xOVzwGxdYR97PiB-4FK7g3cPw
+
+{
+    "name":"AUDI",
+    "description": "Audi description",
+    "baseRate": 200000
+}

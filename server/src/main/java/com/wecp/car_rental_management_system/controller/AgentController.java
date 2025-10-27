@@ -32,6 +32,9 @@ public class AgentController {
     public ResponseEntity<Car> addCar(@RequestBody Car car) {
         // add a car and return created car
         Car obj = carService.addCar(car);
+        if (obj==null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<Car>(obj, HttpStatus.CREATED);
     }
 

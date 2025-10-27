@@ -17,7 +17,7 @@ export class AddCarComponent implements OnInit {
   formModel:any
   showError:boolean = false
   errorMessage:any
-  categortList:any[] = []
+  categoryList:any[] = []
   assignModel:any
   carList:any[] = []
   showMessage:any = false

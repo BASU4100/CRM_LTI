@@ -20,6 +20,13 @@ export class HttpService {
       'Content-Type': 'application/json'
     });
   }
+
+  httpOptions: {headers: HttpHeaders} = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    })
+  };
  
   // Features used by Administrator
   // Get all categories from backend
@@ -86,11 +93,11 @@ export class HttpService {
  
   // Feature used by RegisterAndLogin controller to validate user and generate a response
   Login(loginData: any): Observable<any> {
-    return this.http.post<any>(`${this.serverName}/api/user/login`, loginData, { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+    return this.http.post<any>(`${this.serverName}/api/user/login`, loginData, this.httpOptions);
   }
  
   // Feature used by RegisterAndLogin controller to register a new user
   registerUser(registerData: any): Observable<any> {
-    return this.http.post<any>(`${this.serverName}/api/user/register`, registerData, { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+    return this.http.post<any>(`${this.serverName}/api/user/register`, registerData, this.httpOptions);
   }
 }

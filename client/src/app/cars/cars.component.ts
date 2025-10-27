@@ -115,6 +115,4 @@ export class CarsComponent implements OnInit{
       rentalEndDate: this.dataPipe.transform(future, 'yyyy-MM-ddTHH:mm')
     });
   }
-
-
 }

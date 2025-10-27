@@ -22,17 +22,17 @@ export class LoginComponent implements OnInit {
     private httpService: HttpService,
     private fb: FormBuilder,
     private authService: AuthService,
-    private datePipe: DatePipe
+   
   ) {}
 
   ngOnInit(): void {
     this.itemForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
     });
 
     // Initialize formModel
-    this.formModel = { email: '', password: '' };
+    this.formModel = { username: '', password: '' };
 
     // Sync formModel with form values
     this.itemForm.valueChanges.subscribe(value => {
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     }
 
     const loginData = this.itemForm.value;
-    this.httpService.login(loginData).subscribe({
+    this.httpService.Login(loginData).subscribe({
       next: (response: any) => {
         this.authService.saveToken(response.token)
         this.authService.SetRole(response.role)

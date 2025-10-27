@@ -39,7 +39,7 @@ export class BookingReportComponent implements OnInit {
   }
 
   getBookingReport(): void {
-    this.httpService.getBookingByAgent().subscribe({
+    this.httpService.getBookingReport().subscribe({
       next: (res: any) => {
         this.bookingList = res;
         this.showMessage = true;

@@ -1,16 +1,27 @@
-<div>
-    <h2>Available Cars</h2>
+div>
+  <h2>Available Cars for Rent</h2>
 
-    <div *ngIf = "showError">
-        {{errorMessage}}
-    </div>
+  <!-- Error Message -->
+  <div *ngIf="showError">
+    {{ errorMessage }}
+  </div>
 
-    <div *ngIf="showMessage">
-        {{ responseMessage }}
-    </div>
+  <!-- Success Message -->
+  <div *ngIf="showMessage">
+    {{ responseMessage }}
+  </div>
 
-    <table>
-        <thead>
+  <!-- Loading Spinner -->
+  <div *ngIf="!carList || carList.length === 0">
+    <p>Loading available cars...</p>
+  </div>
+
+  <!-- Cars Grid -->
+  <div>
+    <div *ngFor="let car of carList">
+      <div>
+        <div>
+          <thead>
             <tr>
                 <th>sr#</th>
                 <th>Make</th>
@@ -23,44 +34,72 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let car of carList">
-                <td>{{ car.carId }}</td>
-                <td>{{ car.make }}</td>
-                <td>{{ car.model }}</td>
-                <td> {{ car.manufactureYear }} </td>
-                <td>{{ car.registrationNumber }}</td>
-                <td>{{ car.status }}</td>
-                <td>{{ car.rentalRatePerDay }}</td>
-                <td>
-                    <button (click)="Book(car)" >Book</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div *ngIf="toBook">
-        <h4>Book a Car</h4>
-        <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
-            <div>
-                <label for="rentalStartDate">Rental End Date</label>
-                <input type="datetime-local" id="rentalStartDate">
-                <div *ngIf="itemForm.get('rentalStartDate')?.invalid && itemForm.get('rentalStartDate)?.touched">
-                    Start date is required.
-                </div>
-            </div>
-
-            <div>
-                <label for="rentalEndDate">Rental End Date</label>
-                <input type="datetime-local" id="rentalEndDate">
-                <div *ngIf="itemForm.get('rentalEndDate')?.invalid && itemForm.get('rentalEndDate)?.touched">
-                    End date is required.
-                </div>
-            </div>
-
-            <button type="submit" [disabled]="itemForm.invalid">Submit</button>
-
-        </form>
+          <tr *ngFor="let car of carList">
+              <td>{{ car.carId }}</td>
+              <td>{{ car.make }}</td>
+              <td>{{ car.model }}</td>
+              <td> {{ car.manufactureYear }} </td>
+              <td>{{ car.registrationNumber }}</td>
+              <td>{{ car.status }}</td>
+              <td>{{ car.rentalRatePerDay }}</td>
+              <td>
+                <button 
+                (click)="book(car)"
+                [disabled]="toBook === car.id">
+                {{ toBook === car.id ? 'Booking...' : 'Book Now' }}
+              </button>
+              </td>
+          </tr>
+      </tbody>
+        </div>
+      </div>
     </div>
+  </div>
 
+  <!-- Booking Modal -->
+  <div id="bookingModal">
+    <div>
+      <div>
+        <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+          <div>
+            <h5>Book Car: {{ assignModel?.make }} {{ assignModel?.model }}</h5>
+            <button type="button">X</button>
+          </div>
+          <div>
+            <div>
+              <label for="rentalStartDate">Rental Start Date</label>
+              <input 
+                type="datetime-local" 
+                id="rentalStartDate"
+                formControlName="rentalStartDate"
+                [class.is-invalid]="itemForm.get('rentalStartDate')?.invalid && itemForm.get('rentalStartDate')?.touched">
+              <div>
+                Start date is required and must be in the future.
+              </div>
+            </div>
 
+            <div>
+              <label for="rentalEndDate">Rental End Date</label>
+              <input 
+                type="datetime-local" 
+                id="rentalEndDate"
+                formControlName="rentalEndDate"
+                [class.is-invalid]="itemForm.get('rentalEndDate')?.invalid && itemForm.get('rentalEndDate')?.touched">
+              <div>
+                End date is required and must be after start date.
+              </div>
+            </div>
+          </div>
+          <div>
+            <button type="button">Cancel</button>
+            <button 
+              type="submit"
+              [disabled]="itemForm.invalid || toBook">
+              Confirm Booking
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

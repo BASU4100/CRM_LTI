@@ -48,30 +48,21 @@ export class LoginComponent implements OnInit {
     }
 
     const loginData = this.itemForm.value;
-    this.authService.login(loginData).subscribe({
+    this.httpService.login(loginData).subscribe({
       next: (response: any) => {
+        this.authService.saveToken(response.token)
+        this.authService.SetRole(response.role)
         this.showError = false;
         this.errorMessage = '';
-
-        const userRole = this.authService.getUserRole();
-        switch (userRole) {
-          case 'CUSTOMER':
-            this.router.navigate(['/customer']);
-            break;
-          case 'AGENT':
-            this.router.navigate(['/agent']);
-            break;
-          case 'ADMINISTRATOR':
-            this.router.navigate(['/admin']);
-            break;
-          default:
-            this.showError = true;
-            this.errorMessage = 'Unknown user role';
-        }
+        this.router.navigate(['/dashboard']);        
       },
       error: (error) => {
         this.showError = true;
         this.errorMessage = error.error?.message || 'Invalid email or password';
+        setTimeout(() => {
+          this.showError=false
+          this.errorMessage = ''
+        }, 1500);
         console.error(error);
       }
     });

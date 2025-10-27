@@ -8,33 +8,35 @@ Content-Type: application/json
 #     "role" : "ADMINISTRATOR"
 # }
 
-# {
-#     "username" : "VIVEK4100",
-#     "email" : "vivek@ex.com",
-#     "password" : "vivek1234",
-#     "role" : "AGENT"
-# }
-
 {
-    "username" : "ASEN4100",
-    "email" : "asen@ex.com",
-    "password" : "asen1234",
-    "role" : "CUSTOMER"
+    "username" : "VIVEK4100",
+    "email" : "vivek@ex.com",
+    "password" : "vivek1234",
+    "role" : "AGENT"
 }
 
+# {
+#     "username" : "ASEN4100",
+#     "email" : "asen@ex.com",
+#     "password" : "asen1234",
+#     "role" : "CUSTOMER"
+# }
+
 ### Login
+
+###
 POST http://localhost:5000/api/user/login
 Content-Type: application/json
 
-{
-    "username" : "BASU4100",
-    "password" : "basu1234"
-}
-
 # {
-#     "username" : "VIVEK4100",
-#     "password" : "vivek1234"
+#     "username" : "BASU4100",
+#     "password" : "basu1234"
 # }
+
+{
+    "username" : "VIVEK4100",
+    "password" : "vivek1234"
+}
 
 # {
 #     "username" : "ASEN4100",

@@ -19,7 +19,7 @@ export class HttpService {
   }
 
   // get all booking by agent related to Booking Report tab on nav bar
-  getBookingByAgent(): Observable<any[]> {
+  getBookingReport(): Observable<any[]> {
     return this.http.get<any[]>(`${this.serverName}/api/administrator/reports/bookings`);
   }
 
@@ -43,10 +43,15 @@ export class HttpService {
   getCars(): Observable<any[]> {
     return this.http.get<any[]>(`${this.serverName}/api/agent/cars`);
   }
+  
+  // get booking according to agentId
+  getBookingByAgent(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.serverName}/api/agent/bookings`);
+  }
 
   // add payments details
   bookingPayment(details: any, bookingId: any): Observable<any> {
-    return this.http.post<any>(`${this.serverName}/api/agent/payment/{bookingId}`, details);
+    return this.http.post<any>(`${this.serverName}/api/agent/payment/${bookingId}`, details);
   }
 
   // update status of booking after customer books a car
@@ -67,11 +72,11 @@ export class HttpService {
   // Features used by the Customer
   // add a booking related to the Book Car nav bar tab
   bookACar(details:any, userId:any, carId:any): Observable<any> {
-    return this.http.post<any>(`${this.serverName}/api/customers/booking/{userId}/{carId}`, details);
+    return this.http.post<any>(`${this.serverName}/api/customers/booking/${userId}/${carId}`, details);
   }
 
   // Feature used by RegisterAndLogin controller to validate user and generate a response
-  login(loginData: any): Observable<any> {
+  Login(loginData: any): Observable<any> {
     return this.http.post<any>(`${this.serverName}/api/user/login`, loginData);
   }
 

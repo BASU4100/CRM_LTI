@@ -3,6 +3,9 @@ package com.wecp.car_rental_management_system.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+
+import org.springframework.security.core.GrantedAuthority;
+
 import java.util.List;
 
 

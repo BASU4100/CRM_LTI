@@ -44,12 +44,16 @@ export class AddCarComponent implements OnInit {
 
   // loading all cars on component loading
   ngOnInit():void {
+    if(!this.authService.getLoginStatus)
+    {
+      this.router.navigate(['/login'])
+    }
     this.getAllCarList()
   }
 
   // fetching all cars list from database
   getAllCarList():void {
-    this.httpService.getAllCarList().subscribe({
+    this.httpService.getCars().subscribe({
       next:(res:any[]) => {
         this.carList = res
       },
@@ -60,34 +64,60 @@ export class AddCarComponent implements OnInit {
     })
   }
 
-  // maybe on click of edit button routes to carsComponent which seems to be the edit form for cars editable by agent
+  //edits the car with existing patch values
   editCar(val:any):void{
-    
+    this.updateId=val.id;
+    this.itemForm.patchValue(val);
   }
 
   onSubmit():void
   {
     const carData = this.itemForm.value
-    this.httpService.addCar(carData).subscribe({
-      next:() => {
-        this.showMessage = true
-        this.errorMessage = false
-        this.responseMessage = 'Car Saved Successfully'
-        setTimeout(() => {
-          this.showMessage = false;
-          this.responseMessage = '';
-          this.router.navigate(['/dashboard']);
-        }, 1500);
-      },
-      error: (error) => {
-        this.showError = true
-        this.showMessage = false
-        this.responseMessage = error.error.message;
-        setTimeout(() => {
-          this.showError = false;
-          this.errorMessage = '';
-        }, 1500);
-      }
-    })
+    if(this.updateId)
+    {
+      this.httpService.updateCar(carData,this.updateId).subscribe({
+        next:() => {
+              this.showMessage = true
+              this.errorMessage = false
+              this.responseMessage = 'Car Updated Successfully'
+              setTimeout(() => {
+                this.showMessage = false;
+                this.responseMessage = '';
+              }, 1500);
+            },
+            error: (error) => {
+              this.showError = true
+              this.showMessage = false
+              this.responseMessage = error.error.message;
+              setTimeout(() => {
+                this.showError = false;
+                this.errorMessage = '';
+              }, 1500);
+            }      
+      })
+    }
+    else{
+      this.httpService.createCar(carData).subscribe({
+        next:() => {
+          this.showMessage = true
+          this.errorMessage = false
+          this.responseMessage = 'Car Saved Successfully'
+          setTimeout(() => {
+            this.showMessage = false;
+            this.responseMessage = '';
+            this.router.navigate(['/dashboard']);
+          }, 1500);
+        },
+        error: (error) => {
+          this.showError = true
+          this.showMessage = false
+          this.responseMessage = error.error.message;
+          setTimeout(() => {
+            this.showError = false;
+            this.errorMessage = '';
+          }, 1500);
+        }
+      })
+    }
   }
 }

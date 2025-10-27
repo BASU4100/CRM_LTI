@@ -23,20 +23,18 @@ Content-Type: application/json
 # }
 
 ### Login
-
-###
 POST http://localhost:5000/api/user/login
 Content-Type: application/json
 
-# {
-#     "username" : "BASU4100",
-#     "password" : "basu1234"
-# }
-
 {
-    "username" : "VIVEK4100",
-    "password" : "vivek1234"
+    "username" : "BASU4100",
+    "password" : "basu1234"
 }
+
+# {
+#     "username" : "VIVEK4100",
+#     "password" : "vivek1234"
+# }
 
 # {
 #     "username" : "ASEN4100",

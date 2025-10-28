@@ -3,6 +3,7 @@ package com.wecp.car_rental_management_system.service;
 import com.wecp.car_rental_management_system.entity.Booking;
 import com.wecp.car_rental_management_system.entity.Car;
 import com.wecp.car_rental_management_system.entity.User;
+import com.wecp.car_rental_management_system.exceptions.ResourceNotFound;
 import com.wecp.car_rental_management_system.repository.BookingRepository;
 import com.wecp.car_rental_management_system.repository.CarRepository;
 import com.wecp.car_rental_management_system.repository.UserRepository;
@@ -32,15 +33,18 @@ public class BookingService{
         return bookingRepository.findAll();
     }
     //update the status of a booking.
-    public Booking updateBookingStatus(Long bookingId, String status){
-        Booking booking = bookingRepository.findById(bookingId).get();
-        if(Optional.of(booking).isPresent()){
+    public Booking updateBookingStatus(Long bookingId, String status) throws ResourceNotFound{
+        // Booking booking = bookingRepository.findById(bookingId).get();
+        // if(Optional.of(booking).isPresent()){
             
-            booking.setStatus(status);
-            return bookingRepository.save(booking);
-        }else{
-            throw new RuntimeException("Booking not found with ID: "+bookingId);
-        }
+        //     booking.setStatus(status);
+        //     return bookingRepository.save(booking);
+        // }else{
+        //     throw new RuntimeException("Booking not found with ID: "+bookingId);
+        // }
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFound("Booking not found."));
+        booking.setStatus(status);
+        return bookingRepository.save(booking);
     }
 
     //book a car for a user between rentalStartDate and rentalEndDate.

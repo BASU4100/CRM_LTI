@@ -2,6 +2,7 @@ package com.wecp.car_rental_management_system.service;
 
 import com.wecp.car_rental_management_system.entity.Booking;
 import com.wecp.car_rental_management_system.entity.Payment;
+import com.wecp.car_rental_management_system.exceptions.ResourceNotFound;
 import com.wecp.car_rental_management_system.repository.BookingRepository;
 import com.wecp.car_rental_management_system.repository.PaymentRepository;
 // import com.wecp.car_rental_management_system.repository.UserRepository;
@@ -25,8 +26,8 @@ public class PaymentService {
     }
 
     // create a new payment after fetching the booking with bookingId
-    public Payment generateInvoice(Long bookingId, Payment paymentRequest) {
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("Booking not found"));
+    public Payment generateInvoice(Long bookingId, Payment paymentRequest) throws ResourceNotFound{
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFound("Booking not found"));
         paymentRequest.setBooking(booking);
         return paymentRepository.save(paymentRequest);
     }

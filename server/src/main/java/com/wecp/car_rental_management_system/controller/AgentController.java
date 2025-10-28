@@ -1,6 +1,5 @@
 package com.wecp.car_rental_management_system.controller;
 
-
 import com.wecp.car_rental_management_system.entity.Booking;
 import com.wecp.car_rental_management_system.entity.Car;
 import com.wecp.car_rental_management_system.entity.Payment;
@@ -16,11 +15,11 @@ import java.util.List;
 
 @RestController
 public class AgentController {
-
     private final CarService carService;
     private final BookingService bookingService;
     private final PaymentService paymentService;
 
+    // dependency injection
     @Autowired
     public AgentController(CarService carService, BookingService bookingService, PaymentService paymentService) {
         this.carService = carService;
@@ -28,51 +27,44 @@ public class AgentController {
         this.paymentService = paymentService;
     }
 
+    // add a car and return created car
     @PostMapping("/api/agent/car")
     public ResponseEntity<Car> addCar(@RequestBody Car car) {
-        // add a car and return created car
-        car = carService.addCar(car);
-        if (car==null) {
-            return new ResponseEntity<>(HttpStatus.IM_USED);
-        }
-        return new ResponseEntity<Car>(car, HttpStatus.CREATED);
+        // car = carService.addCar(car);
+        // if (car==null) {
+        // return new ResponseEntity<>(HttpStatus.IM_USED);
+        // }
+        return new ResponseEntity<Car>(carService.addCar(car), HttpStatus.CREATED);
     }
 
+    // get all cars
     @GetMapping("/api/agent/cars")
     public ResponseEntity<List<Car>> getAllCars() {
-        // get all cars
-        List<Car> obj = carService.getAllCars();
-        return new ResponseEntity<>(obj, HttpStatus.OK);
-
+        List<Car> cars = carService.getAllCars();
+        return new ResponseEntity<>(cars, HttpStatus.OK);
     }
 
+    // update a car
     @PutMapping("/api/agent/car/{carId}")
     public ResponseEntity<Car> updateCar(@PathVariable Long carId, @RequestBody Car updatedCar) {
-        // update a car
-        Car car = carService.updateCar(carId, updatedCar);
-        return new ResponseEntity<>(car,HttpStatus.OK);
+        return new ResponseEntity<>(carService.updateCar(carId, updatedCar), HttpStatus.OK);
     }
 
+    // get all bookings
     @GetMapping("/api/agent/bookings")
     public ResponseEntity<List<Booking>> getAllBookings() {
-        // get all bookings
-        List<Booking> obj = bookingService.getAllBookings();
-        return new ResponseEntity<>(obj,HttpStatus.OK);
+        return new ResponseEntity<>(bookingService.getAllBookings(), HttpStatus.OK);
     }
 
+    // update booking status
     @PutMapping("/api/agent/bookings/{bookingId}/status")
     public ResponseEntity<Booking> updateBookingStatus(@PathVariable Long bookingId, @RequestParam String status) {
-       // update booking status
-       Booking obj = bookingService.updateBookingStatus(bookingId,status);
-       return new ResponseEntity<>(obj,HttpStatus.OK);
+        return new ResponseEntity<>(bookingService.updateBookingStatus(bookingId, status), HttpStatus.OK);
     }
 
+    // create payment of a booking
     @PostMapping("/api/agent/payment/{bookingId}")
-    public ResponseEntity<Payment> createPayment(@PathVariable Long bookingId,
-                                                   @RequestBody Payment paymentRequest) {
-        // create payment of a booking
-        Payment payment = paymentService.generateInvoice(bookingId, paymentRequest);
-        return new ResponseEntity<>(payment, HttpStatus.CREATED);
+    public ResponseEntity<Payment> createPayment(@PathVariable Long bookingId, @RequestBody Payment paymentRequest) {
+        return new ResponseEntity<>(paymentService.generateInvoice(bookingId, paymentRequest), HttpStatus.CREATED);
     }
 }
-

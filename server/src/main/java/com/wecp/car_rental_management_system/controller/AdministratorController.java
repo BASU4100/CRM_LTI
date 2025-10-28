@@ -31,11 +31,11 @@ public class AdministratorController {
     // create car category
     @PostMapping("/api/administrator/car-categories")
     public ResponseEntity<CarCategory> createCarCategory(@RequestBody CarCategory carCategory) {
-        carCategory = carCategoryService.createCarCategory(carCategory);
-        if (carCategory == null) {
-            return new ResponseEntity<>(HttpStatus.IM_USED);
-        }
-        return new ResponseEntity<CarCategory>(carCategory, HttpStatus.CREATED);
+        // carCategory = carCategoryService.createCarCategory(carCategory);
+        // if (carCategory == null) {
+        //     return new ResponseEntity<>(HttpStatus.IM_USED);
+        // }
+        return new ResponseEntity<CarCategory>(carCategoryService.createCarCategory(carCategory), HttpStatus.CREATED);
     }
 
     // get all car categories

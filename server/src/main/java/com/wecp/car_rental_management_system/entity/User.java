@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Table(name = "users") // do not change this line i.e table name
 @Entity
 public class User {
@@ -23,12 +22,14 @@ public class User {
     @Column(unique = true)
     private String email;
     private String role;
+    
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Booking> bookings = new ArrayList<Booking>();
 
-    //Constructors
-    public User() {}
+    // Constructors
+    public User() {
+    }
 
     public User(String username, String password, String email, String role, List<Booking> bookings) {
         this.username = username;
@@ -47,17 +48,19 @@ public class User {
         this.bookings = bookings;
     }
 
-    //Getters and Setters method
+    // Getters and Setters method
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -65,6 +68,7 @@ public class User {
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -72,6 +76,7 @@ public class User {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -79,6 +84,7 @@ public class User {
     public String getRole() {
         return role;
     }
+
     public void setRole(String role) {
         this.role = role;
     }
@@ -86,6 +92,7 @@ public class User {
     public List<Booking> getBookings() {
         return bookings;
     }
+
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
     }

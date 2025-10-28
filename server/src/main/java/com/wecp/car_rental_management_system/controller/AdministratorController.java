@@ -1,6 +1,5 @@
 package com.wecp.car_rental_management_system.controller;
 
-
 import com.wecp.car_rental_management_system.entity.Booking;
 import com.wecp.car_rental_management_system.entity.CarCategory;
 import com.wecp.car_rental_management_system.entity.Payment;
@@ -16,46 +15,52 @@ import java.util.List;
 
 @RestController
 public class AdministratorController {
-    @Autowired
-    private CarCategoryService carCategoryService;
+    private final CarCategoryService carCategoryService;
+    private final BookingService bookingService;
+    private final PaymentService paymentService;
 
+    // dependency injection
     @Autowired
-    private BookingService bookingService;
+    public AdministratorController(CarCategoryService carCategoryService, BookingService bookingService,
+            PaymentService paymentService) {
+        this.carCategoryService = carCategoryService;
+        this.bookingService = bookingService;
+        this.paymentService = paymentService;
+    }
 
-    @Autowired
-    private PaymentService paymentService;
-
+    // create car category
     @PostMapping("/api/administrator/car-categories")
     public ResponseEntity<CarCategory> createCarCategory(@RequestBody CarCategory carCategory) {
-        // create car category
         carCategory = carCategoryService.createCarCategory(carCategory);
-        if (carCategory==null) {
+        if (carCategory == null) {
             return new ResponseEntity<>(HttpStatus.IM_USED);
         }
         return new ResponseEntity<CarCategory>(carCategory, HttpStatus.CREATED);
     }
 
+    // get all car categories
     @GetMapping("/api/administrator/car-categories")
     public ResponseEntity<List<CarCategory>> getAllCarCategories() {
-        // get all car categories
-        return new ResponseEntity<>(carCategoryService.getAllCarCategories(),HttpStatus.OK);
+        return new ResponseEntity<>(carCategoryService.getAllCarCategories(), HttpStatus.OK);
     }
 
+    // update car category
     @PutMapping("/api/administrator/car-categories/{categoryId}")
-    public ResponseEntity<CarCategory> updateCarCategory(@PathVariable Long categoryId, @RequestBody CarCategory updatedCarCategory) {
-      // update car category
-      return new ResponseEntity<CarCategory>(carCategoryService.updateCarCategory(categoryId, updatedCarCategory), HttpStatus.OK);
+    public ResponseEntity<CarCategory> updateCarCategory(@PathVariable Long categoryId,
+            @RequestBody CarCategory updatedCarCategory) {
+        return new ResponseEntity<CarCategory>(carCategoryService.updateCarCategory(categoryId, updatedCarCategory),
+                HttpStatus.OK);
     }
 
+    // get all bookings
     @GetMapping("/api/administrator/reports/bookings")
     public ResponseEntity<List<Booking>> getAllBookings() {
-        // get all bookings
-        return new ResponseEntity<>(bookingService.getAllBookings(),HttpStatus.OK);
+        return new ResponseEntity<>(bookingService.getAllBookings(), HttpStatus.OK);
     }
 
+    // get all payments
     @GetMapping("/api/administrator/reports/payments")
     public ResponseEntity<List<Payment>> getAllPayments() {
-       // get all payments
-       return new ResponseEntity<>(paymentService.getAllPayments(),HttpStatus.OK);
+        return new ResponseEntity<>(paymentService.getAllPayments(), HttpStatus.OK);
     }
 }

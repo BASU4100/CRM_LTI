@@ -10,18 +10,22 @@ import java.util.List;
 @Entity
 @Table(name = "cars") // do not change this line i.e table name
 public class Car {
-    
+
+    // attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String make;
     private String model;
     private String manufactureYear;
+
     @Column(unique = true)
     private String registrationNumber;
+    
     private String status;
     private Double rentalRatePerDay;
-    
+
     @ManyToOne
     private CarCategory category;
 
@@ -29,9 +33,9 @@ public class Car {
     @JsonIgnore
     private List<Booking> bookings = new ArrayList<Booking>();
 
-    //constructors
+    // constructors
 
-    public Car(Long id, String make,  String model, String manufactureYear, String registrationNumber, String status,
+    public Car(Long id, String make, String model, String manufactureYear, String registrationNumber, String status,
             Double rentalRatePerDay, CarCategory category, List<Booking> bookings) {
         this.id = id;
         this.make = make;
@@ -43,9 +47,10 @@ public class Car {
         this.bookings = bookings;
         this.model = model;
     }
-    
-    public Car(String make, String model, String manufactureYear, String registrationNumber, String status, Double rentalRatePerDay,
-    CarCategory category, List<Booking> bookings) {
+
+    public Car(String make, String model, String manufactureYear, String registrationNumber, String status,
+            Double rentalRatePerDay,
+            CarCategory category, List<Booking> bookings) {
         this.make = make;
         this.manufactureYear = manufactureYear;
         this.registrationNumber = registrationNumber;
@@ -59,7 +64,7 @@ public class Car {
     public Car() {
     }
 
-    //getter and setter
+    // getter and setter
 
     public Long getId() {
         return id;

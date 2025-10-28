@@ -12,13 +12,14 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Double amount;
     private Date paymentDate;
     private String paymentMethod;
     private String paymentStatus;
+
     @OneToOne
     private Booking booking;
-
 
     // constructors
     public Payment() {

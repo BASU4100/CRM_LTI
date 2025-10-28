@@ -26,11 +26,8 @@ public class PaymentService {
 
     // create a new payment after fetching the booking with bookingId
     public Payment generateInvoice(Long bookingId, Payment paymentRequest) {
-        Optional<Booking> booking = bookingRepository.findById(bookingId);
-        if (booking.isPresent()) {
-            paymentRequest.setBooking(booking.get());
-            return paymentRepository.save(paymentRequest);
-        }
-        return null;
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("Booking not found"));
+        paymentRequest.setBooking(booking);
+        return paymentRepository.save(paymentRequest);
     }
 }

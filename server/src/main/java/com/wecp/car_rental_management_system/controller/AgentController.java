@@ -31,11 +31,11 @@ public class AgentController {
     @PostMapping("/api/agent/car")
     public ResponseEntity<Car> addCar(@RequestBody Car car) {
         // add a car and return created car
-        Car obj = carService.addCar(car);
-        if (obj==null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        car = carService.addCar(car);
+        if (car==null) {
+            return new ResponseEntity<>(HttpStatus.IM_USED);
         }
-        return new ResponseEntity<Car>(obj, HttpStatus.CREATED);
+        return new ResponseEntity<Car>(car, HttpStatus.CREATED);
     }
 
     @GetMapping("/api/agent/cars")
@@ -49,8 +49,8 @@ public class AgentController {
     @PutMapping("/api/agent/car/{carId}")
     public ResponseEntity<Car> updateCar(@PathVariable Long carId, @RequestBody Car updatedCar) {
         // update a car
-        Car obj = carService.updateCar(carId, updatedCar);
-        return new ResponseEntity<>(obj,HttpStatus.OK);
+        Car car = carService.updateCar(carId, updatedCar);
+        return new ResponseEntity<>(car,HttpStatus.OK);
     }
 
     @GetMapping("/api/agent/bookings")
@@ -71,8 +71,8 @@ public class AgentController {
     public ResponseEntity<Payment> createPayment(@PathVariable Long bookingId,
                                                    @RequestBody Payment paymentRequest) {
         // create payment of a booking
-        Payment obj = paymentService.generateInvoice(bookingId, paymentRequest);
-        return new ResponseEntity<>(obj,HttpStatus.OK);
+        Payment payment = paymentService.generateInvoice(bookingId, paymentRequest);
+        return new ResponseEntity<>(payment, HttpStatus.CREATED);
     }
 }
 

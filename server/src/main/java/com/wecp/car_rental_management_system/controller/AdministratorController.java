@@ -28,7 +28,11 @@ public class AdministratorController {
     @PostMapping("/api/administrator/car-categories")
     public ResponseEntity<CarCategory> createCarCategory(@RequestBody CarCategory carCategory) {
         // create car category
-        return new ResponseEntity<CarCategory>(carCategoryService.createCarCategory(carCategory), HttpStatus.CREATED);
+        carCategory = carCategoryService.createCarCategory(carCategory);
+        if (carCategory==null) {
+            return new ResponseEntity<>(HttpStatus.IM_USED);
+        }
+        return new ResponseEntity<CarCategory>(carCategory, HttpStatus.CREATED);
     }
 
     @GetMapping("/api/administrator/car-categories")

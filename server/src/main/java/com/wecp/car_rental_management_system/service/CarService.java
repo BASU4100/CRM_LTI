@@ -23,8 +23,8 @@ public class CarService {
     }
 
     //adds a new car when the car category is present
-    public Car addCar(Car car){
-        if (car.getCategory()==null || car.getCategory().getId()==null){
+    public Car addCar(Car car) {
+        if (carRepository.findByRegistrationNumber(car.getRegistrationNumber()).isPresent() || car.getCategory()==null || car.getCategory().getId()==null){
             return null;
         }
         else {
@@ -39,29 +39,20 @@ public class CarService {
     }
 
     //updates an existing car
-    public Car updateCar(Long carId,Car updatedCar)
-    {
-        Optional<Car> obj = carRepository.findById(carId);  
-        Car car = obj.get();
-        car.setBookings(updatedCar.getBookings());
-        car.setCategory(updatedCar.getCategory());
-        car.setMake(updatedCar.getMake());
-        car.setManufactureYear(updatedCar.getManufactureYear());
-        car.setRegistrationNumber(updatedCar.getRegistrationNumber());
-        car.setRentalRatePerDay(updatedCar.getRentalRatePerDay());
-        car.setStatus(updatedCar.getStatus());
-        return carRepository.save(car);
+    public Car updateCar(Long carId, Car updatedCar) {
+        Car car = carRepository.findById(carId).orElseThrow(() -> new RuntimeException("Car not found.")); 
+        updatedCar.setId(carId);
+        updatedCar.setBookings(car.getBookings());
+        return carRepository.save(updatedCar);
     }
 
     //get available cars after checking the availale status
-    public List<Car> getAvailableCars()
-    {
+    public List<Car> getAvailableCars() {
         return carRepository.findByStatus("available");
     }
 
     //gets all cars
-    public List<Car> getAllCars()
-    {
+    public List<Car> getAllCars() {
         return carRepository.findAll();
     }
 }

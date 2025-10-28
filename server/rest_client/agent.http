@@ -2,12 +2,75 @@ POST http://localhost:5000/api/agent/car
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE1NjQyMjEsImV4cCI6MTc2MTY1MDYyMX0.lU2uH4_f8fu9t3CpPNQ86u_I8sOMMC4u0KykU7ovOhylmBrECPulYLYGmCL_1iE7Rt_tOP9aX-aVbV8bdmdCrQ
 
+//For non-existing id it should be 404 
+# {
+#     "make": "Audi Make",
+#     "model": "Audi Model",
+#     "manufactureYear": "1983",
+#     "registrationNumber": "TZ123456",
+#     "status": "available",
+#     "rentalRatePerDay": 20000,
+#     "category": { "id": 2}
+# }
+
+# {
+#     "make": "Audi Make",
+#     "model": "Audi Model",
+#     "manufactureYear": "1983",
+#     "registrationNumber": "TZ123456",
+#     "status": "available",
+#     "rentalRatePerDay": 20000,
+#     "category": { "id": 14}
+# }
+
 {
-    "make": "Audi Make",
-    "model": "Audi Model",
-    "manufactureYear": "1983",
-    "registrationNumber": "TZ123456",
+    "make": "Jaguar Make",
+    "model": "Jaguar Model",
+    "manufactureYear": "1987",
+    "registrationNumber": "AP123456",
     "status": "available",
     "rentalRatePerDay": 20000,
-    "category": { "id": 2}
+    "category": { "id": 13}
+}
+
+### Get all cars
+GET http://localhost:5000/api/agent/cars
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE1NjQyMjEsImV4cCI6MTc2MTY1MDYyMX0.lU2uH4_f8fu9t3CpPNQ86u_I8sOMMC4u0KykU7ovOhylmBrECPulYLYGmCL_1iE7Rt_tOP9aX-aVbV8bdmdCrQ
+
+### update an existing car
+PUT http://localhost:5000/api/agent/car/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE1NjQyMjEsImV4cCI6MTc2MTY1MDYyMX0.lU2uH4_f8fu9t3CpPNQ86u_I8sOMMC4u0KykU7ovOhylmBrECPulYLYGmCL_1iE7Rt_tOP9aX-aVbV8bdmdCrQ
+
+{
+    "make": "Jaguar Make",
+    "model": "Jaguar Model",
+    "manufactureYear": "1987",
+    "registrationNumber": "AP123456",
+    "status": "booked",
+    "rentalRatePerDay": 25000,
+    "category": { "id": 13}
+}
+
+### Get all bookings
+GET http://localhost:5000/api/agent/bookings
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE1NjQyMjEsImV4cCI6MTc2MTY1MDYyMX0.lU2uH4_f8fu9t3CpPNQ86u_I8sOMMC4u0KykU7ovOhylmBrECPulYLYGmCL_1iE7Rt_tOP9aX-aVbV8bdmdCrQ
+
+### Update booking status
+PUT http://localhost:5000/api/agent/bookings/1/status?status=booked
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE1NjQyMjEsImV4cCI6MTc2MTY1MDYyMX0.lU2uH4_f8fu9t3CpPNQ86u_I8sOMMC4u0KykU7ovOhylmBrECPulYLYGmCL_1iE7Rt_tOP9aX-aVbV8bdmdCrQ
+
+### create a payment
+POST http://localhost:5000/api/agent/payment/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE1NjQyMjEsImV4cCI6MTc2MTY1MDYyMX0.lU2uH4_f8fu9t3CpPNQ86u_I8sOMMC4u0KykU7ovOhylmBrECPulYLYGmCL_1iE7Rt_tOP9aX-aVbV8bdmdCrQ
+
+{
+    "amount":25000,
+    "paymentDate":"2024-08-25",
+    "paymentMethod":"UPI",
+    "paymentStatus":"Paid"
 }

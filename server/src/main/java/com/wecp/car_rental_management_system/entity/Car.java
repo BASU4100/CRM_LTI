@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
-import org.hibernate.action.internal.OrphanRemovalAction;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,6 +17,7 @@ public class Car {
     private String make;
     private String model;
     private String manufactureYear;
+    @Column(unique = true)
     private String registrationNumber;
     private String status;
     private Double rentalRatePerDay;
@@ -27,7 +27,7 @@ public class Car {
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Booking> bookings;
+    private List<Booking> bookings = new ArrayList<Booking>();
 
     //constructors
 

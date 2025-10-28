@@ -22,17 +22,17 @@ public class UserService implements UserDetailsService{
     private PasswordEncoder passwordEncoder;
 
     //User Register
-    public User registerUser(User user) throws Exception{
+    public User registerUser(User user) throws RuntimeException{
        String role = user.getRole();
     //    String email = user.getEmail();
        String username = user.getUsername();
 
-       if(!role.equalsIgnoreCase("ADMINISTRATOR") && !role.equalsIgnoreCase("AGENT") && !role.equalsIgnoreCase("CUSTOMER")){
-            throw new Exception("Invalid role. Only 'ADMINISTRATOR' or 'AGENT' or 'CUSTOMER' allowed.");
-       }
+    //    if(!role.equalsIgnoreCase("ADMINISTRATOR") && !role.equalsIgnoreCase("AGENT") && !role.equalsIgnoreCase("CUSTOMER")){
+    //         throw new Exception("Invalid role. Only 'ADMINISTRATOR' or 'AGENT' or 'CUSTOMER' allowed.");
+    //    }
 
        if(userRepository.findByUsername(username) != null){
-            throw new Exception("Username '" + username + "' already exists.");
+            throw new RuntimeException("Username '" + username + "' already exists.");
        }
        
     //    user.setUsername(username);

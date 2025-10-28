@@ -30,10 +30,10 @@ export class CarsComponent implements OnInit{
   }
   //on page load
   ngOnInit(): void {
-    if(!this.authService.getLoginStatus){
-      this.router.navigate(['/login']);
-      return;
-    }
+    // if(!this.authService.getLoginStatus){
+    //   this.router.navigate(['/login']);
+    //   return;
+    // }
     this.initForm();
     this.getCars();
   }

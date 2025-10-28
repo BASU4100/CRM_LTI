@@ -32,7 +32,7 @@ public class CustomerController {
     }
 
     // book a car
-    @PostMapping("/api/customers/booking/{userId}/{carId}")
+    @PostMapping("/api/customers/booking")
     public ResponseEntity<Booking> bookCar(@RequestParam Long userId, @RequestParam Long carId,
                                            @RequestBody BookingDto bookingDto) {
         return new ResponseEntity<Booking>(bookingService.bookCar(userId, carId, bookingDto.getRentalStartDate(), bookingDto.getRentalEndDate()),HttpStatus.CREATED);

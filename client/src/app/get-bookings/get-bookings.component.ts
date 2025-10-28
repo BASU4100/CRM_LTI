@@ -39,7 +39,7 @@ export class GetBookingsComponent implements OnInit {
       paymentDate: ['', Validators.required],
       paymentMethod: ['', Validators.required],
       paymentStatus: ['', Validators.required],
-      status: ['', Validators.required]
+      status: [''] //, Validators.required
     });
   }
 

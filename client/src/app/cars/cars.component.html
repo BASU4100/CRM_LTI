@@ -11,11 +11,6 @@
     {{ responseMessage }}
   </div>
 
-  <!-- Loading Spinner -->
-  <div *ngIf="!carList || carList.length === 0">
-    <p>Loading available cars...</p>
-  </div>
-
   <!-- Cars Grid -->
   <div>
     <div *ngFor="let car of carList">

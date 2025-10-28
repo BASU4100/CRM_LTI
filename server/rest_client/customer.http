@@ -1,1 +1,14 @@
-POST http://localhost:5000/api/customers/booking/{userId}/{carId}
+### get all available cars
+GET http://localhost:5000/api/customers/cars/available
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBU0VONDEwMCIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc2MTY1MDc2NywiZXhwIjoxNzYxNzM3MTY3fQ.eRkyYMZ6Hp7R1Yn29LIP9d9v6HKlXSQu52Zyo3ZlhU9o14FWdvjnZeuJbYqgvBfHcEbWP2OfrhOLlt_sYQ5ybg
+
+### book a car
+POST http://localhost:5000/api/customers/booking?userId=3&carId=1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBU0VONDEwMCIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc2MTY1MDc2NywiZXhwIjoxNzYxNzM3MTY3fQ.eRkyYMZ6Hp7R1Yn29LIP9d9v6HKlXSQu52Zyo3ZlhU9o14FWdvjnZeuJbYqgvBfHcEbWP2OfrhOLlt_sYQ5ybg
+
+{
+    "rentalStartDate": "2025-06-08 09:30:30",
+    "rentalEndDate": "2025-06-09 10:30:30"
+}

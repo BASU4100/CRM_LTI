@@ -22,10 +22,17 @@ export class RegistrationComponent implements OnInit{
 
   ngOnInit(): void {
     this.itemForm = this.fb.group({
+<<<<<<< HEAD
       username : ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9._-]+$/)]],
       email : ['', [Validators.required, Validators.email]],
       password : ['', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@$%&*?])[A-Za-z\d!@$%&*?]{8,}$/)]],
       role : ['', Validators.required]
+=======
+      username : ['',[Validators.required,Validators.minLength(3),Validators.maxLength(15),Validators.pattern(/^[A-Za-z][A-Za-z0-9._-]+$/)]],
+      email : ['',[Validators.required,Validators.email]],
+      password : ['',Validators.required],
+      role : [null,Validators.required]
+>>>>>>> adi
     });
 
     this.formModel = {
@@ -49,6 +56,7 @@ export class RegistrationComponent implements OnInit{
             this.responseMessage = ''
             this.router.navigate(['/login']) 
           }, 1500);
+         
           
         },
         // error - scenario
@@ -56,7 +64,7 @@ export class RegistrationComponent implements OnInit{
           this.showMessage = true
           this.responseMessage = "Registration failed, please try again."
           console.error('Registration error :',error) 
-          error.error.responseMessage('Registration error :',error) 
+          //error.error.responseMessage('Registration error :',error) 
           setTimeout(() => {
             this.showMessage = false
             this.responseMessage = ''

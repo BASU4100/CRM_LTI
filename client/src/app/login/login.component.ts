@@ -22,8 +22,8 @@ export class LoginComponent implements OnInit {
     private httpService: HttpService,
     private fb: FormBuilder,
     private authService: AuthService,
-   
-  ) {}
+
+  ) { }
 
   ngOnInit(): void {
     this.itemForm = this.fb.group({
@@ -52,30 +52,24 @@ export class LoginComponent implements OnInit {
       next: (response: any) => {
         this.authService.saveToken(response.token)
         this.authService.SetRole(response.role)
+        this.authService.saveUserId(response.userId)
         this.showError = false;
         this.errorMessage = '';
-        this.router.navigate(['/dashboard']);        
+        this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         this.showError = true;
         this.errorMessage = error.error?.message || 'Invalid email or password';
         setTimeout(() => {
-          this.showError=false
+          this.showError = false
           this.errorMessage = ''
         }, 1500);
         console.error(error);
       }
     });
   }
+  
   registration(): void {
     this.router.navigate(['/registration']);
-
-
-
-
-
-
-
-    
   }
 }

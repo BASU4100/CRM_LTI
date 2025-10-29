@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationComponent } from './registration/registration.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpService } from '../services/http.service';
 import { DashbaordComponent } from './dashbaord/dashbaord.component';
 
@@ -17,6 +17,7 @@ import { DatePipe } from '@angular/common';
 import { GetBookingsComponent } from './get-bookings/get-bookings.component';
 import { BookingReportComponent } from './booking-report/booking-report.component';
 import { PaymentReportComponent } from './payment-report/payment-report.component';
+import { AuthInterceptor } from './auth.interceptors';
 
 
 
@@ -40,7 +41,15 @@ import { PaymentReportComponent } from './payment-report/payment-report.componen
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [HttpService, HttpClientModule,DatePipe],
+  providers: [HttpService, 
+    HttpClientModule, 
+    DatePipe, 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -7,9 +7,9 @@ export class AuthService {
 
   private token: string | null = null;
   private isLoggedIn: boolean = false;
-  id: string | null | undefined;
+  private id: string | null | undefined;
 
-  constructor() {}
+  constructor() { }
 
   // Method to save token received from login
   saveToken(token: string) {
@@ -18,37 +18,38 @@ export class AuthService {
     localStorage.setItem('token', token);
   }
 
-  SetRole(role:any)
-  {
-    localStorage.setItem('role',role);
+  getToken(): string | null {
+    this.token = localStorage.getItem('token');
+    return this.token;
   }
 
-  get getRole ():string|null{
+  SetRole(role: any) {
+    localStorage.setItem('role', role);
+  }
+
+  get getRole(): string | null {
     return localStorage.getItem('role');
+  }
+
+  saveUserId(userid: string) {
+    localStorage.setItem('userId', userid);
+  }
+
+  getUserId() {
+    this.id = localStorage.getItem("userId");
+    return this.id;
   }
 
   // Method to retrieve login status
   get getLoginStatus(): boolean {
-    return !!localStorage.getItem('token');
+    return this.isLoggedIn;
   }
 
-  getToken(): string | null {
-   this.token= localStorage.getItem('token');
-    return this.token;
-  }
- 
-  logout(){
+  logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
-    this.token=null;
-    this.isLoggedIn=false;
-  }
-   
-  saveUserId(userid: string) {
-    localStorage.setItem('userId',userid);
-  }
-
-  getUserId(){
-    return this.id;
+    localStorage.removeItem('userId');
+    this.token = null;
+    this.isLoggedIn = false;
   }
 }

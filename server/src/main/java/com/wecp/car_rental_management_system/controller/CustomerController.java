@@ -17,12 +17,14 @@ import java.util.List;
 
 @RestController
 public class CustomerController {
+    private final CarService carService;
+    private final BookingService bookingService;
 
     @Autowired
-    private CarService carService;
-
-    @Autowired
-    private BookingService bookingService;
+    public CustomerController(CarService carService, BookingService bookingService) {
+        this.carService = carService;
+        this.bookingService = bookingService;
+    }
 
     // get all available cars.
     // note: return all the cars where car status is "available"

@@ -2,7 +2,7 @@ package com.wecp.car_rental_management_system.service;
 
 import com.wecp.car_rental_management_system.entity.Booking;
 import com.wecp.car_rental_management_system.entity.Payment;
-import com.wecp.car_rental_management_system.exceptions.ResourceNotFound;
+import com.wecp.car_rental_management_system.exceptions.ResourceNotFoundException;
 import com.wecp.car_rental_management_system.repository.BookingRepository;
 import com.wecp.car_rental_management_system.repository.PaymentRepository;
 // import com.wecp.car_rental_management_system.repository.UserRepository;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PaymentService {
@@ -26,8 +25,8 @@ public class PaymentService {
     }
 
     // create a new payment after fetching the booking with bookingId
-    public Payment generateInvoice(Long bookingId, Payment paymentRequest) throws ResourceNotFound{
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFound("Booking not found"));
+    public Payment generateInvoice(Long bookingId, Payment paymentRequest) {
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
         paymentRequest.setBooking(booking);
         return paymentRepository.save(paymentRequest);
     }

@@ -41,7 +41,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     this.token=null;
-    this.isLoggedIn=false
+    this.isLoggedIn=false;
   }
    
   saveUserId(userid: string) {

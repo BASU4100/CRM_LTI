@@ -1,28 +1,28 @@
 POST http://localhost:5000/api/administrator/car-categories
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCQVNVNDEwMCIsInJvbGUiOiJBRE1JTklTVFJBVE9SIiwiaWF0IjoxNzYxNjQxNDcxLCJleHAiOjE3NjE3Mjc4NzF9.z6ShSxLJ7QrxYUMKY9yqpm2VJRmcY45GtoRTpoZeCCWvu3fZl9O7IfBXOyeSDweMd7JRHFKa19t8-blWNd90hw
-
-{
-    "name":"AUDI",
-    "description": "Audi description",
-    "baseRate": 200000
-}
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCQVNVNDEwMCIsInJvbGUiOiJBRE1JTklTVFJBVE9SIiwiaWF0IjoxNzYxNzU2MDQzLCJleHAiOjE3NjE4NDI0NDN9.GZkDWYZh_U5ujUQ5cHVImUHD_u8BgiGDPvKZbi6ZMt1tvTUPvCTeSP8skq9jFh9K93JysVcBO5g08Fd_7sKF9Q
 
 # {
-#     "name":"Jaguar",
-#     "description": "Jaguar description",
-#     "baseRate": 300000
+#     "name":"AUDI",
+#     "description": "Audi description",
+#     "baseRate": 200000
 # }
+
+{
+    "name":"Jaguar",
+    "description": "Jaguar description",
+    "baseRate": 300000
+}
 
 ### Get all categories
 GET http://localhost:5000/api/administrator/car-categories
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCQVNVNDEwMCIsInJvbGUiOiJBRE1JTklTVFJBVE9SIiwiaWF0IjoxNzYxNTg0NjEzLCJleHAiOjE3NjE2NzEwMTN9.mhpe5LzdakzFIZXT6shTqBzJAkIxsi87HlxhQuaMnsybNj5Tua2bbRR0tOvK4wNcXqHysfzomeg7NgH98ZxoBg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCQVNVNDEwMCIsInJvbGUiOiJBRE1JTklTVFJBVE9SIiwiaWF0IjoxNzYxNzU2MDQzLCJleHAiOjE3NjE4NDI0NDN9.GZkDWYZh_U5ujUQ5cHVImUHD_u8BgiGDPvKZbi6ZMt1tvTUPvCTeSP8skq9jFh9K93JysVcBO5g08Fd_7sKF9Q
 
 ### Update car categories
-PUT http://localhost:5000/api/administrator/car-categories/13
+PUT http://localhost:5000/api/administrator/car-categories/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCQVNVNDEwMCIsInJvbGUiOiJBRE1JTklTVFJBVE9SIiwiaWF0IjoxNzYxNTg0NjEzLCJleHAiOjE3NjE2NzEwMTN9.mhpe5LzdakzFIZXT6shTqBzJAkIxsi87HlxhQuaMnsybNj5Tua2bbRR0tOvK4wNcXqHysfzomeg7NgH98ZxoBg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCQVNVNDEwMCIsInJvbGUiOiJBRE1JTklTVFJBVE9SIiwiaWF0IjoxNzYxNzU2MDQzLCJleHAiOjE3NjE4NDI0NDN9.GZkDWYZh_U5ujUQ5cHVImUHD_u8BgiGDPvKZbi6ZMt1tvTUPvCTeSP8skq9jFh9K93JysVcBO5g08Fd_7sKF9Q
 
 {
     "name":"JAGUAR",
@@ -33,9 +33,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCQVNVNDEwMCIsInJvbGUiOiJBR
 ### get all Bookings
 GET http://localhost:5000/api/administrator/reports/bookings
 Content-Type: 'application/json'
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCQVNVNDEwMCIsInJvbGUiOiJBRE1JTklTVFJBVE9SIiwiaWF0IjoxNzYxNTg0NjEzLCJleHAiOjE3NjE2NzEwMTN9.mhpe5LzdakzFIZXT6shTqBzJAkIxsi87HlxhQuaMnsybNj5Tua2bbRR0tOvK4wNcXqHysfzomeg7NgH98ZxoBg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCQVNVNDEwMCIsInJvbGUiOiJBRE1JTklTVFJBVE9SIiwiaWF0IjoxNzYxNzU2MDQzLCJleHAiOjE3NjE4NDI0NDN9.GZkDWYZh_U5ujUQ5cHVImUHD_u8BgiGDPvKZbi6ZMt1tvTUPvCTeSP8skq9jFh9K93JysVcBO5g08Fd_7sKF9Q
 
 ### get all payments
 GET http://localhost:5000/api/administrator/reports/payments
 Content-Type: 'application/json'
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCQVNVNDEwMCIsInJvbGUiOiJBRE1JTklTVFJBVE9SIiwiaWF0IjoxNzYxNTg0NjEzLCJleHAiOjE3NjE2NzEwMTN9.mhpe5LzdakzFIZXT6shTqBzJAkIxsi87HlxhQuaMnsybNj5Tua2bbRR0tOvK4wNcXqHysfzomeg7NgH98ZxoBg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCQVNVNDEwMCIsInJvbGUiOiJBRE1JTklTVFJBVE9SIiwiaWF0IjoxNzYxNzU2MDQzLCJleHAiOjE3NjE4NDI0NDN9.GZkDWYZh_U5ujUQ5cHVImUHD_u8BgiGDPvKZbi6ZMt1tvTUPvCTeSP8skq9jFh9K93JysVcBO5g08Fd_7sKF9Q

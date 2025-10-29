@@ -37,13 +37,13 @@ public class CarService {
         //     else
         //         return null;
         // }
-        carRepository.findByRegistrationNumber(car.getRegistrationNumber()).ifPresent(existing -> {throw new ResourceAlreadyExistsException("Car already exists.");});
         if (car.getCategory()==null) {
             throw new ResourceNotFoundException("Car category not provided.");
         }
         else if (car.getCategory().getId()==null) {
             throw new ResourceNotFoundException("Car category id not provided.");
         }
+        carRepository.findByRegistrationNumber(car.getRegistrationNumber()).ifPresent(existing -> {throw new ResourceAlreadyExistsException("Car already exists.");});
         CarCategory carCategory = carCategoryRepository.findById(car.getCategory().getId()).orElseThrow(() -> new ResourceNotFoundException("Car category not found."));
         car.setCategory(carCategory);
         return carRepository.save(car);

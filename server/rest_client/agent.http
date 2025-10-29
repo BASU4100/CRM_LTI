@@ -1,8 +1,7 @@
 POST http://localhost:5000/api/agent/car
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE1NjQyMjEsImV4cCI6MTc2MTY1MDYyMX0.lU2uH4_f8fu9t3CpPNQ86u_I8sOMMC4u0KykU7ovOhylmBrECPulYLYGmCL_1iE7Rt_tOP9aX-aVbV8bdmdCrQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE3NTYzMDEsImV4cCI6MTc2MTg0MjcwMX0.oH61PGam9ydjbST7GQ4BBlNeoJzj5UJMJcOkHKrKH3FuTAWzaQqhkF0o4HylVZP49tgPHxBXBpisga7LeCMI6w
 
-//For non-existing id it should be 404 
 # {
 #     "make": "Audi Make",
 #     "model": "Audi Model",
@@ -10,38 +9,43 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQ
 #     "registrationNumber": "TZ123456",
 #     "status": "available",
 #     "rentalRatePerDay": 20000,
-#     "category": { "id": 2}
+#     "category": { "id": 1}
 # }
 
+//For duplicate registration number it should be 208
+//For no category/non-existing it should be 404
+//For no id it should be 400
 # {
 #     "make": "Audi Make",
 #     "model": "Audi Model",
 #     "manufactureYear": "1983",
-#     "registrationNumber": "TZ123456",
+#     "registrationNumber": "TZ123457",
 #     "status": "available",
 #     "rentalRatePerDay": 20000,
-#     "category": { "id": 14}
+#     "category": {
+#         "id": 14
+#     }
 # }
 
 {
     "make": "Jaguar Make",
     "model": "Jaguar Model",
-    "manufactureYear": "1987",
-    "registrationNumber": "AP123456",
+    "manufactureYear": "1990",
+    "registrationNumber": "JH123456",
     "status": "available",
-    "rentalRatePerDay": 20000,
-    "category": { "id": 13}
+    "rentalRatePerDay": 30000,
+    "category": { "id": 2}
 }
 
 ### Get all cars
 GET http://localhost:5000/api/agent/cars
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE1NjQyMjEsImV4cCI6MTc2MTY1MDYyMX0.lU2uH4_f8fu9t3CpPNQ86u_I8sOMMC4u0KykU7ovOhylmBrECPulYLYGmCL_1iE7Rt_tOP9aX-aVbV8bdmdCrQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE3NTYzMDEsImV4cCI6MTc2MTg0MjcwMX0.oH61PGam9ydjbST7GQ4BBlNeoJzj5UJMJcOkHKrKH3FuTAWzaQqhkF0o4HylVZP49tgPHxBXBpisga7LeCMI6w
 
 ### update an existing car
-PUT http://localhost:5000/api/agent/car/2
+PUT http://localhost:5000/api/agent/car/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE1NjQyMjEsImV4cCI6MTc2MTY1MDYyMX0.lU2uH4_f8fu9t3CpPNQ86u_I8sOMMC4u0KykU7ovOhylmBrECPulYLYGmCL_1iE7Rt_tOP9aX-aVbV8bdmdCrQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE3NTYzMDEsImV4cCI6MTc2MTg0MjcwMX0.oH61PGam9ydjbST7GQ4BBlNeoJzj5UJMJcOkHKrKH3FuTAWzaQqhkF0o4HylVZP49tgPHxBXBpisga7LeCMI6w
 
 {
     "make": "Jaguar Make",
@@ -50,23 +54,23 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQ
     "registrationNumber": "AP123456",
     "status": "booked",
     "rentalRatePerDay": 25000,
-    "category": { "id": 13}
+    "category": { "id": 2}
 }
 
 ### Get all bookings
 GET http://localhost:5000/api/agent/bookings
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE2NTE5MjAsImV4cCI6MTc2MTczODMyMH0.MUchksBTuaVlCpFwmJdW4dEyNkkzfEAUM3Mzck8TIeJLxSqZKJPyiihYB90dBBXwWAqR3VyelMssnz3UmG4cyg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE3NTYzMDEsImV4cCI6MTc2MTg0MjcwMX0.oH61PGam9ydjbST7GQ4BBlNeoJzj5UJMJcOkHKrKH3FuTAWzaQqhkF0o4HylVZP49tgPHxBXBpisga7LeCMI6w
 
 ### Update booking status
 PUT http://localhost:5000/api/agent/bookings/1/status?status=booked
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE2NTE5MjAsImV4cCI6MTc2MTczODMyMH0.MUchksBTuaVlCpFwmJdW4dEyNkkzfEAUM3Mzck8TIeJLxSqZKJPyiihYB90dBBXwWAqR3VyelMssnz3UmG4cyg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE3NTYzMDEsImV4cCI6MTc2MTg0MjcwMX0.oH61PGam9ydjbST7GQ4BBlNeoJzj5UJMJcOkHKrKH3FuTAWzaQqhkF0o4HylVZP49tgPHxBXBpisga7LeCMI6w
 
 ### create a payment
 POST http://localhost:5000/api/agent/payment/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE2NTE5MjAsImV4cCI6MTc2MTczODMyMH0.MUchksBTuaVlCpFwmJdW4dEyNkkzfEAUM3Mzck8TIeJLxSqZKJPyiihYB90dBBXwWAqR3VyelMssnz3UmG4cyg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE3NTYzMDEsImV4cCI6MTc2MTg0MjcwMX0.oH61PGam9ydjbST7GQ4BBlNeoJzj5UJMJcOkHKrKH3FuTAWzaQqhkF0o4HylVZP49tgPHxBXBpisga7LeCMI6w
 
 {
     "amount":25000,

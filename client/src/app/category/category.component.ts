@@ -43,6 +43,7 @@ export class CategoryComponent implements OnInit {
     const categoryData = this.itemForm.value;
 
     if (this.updateId) {
+      console.log("from submit");
       // Update existing category
       this.httpService.updateCategory(this.updateId, categoryData).subscribe({
         next: () => {
@@ -83,6 +84,7 @@ export class CategoryComponent implements OnInit {
 
   edit(val: any): void {
     this.updateId = val.id;
+    console.log(this.updateId+"from ts");
     this.itemForm.patchValue(val);
   }
 }

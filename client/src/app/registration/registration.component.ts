@@ -29,13 +29,17 @@ export class RegistrationComponent implements OnInit {
     });
 
     this.formModel = {
-      username: 'Username',
+      username: 'username',
       email: 'name@example.com',
       password: '********',
       role: 'Select Role'
     }
   }
 
+  //navigate to Login.
+  toLogin(): void{
+    this.router.navigate(['/login']);
+  }
   // the user clicks on Register button, if valid then success message is displayed.
   onRegister(): void {
     if (this.itemForm.valid) {

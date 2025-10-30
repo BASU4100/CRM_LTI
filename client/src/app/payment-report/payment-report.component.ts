@@ -23,15 +23,25 @@ export class PaymentReportComponent implements OnInit {
   updateId: any;
   toBook: any={};
   bookingList: any=[];
+  filteredList : any=[];
+  selectedStatus : string = ''
+  roleName : string | null = null;
 
   // form structure and placeholder value before the user interacts with the form.
   constructor(public router:Router, public httpService:HttpService, private formBuilder: FormBuilder, private authService:AuthService,private datePipe: DatePipe){}
   
+
+  // load payment-report only if the role is ADMIN.
   ngOnInit(): void {
     if(!this.authService.getLoginStatus){
       this.router.navigate(['/login']);
+    }else{
+      this.roleName = this.authService.getRole;
+      if(this.roleName !== 'ADMINISTRATOR'){ 
+        this.router.navigate(['/dashboard']);
+      }
+      this.getPaymentReport();
     }
-    this.getPaymentReport();
   }
 
   //method that gets the payment report and is called immediately as the page loads.
@@ -39,7 +49,8 @@ export class PaymentReportComponent implements OnInit {
     this.bookingList=[];
     this.httpService.paymentReport().subscribe({
       next : (res : any[]) => {
-        this.bookingList=res; 
+        this.bookingList=res;
+         
         this.showMessage = true;
         this.responseMessage = 'Payment report has been loaded successfully';
         setTimeout(() => {
@@ -60,26 +71,15 @@ export class PaymentReportComponent implements OnInit {
         }
         
       });
-      
-     ;
   }
-
-
-  // getPaymentReport() {
-  //   this.bookingList=[];
-  //   this.httpService.paymentReport().subscribe((data: any) => {
-  //     this.bookingList=data;
-  //     console.log(this.bookingList);
-  //   }, error => {
-  //     // Handle error
-  //     this.showError = true;
-  //     this.errorMessage = "An error occurred.. Please try again later.";
-  //     console.error('Login error:', error);
-  //   });;
-  // }
-
- 
- 
+  // filtering on the basis of status
+  filterByStatus(){
+    if(!this.selectedStatus){
+      this.filteredList = this.bookingList;
+    }else{
+      this.filteredList = this.bookingList.filter((val : any) => val.paymentStatus === this.selectedStatus);
+    }
+  }
   
 }
 

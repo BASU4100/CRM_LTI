@@ -35,7 +35,7 @@ export class AuthService {
     localStorage.setItem('userId', userid);
   }
 
-  getUserId() {
+  getUserId(): string | null {
     this.id = localStorage.getItem("userId");
     return this.id;
   }

@@ -1,6 +1,7 @@
 POST http://localhost:5000/api/agent/car
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE3NTYzMDEsImV4cCI6MTc2MTg0MjcwMX0.oH61PGam9ydjbST7GQ4BBlNeoJzj5UJMJcOkHKrKH3FuTAWzaQqhkF0o4HylVZP49tgPHxBXBpisga7LeCMI6w
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ2VudCIsInJvbGUiOiJBR0VOVCIsImlhdCI6MTc2MTgyMzk3NCwiZXhwIjoxNzYxOTEwMzc0fQ.LUrBOMHO4PVR8gYg97aNRkRvUUdBjh1-qkjGeW3M5hBVXUQKifwomuB30WoCBHJR46YHpxqGUy5VLtBV-MvntQ
+
 
 # {
 #     "make": "Audi Make",
@@ -28,12 +29,12 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQ
 # }
 
 {
-    "make": "Jaguar Make",
-    "model": "Jaguar Model",
-    "manufactureYear": "1990",
-    "registrationNumber": "JH123456",
+    "make": "Benz Make",
+    "model": "Benz Model",
+    "manufactureYear": "1999",
+    "registrationNumber": "JH123450",
     "status": "available",
-    "rentalRatePerDay": 30000,
+    "rentalRatePerDay": 300000,
     "category": { "id": 2}
 }
 
@@ -45,15 +46,15 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQ
 ### update an existing car
 PUT http://localhost:5000/api/agent/car/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE3NTYzMDEsImV4cCI6MTc2MTg0MjcwMX0.oH61PGam9ydjbST7GQ4BBlNeoJzj5UJMJcOkHKrKH3FuTAWzaQqhkF0o4HylVZP49tgPHxBXBpisga7LeCMI6w
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ2VudCIsInJvbGUiOiJBR0VOVCIsImlhdCI6MTc2MTgyMzk3NCwiZXhwIjoxNzYxOTEwMzc0fQ.LUrBOMHO4PVR8gYg97aNRkRvUUdBjh1-qkjGeW3M5hBVXUQKifwomuB30WoCBHJR46YHpxqGUy5VLtBV-MvntQ
 
 {
-    "make": "Jaguar Make",
-    "model": "Jaguar Model",
-    "manufactureYear": "1987",
-    "registrationNumber": "AP123456",
-    "status": "booked",
-    "rentalRatePerDay": 25000,
+    "make": "Benz Make",
+    "model": "Benz Model",
+    "manufactureYear": "1999",
+    "registrationNumber": "JH123459",
+    "status": "available",
+    "rentalRatePerDay": 300000,
     "category": { "id": 2}
 }
 

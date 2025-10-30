@@ -101,4 +101,10 @@ export class HttpService {
   registerUser(registerData: any): Observable<any> {
     return this.http.post<any>(`${this.serverName}/api/user/register`, registerData);
   }
+
+  // Feature used by Dashboard
+  // fetch user details to display on the dashboard
+  getUserDetails(userId: any): Observable<any> {
+    return this.http.get<any>(`${this.serverName}/api/user/${userId}`);
+  }
 }

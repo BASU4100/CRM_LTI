@@ -19,6 +19,7 @@ public class Payment {
     private String paymentStatus;
 
     @OneToOne
+    @JoinColumn(name="booking_id")
     private Booking booking;
 
     // constructors

@@ -35,5 +35,11 @@ public class PaymentService {
         booking = bookingRepository.save(booking);
         paymentRequest.setBooking(booking);
         return paymentRepository.save(paymentRequest);
+        // Booking booking = bookingRepository.findById(bookingId).orElse(null);
+        // if (booking!=null) {
+        //     paymentRequest.setBooking(booking);
+        //     return paymentRepository.save(paymentRequest);
+        // }
+        // return null;
     }
 }

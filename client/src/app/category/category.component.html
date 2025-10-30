@@ -14,7 +14,7 @@
     <div>
         <label for="name">Category Name</label>
         <input type="text" id="name" formControlName="name"/>
-        <div *ngIf="itemForm.get('name')?.invalid && itemForm.get('name')?.touched">
+        <div *ngIf="itemForm.get('name')?.invalid && itemForm.get('name')?.touched" class="error-message">
             Name is required.
         </div>
     </div>
@@ -22,7 +22,7 @@
     <div>
         <label for="description">Description</label>
         <input type="text" id="description" formControlName="description"/>
-        <div *ngIf="itemForm.get('description')?.invalid && itemForm.get('description')?.touched">
+        <div *ngIf="itemForm.get('description')?.invalid && itemForm.get('description')?.touched" class="error-message">
             Description is required.
         </div>
     </div>
@@ -30,7 +30,7 @@
     <div>
         <label for="baseRate">Base Rate</label>
         <input type="number" id="baseRate" formControlName="baseRate"/>
-        <div *ngIf="itemForm.get('baseRate')?.invalid && itemForm.get('baseRate')?.touched">
+        <div *ngIf="itemForm.get('baseRate')?.invalid && itemForm.get('baseRate')?.touched" class="error-message">
             Base rate is required.
         </div>
     </div>

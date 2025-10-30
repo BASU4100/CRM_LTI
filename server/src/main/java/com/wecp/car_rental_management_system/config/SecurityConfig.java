@@ -3,6 +3,7 @@ package com.wecp.car_rental_management_system.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -46,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/user/register", "/api/user/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/administrator/car-categories").hasAnyAuthority("ADMINISTRATOR","AGENT")
                 .antMatchers("/api/administrator/**").hasAuthority("ADMINISTRATOR")
                 .antMatchers("/api/customers/**").hasAuthority("CUSTOMER")
                 .antMatchers("/api/agent/**").hasAuthority("AGENT")

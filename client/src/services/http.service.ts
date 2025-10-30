@@ -77,11 +77,12 @@ export class HttpService {
  
   // Create car related to Add Car nav bar tab
   createCar(details: any): Observable<any> {
-    return this.http.post<any>(`${this.serverName}/api/agent/car`, details/**, { headers: this.getHeaders() } */);
+    details.category = { id: details.category};
+    return this.http.post<any>(`${this.serverName}/api/agent/car`, details);
   }
  
   // Update car info in the database
-  updateCar(details: any, updateId: any): Observable<any> {
+  updateCar(updateId: any,details: any): Observable<any> {
     return this.http.put<any>(`${this.serverName}/api/agent/car/${updateId}`, details/**, { headers: this.getHeaders() } */);
   }
  

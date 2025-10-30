@@ -60,17 +60,18 @@ export class AddCarComponent implements OnInit {
     });
 
     this.formModel = {
-      make: 'Make',
-      model: 'Model',
+      make: 'Enter make',
+      model: 'Enter Model',
       manufactureYear: 'Manufacture Year',
       registrationNumber: 'Registration Number',
-      status: 'Choose',
-      rentalRatePerDay: 'Rate',
+      status: 'Choose Status',
+      rentalRatePerDay: 'Enter Rate',
       category: 'Choose Category'
     };
 
-    // this.getAllCategoryList()
-    // this.getAllCarsList()
+    this.getAllCategoryList()
+    this.getAllCarsList()
+    
 
   }
 
@@ -79,6 +80,7 @@ export class AddCarComponent implements OnInit {
     this.httpService.getAllCategories().subscribe({
       next: (res: any[]) => {
         this.categoryList = res
+        // console.log(this.carList);
       },
       error: () => {
         this.showError = true
@@ -90,13 +92,17 @@ export class AddCarComponent implements OnInit {
   //edits the car with existing patch values
   editCar(val: any): void {
     this.updateId = val.id;
-    this.itemForm.patchValue(val);
+    this.itemForm.patchValue({
+      ...val,
+      category: val.category.id
+    });
   }
 
   getAllCarsList(): void {
-    this.httpService.getCars().subscribe({
+    this.httpService.getAllCars().subscribe({
       next: (res: any[]) => {
         this.carList = res
+        console.log(this.carList);
       },
       error: () => {
         this.showError = true
@@ -106,9 +112,10 @@ export class AddCarComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const carData = this.itemForm.value
+    const carData = {...this.itemForm.value,category:{id:this.itemForm.value.category}}
+    
     if (this.updateId) {
-      this.httpService.updateCar(carData, this.updateId).subscribe({
+      this.httpService.updateCar(this.updateId,carData).subscribe({
         next: () => {
           this.showMessage = true
           this.errorMessage = false
@@ -148,7 +155,6 @@ export class AddCarComponent implements OnInit {
         error: (error) => {
           this.showError = true
           this.showMessage = false
-          console.log("hi");
           this.responseMessage = error.error.message;
           setTimeout(() => {
             this.showError = false;

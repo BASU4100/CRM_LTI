@@ -7,7 +7,7 @@
   <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="make">Make</label>
-      <input id="make" formControlName="make" class="form-control"
+      <input id="make" formControlName="make" class="form-control" [placeholder] = formModel.make
         [ngClass]="{'is-invalid': itemForm.get('make')?.invalid && itemForm.get('make')?.touched}" />
       <div *ngIf="itemForm.get('make')?.invalid && itemForm.get('make')?.touched" class="invalid-feedback">
         Make is required and must be at least 2 characters.
@@ -16,7 +16,7 @@
 
     <div class="form-group">
       <label for="model">Model</label>
-      <input id="model" formControlName="model" class="form-control"
+      <input id="model" formControlName="model" class="form-control" [placeholder] = formModel.model
         [ngClass]="{'is-invalid': itemForm.get('model')?.invalid && itemForm.get('model')?.touched}" />
       <div *ngIf="itemForm.get('model')?.invalid && itemForm.get('model')?.touched" class="invalid-feedback">
         Model is required and must be at least 2 characters.
@@ -27,6 +27,7 @@
       <label for="status">Status</label>
       <select id="status" formControlName="status" class="form-control"
         [ngClass]="{'is-invalid':itemForm.get('status')?.invalid && itemForm.get('status')?.touched}">
+        <option value="">{{formModel.status}}</option>
         <option value="AVAILABLE">Available</option>
         <option value="UNAVAILABLE">Unavailable</option>
       </select>
@@ -41,6 +42,7 @@
       <label for="category">Category</label>
       <select id="category" formControlName="category" class="form-control"
         [ngClass]="{'is-invalid':itemForm.get('category')?.invalid && itemForm.get('category')?.touched}">
+        <option value="">{{formModel.category}}</option>
         <option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</option>
       </select>
       <div *ngIf="itemForm.get('category')?.invalid && itemForm.get('category')?.touched" class="invalid-feedback">
@@ -82,8 +84,6 @@
     <button type="submit" class="btn btn-primary" [disabled]="itemForm.invalid">
       {{ updateId ? 'Update Car' : 'Add Car' }}
     </button>
-  </form>
-
 
   <!-- Car List -->
 
@@ -102,17 +102,18 @@
     </thead>
     <tbody>
       <tr *ngFor="let submittedData of carList">
-        <td>hello{{ submittedData.make }}</td>
-        <td>{{ submittedData.model }}</td>
+        <td>{{ submittedData.make }}</td>
+        <td>{{ submittedData.model}}</td>
         <td>{{ submittedData.status }}</td>
-        <td>{{ submittedData.category }}</td>
+        <td>{{ submittedData.category.name }}</td>
         <td>{{ submittedData.manufactureYear }}</td>
         <td>{{ submittedData.registrationNumber }}</td>
         <td>{{ submittedData.rentalRatePerDay }}</td>
-        <!-- <td>
-          <button (click)="edit()">Edit</button>
-      </td> -->
+        <td>
+          <button (click)="editCar(submittedData)">Edit</button>
+      </td>
       </tr>
     </tbody>
   </table>
+</form>
 </div>

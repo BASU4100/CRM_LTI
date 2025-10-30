@@ -50,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/administrator/car-categories").hasAnyAuthority("ADMINISTRATOR","AGENT")
                 .antMatchers("/api/administrator/**").hasAuthority("ADMINISTRATOR")
                 .antMatchers("/api/customers/**").hasAuthority("CUSTOMER")
+               // .antMatchers("/api/customers/**").permitAll()
                 .antMatchers("/api/agent/**").hasAuthority("AGENT")
                 .anyRequest().authenticated()
                 .and()

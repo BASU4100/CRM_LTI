@@ -17,20 +17,22 @@ export class AuthService {
     this._isLoggedIn.next(true);
     localStorage.setItem('token', token);
   }
-
+  
   getToken(): string | null {
     this.token = localStorage.getItem('token');
     return this.token;
   }
-
+  
+  // Method to save role received from login
   SetRole(role: any) {
     localStorage.setItem('role', role);
   }
-
+  
   get getRole(): string | null {
     return localStorage.getItem('role');
   }
-
+  
+  // Method to save userId received from login
   saveUserId(userid: string) {
     localStorage.setItem('userId', userid);
   }
@@ -53,5 +55,23 @@ export class AuthService {
     localStorage.removeItem('userId');
     this.token = null;
     this._isLoggedIn.next(false);
+  }
+
+  // Method to save username received from login
+  saveUsername(username: string) {
+    localStorage.setItem("username", username);
+  }
+
+  getUsername(): string | null {
+    return localStorage.getItem("username");
+  }
+
+  // Method to save email received from login
+  saveEmail(email: string) {
+    localStorage.setItem("email", email);
+  }
+
+  getEmail(): string | null {
+    return localStorage.getItem("email");
   }
 }

@@ -53,6 +53,8 @@ export class LoginComponent implements OnInit {
         this.authService.saveToken(response.token)
         this.authService.SetRole(response.role)
         this.authService.saveUserId(response.userId)
+        this.authService.saveUsername(response.username)
+        this.authService.saveEmail(response.email)
         this.showError = false;
         this.errorMessage = '';
         this.router.navigate(['/dashboard']);

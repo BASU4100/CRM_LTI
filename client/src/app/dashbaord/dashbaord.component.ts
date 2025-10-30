@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { HttpService } from '../../services/http.service';
 
 @Component({
   selector: 'app-dashbaord',
@@ -11,14 +10,16 @@ import { HttpService } from '../../services/http.service';
 export class DashbaordComponent implements OnInit {
   userDetails: any;
 
-  constructor(private router: Router, private authService: AuthService, private httpService: HttpService) {}
+  constructor(private router: Router, private authService: AuthService) {}
   
   // check protect component when logged out
   ngOnInit(): void {
     if(!this.authService.getLoginStatus) {
       this.router.navigate(['/login']);
     }
-    const userId = this.authService.getUserId();
-    this.userDetails = this.httpService.getUserDetails(userId);
+    this.userDetails = {
+      username: this.authService.getUsername(),
+      email: this.authService.getEmail()
+    }
   }
 }

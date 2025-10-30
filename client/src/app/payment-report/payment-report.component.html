@@ -1,9 +1,17 @@
-<div class="row mt-3">
+<div class="row mt-3" *ngIf="roleName === 'ADMINISTRATOR'">
     <div class="card">
         <div class="card-header">Bookings</div>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
+        <div class="card-body">
+        <div class="form-group mb-3">
+            <label for="status">Filter by payment Status</label>
+            <select [(ngModel)]="selectedStatus" (change)="filterByStatus()" class="form-control">
+                <option value="">All</option>
+                <option value="PAID">Paid</option>
+                <option value="PENDING">Pending</option>
+            </select>
+        </div>
+        <div *ngIf="filteredList.length > 0">   
+            <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
@@ -13,13 +21,10 @@
                         <th>Payment Method</th>                       
                         <th>Status</th>
                         <th>Booking</th>
-                     
-                    
-                       
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let val of bookingList">
+                    <tr *ngFor="let val of filteredList">
                       <td>{{val.id}}</td>
                         <td>
                         {{val.amount}}                         
@@ -33,11 +38,15 @@
                             <p>End Date:{{val.booking.rentalEndDate | date:'dd-MMM-yyyy'}}</p>
                             
                         </td>
-                      
-                       
+                    
                     </tr>
                 </tbody>
             </table>
+            </div>
+        </div>
+        
+        <div *ngIf="filteredList.length === 0">
+            <p>There is no data to display.</p>
         </div>
     </div>
     

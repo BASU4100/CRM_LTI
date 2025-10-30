@@ -1,27 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
-  IsLoggin: any = false;
-  roleName: string | null = null;
-  constructor(private authService: AuthService, private router: Router) {}
+export class AppComponent{
+  isLoggedIn$: Observable<boolean>;
 
-  ngOnInit(): void {
-    this.IsLoggin = this.authService.getLoginStatus;
-    this.roleName = this.authService.getRole;
-    if (!this.IsLoggin) {
-      this.router.navigateByUrl('/login');
-    }
-  }
-
-  logout() {
-    this.authService.logout();
-    window.location.reload();
+  constructor(private authService: AuthService) {
+    this.isLoggedIn$ = authService.isLoggedIn$;
   }
 }

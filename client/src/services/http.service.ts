@@ -50,7 +50,7 @@ export class HttpService {
   }
  
   // Update an existing category in database
-  updateCategory(details: any, updateId: any): Observable<any> {
+  updateCategory(updateId: any, details: any): Observable<any> {
     return this.http.put<any>(`${this.serverName}/api/administrator/car-categories/${updateId}`, details/**, { headers: this.getHeaders() } */);
   }
  

@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
   private token: string | null = null;
-  private isLoggedIn: boolean = false;
+  private _isLoggedIn = new BehaviorSubject<boolean>(false);
+  isLoggedIn$: Observable<boolean> = this._isLoggedIn.asObservable();
   private id: string | null | undefined;
 
   constructor() { }
 
   // Method to save token received from login
   saveToken(token: string) {
-    this.token = token;
-    this.isLoggedIn = true;
+    this._isLoggedIn.next(true);
     localStorage.setItem('token', token);
   }
 
@@ -42,7 +42,9 @@ export class AuthService {
 
   // Method to retrieve login status
   get getLoginStatus(): boolean {
-    return this.isLoggedIn;
+    let loginStatus!: boolean;
+    this.isLoggedIn$.subscribe(isLoggedIn => loginStatus = isLoggedIn);
+    return loginStatus;
   }
 
   logout() {
@@ -50,6 +52,6 @@ export class AuthService {
     localStorage.removeItem('role');
     localStorage.removeItem('userId');
     this.token = null;
-    this.isLoggedIn = false;
+    this._isLoggedIn.next(false);
   }
 }

@@ -13,49 +13,72 @@ import { HttpService } from '../../services/http.service';
 })
 
 export class AddCarComponent implements OnInit {
-  itemForm!:FormGroup
-  formModel:any
-  showError:boolean = false
-  errorMessage:any
-  categoryList:any[] = []
-  assignModel:any
-  carList:any[] = []
-  showMessage:any = false
-  responseMessage:any
-  updateId:any
-
+  itemForm!: FormGroup
+  formModel: any
+  showError: boolean = false
+  errorMessage: any
+  categoryList: any[] = []
+  assignModel: any
+  carList: any[] = []
+  showMessage: any = false
+  responseMessage: any
+  updateId: any
+  // Validators.pattern('^[A-Z]{2}[0-9]{6}$')
   // form structure and placeholder value
-  constructor(private router:Router, private httpService: HttpService, private fb:FormBuilder, private authService:AuthService) {
+  constructor(private router: Router, private httpService: HttpService, private fb: FormBuilder, private authService: AuthService) {
+    // this.itemForm = this.fb.group({
+    //   make:['', Validators.required],
+    //   model:['', [Validators.required,Validators.minLength(2)]],
+    //   manufactureYear:['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]], // Validators.pattern('^19[0-9]{2}|20[0-2][0-9]$')
+    //   registrationNumber:['', [Validators.required]],
+    //   status: ['', Validators.required],
+    //   category: ['',Validators.required]
+    // });
+    // this.formModel = {
+    //   make: 'Make',
+    //   model: 'Model',
+    //   manufactureYear: 'Manufacture Year',
+    //   registrationNumber: 'Registration Number',
+    //   status: 'Choose'
+    // };
+  }
+
+  // loading all cars on component loading
+  ngOnInit(): void {
+    if (!this.authService.getLoginStatus) {
+      this.router.navigate(['/login'])
+    }
+
     this.itemForm = this.fb.group({
-      make:['', Validators.required],
-      model:['', Validators.required],
-      manufactureYear:['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]], // Validators.pattern('^19[0-9]{2}|20[0-2][0-9]$')
-      registrationNumber:['', [Validators.required, Validators.pattern('^[A-Z]{2}[0-9]{6}$')]],
-      status: ['', Validators.required]
+      make: ['', Validators.required],
+      model: ['', [Validators.required, Validators.minLength(2)]],
+      manufactureYear: ['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]], // Validators.pattern('^19[0-9]{2}|20[0-2][0-9]$')
+      registrationNumber: ['', [Validators.required]],
+      status: ['', Validators.required],
+      rentalRatePerDay: ['', [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/)]],
+      category: ['', Validators.required]
     });
+
     this.formModel = {
       make: 'Make',
       model: 'Model',
       manufactureYear: 'Manufacture Year',
       registrationNumber: 'Registration Number',
-      status: 'Choose'
+      status: 'Choose',
+      rentalRatePerDay: 'Rate',
+      category: 'Choose Category'
     };
-  }
 
-  // loading all cars on component loading
-  ngOnInit():void {
-    if(!this.authService.getLoginStatus)
-    {
-      this.router.navigate(['/login'])
-    }
-    this.getAllCarList()
+    // this.getAllCategoryList()
+    // this.getAllCarsList()
+
   }
 
   // fetching all cars list from database
-  getAllCarList():void {
-    this.httpService.getCars().subscribe({
-      next:(res:any[]) => {
-        this.carList = res
+  getAllCategoryList(): void {
+    this.httpService.getAllCategories().subscribe({
+      next: (res: any[]) => {
+        this.categoryList = res
       },
       error: () => {
         this.showError = true
@@ -65,52 +88,67 @@ export class AddCarComponent implements OnInit {
   }
 
   //edits the car with existing patch values
-  editCar(val:any):void{
-    this.updateId=val.id;
+  editCar(val: any): void {
+    this.updateId = val.id;
     this.itemForm.patchValue(val);
   }
 
-  onSubmit():void
-  {
+  getAllCarsList(): void {
+    this.httpService.getCars().subscribe({
+      next: (res: any[]) => {
+        this.carList = res
+      },
+      error: () => {
+        this.showError = true
+        this.errorMessage = 'Failed to get cars'
+      }
+    })
+  }
+
+  onSubmit(): void {
     const carData = this.itemForm.value
-    if(this.updateId)
-    {
-      this.httpService.updateCar(carData,this.updateId).subscribe({
-        next:() => {
-              this.showMessage = true
-              this.errorMessage = false
-              this.responseMessage = 'Car Updated Successfully'
-              setTimeout(() => {
-                this.showMessage = false;
-                this.responseMessage = '';
-              }, 1500);
-            },
-            error: (error) => {
-              this.showError = true
-              this.showMessage = false
-              this.responseMessage = error.error.message;
-              setTimeout(() => {
-                this.showError = false;
-                this.errorMessage = '';
-              }, 1500);
-            }      
-      })
-    }
-    else{
-      this.httpService.createCar(carData).subscribe({
-        next:() => {
+    if (this.updateId) {
+      this.httpService.updateCar(carData, this.updateId).subscribe({
+        next: () => {
           this.showMessage = true
           this.errorMessage = false
-          this.responseMessage = 'Car Saved Successfully'
+          this.responseMessage = 'Car Updated Successfully'
+          this.getAllCategoryList()
+          this.getAllCarsList()
           setTimeout(() => {
             this.showMessage = false;
             this.responseMessage = '';
-            this.router.navigate(['/dashboard']);
           }, 1500);
         },
         error: (error) => {
           this.showError = true
           this.showMessage = false
+          this.responseMessage = error.error.message;
+          setTimeout(() => {
+            this.showError = false;
+            this.errorMessage = '';
+          }, 1500);
+        }
+      })
+    }
+    else {
+      this.httpService.createCar(carData).subscribe({
+        next: () => {
+          this.showMessage = true
+          this.errorMessage = false
+          this.responseMessage = 'Car Saved Successfully'
+          this.getAllCategoryList()
+          this.getAllCarsList()
+          setTimeout(() => {
+            this.showMessage = false;
+            this.responseMessage = '';
+            // this.router.navigate(['/dashboard']);
+          }, 1500);
+        },
+        error: (error) => {
+          this.showError = true
+          this.showMessage = false
+          console.log("hi");
           this.responseMessage = error.error.message;
           setTimeout(() => {
             this.showError = false;

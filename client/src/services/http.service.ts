@@ -59,6 +59,10 @@ export class HttpService {
   getCars(): Observable<any[]> {
     return this.http.get<any[]>(`${this.serverName}/api/customers/cars/available`/**, { headers: this.getHeaders() } */);
   }
+
+  getAllCars(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.serverName}/api/agent/cars`/**, { headers: this.getHeaders() } */);
+  }
  
   // Get all bookings for the agent
   getBookingByAgent(): Observable<any[]> {
@@ -77,7 +81,7 @@ export class HttpService {
  
   // Create car related to Add Car nav bar tab
   createCar(details: any): Observable<any> {
-    details.category = { id: details.category};
+   // details.category = { id: details.category};
     return this.http.post<any>(`${this.serverName}/api/agent/car`, details);
   }
  

@@ -13,6 +13,7 @@ import { CarsComponent } from './cars/cars.component';
 import { GetBookingsComponent } from './get-bookings/get-bookings.component';
 import { BookingReportComponent } from './booking-report/booking-report.component';
 import { PaymentReportComponent } from './payment-report/payment-report.component';
+import { ViewCarsComponent } from './view-cars/viewcars.component';
 
 
 
@@ -26,6 +27,8 @@ const routes: Routes = [
   { path: 'cars', component: CarsComponent }, 
   { path: 'category', component: CategoryComponent }, 
   { path: 'add-car', component: AddCarComponent }, 
+  { path: 'view-cars', component: ViewCarsComponent }, 
+
  
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 

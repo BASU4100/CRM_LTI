@@ -1,0 +1,31 @@
+<div class="container my-5 p-4 rounded shadow-lg custom-container">
+  <h5 class="mb-3 text-dark">Submitted Car Details:</h5>
+  <div *ngIf="showError" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <div class="table-responsive">
+    <table>
+      <thead class="table-orange text-white">
+        <tr>
+          <th>Make</th>
+          <th>Model</th>
+          <th>Status</th>
+          <th>Category</th>
+          <th>Manufacture Year</th>
+          <th>Registration Number</th>
+          <th>Rental Rate Per Day</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let car of carList">
+          <td>{{ car.make }}</td>
+          <td>{{ car.model }}</td>
+          <td>{{ car.status }}</td>
+          <td>{{ car.category.name }}</td>
+          <td>{{ car.manufactureYear }}</td>
+          <td>{{ car.registrationNumber }}</td>
+          <td>{{ car.rentalRatePerDay }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

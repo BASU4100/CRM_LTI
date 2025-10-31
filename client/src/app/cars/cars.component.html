@@ -1,100 +1,97 @@
+<div class="container mt-4">
 
-  <div class="container mt-4">
+  <!-- Booking Form Section -->
+  <div *ngIf="toBook" class="mt-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="card-title mb-4">Book Car: {{ toBook.make }} {{ toBook.model }}</h4>
+        <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Rental Start Date & Time</label>
+              <input type="date" class="form-control" formControlName="rentalStartDate"
+                [class.is-invalid]="itemForm.get('rentalStartDate')?.touched && itemForm.get('rentalStartDate')?.invalid">
+              <div class="invalid-feedback" *ngIf="itemForm.get('rentalStartDate')?.touched && itemForm.get('rentalStartDate')?.errors?.['required']">
+                Start date is required.
+              </div>
+            </div>
 
-    <!-- Booking Form Section -->
-    <div *ngIf="toBook" class="mt-5">
-      <h4>Book Car: {{ toBook.make }} {{ toBook.model }}</h4>
-      <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-          <label>Rental Start Date & Time</label>
-          <input type="date" class="form-control" formControlName="rentalStartDate"
-            [class.is-invalid]="itemForm.get('rentalStartDate')?.touched && itemForm.get('rentalStartDate')?.invalid">
-          <div class="text-danger" *ngIf="itemForm.get('rentalStartDate')?.touched && itemForm.get('rentalStartDate')?.errors?.['required']">
-            Start date is required.
+            <div class="col-md-6">
+              <label class="form-label">Rental End Date & Time</label>
+              <input type="date" class="form-control" formControlName="rentalEndDate"
+                [class.is-invalid]="itemForm.get('rentalEndDate')?.touched && itemForm.get('rentalEndDate')?.invalid">
+              <div class="invalid-feedback" *ngIf="itemForm.get('rentalEndDate')?.touched && itemForm.get('rentalEndDate')?.errors?.['required']">
+                End date is required.
+              </div>
+            </div>
           </div>
-        </div>
-  
-        <div class="mb-3">
-          <label>Rental End Date & Time</label>
-          <input type="date" class="form-control" formControlName="rentalEndDate"
-            [class.is-invalid]="itemForm.get('rentalEndDate')?.touched && itemForm.get('rentalEndDate')?.invalid">
-          <div class="text-danger" *ngIf="itemForm.get('rentalEndDate')?.touched && itemForm.get('rentalEndDate')?.errors?.['required']">
-            End date is required.
+
+          <div class="mt-4">
+            <button type="submit" class="btn btn-success me-2" [disabled]="itemForm.invalid">Confirm Booking</button>
+            <button type="button" class="btn btn-outline-secondary" (click)="cancelBooking()">Cancel</button>
           </div>
+        </form>
+
+        <!-- Success Message -->
+        <div *ngIf="showMessage" class="alert alert-success mt-3">
+          {{ responseMessage }}
         </div>
-  
-        <button type="submit" class="btn btn-success" [disabled]="itemForm.invalid">Confirm Booking</button>
-        <button type="button" class="btn btn-secondary ms-2" (click)="cancelBooking()">Cancel</button>
-      </form>
-  
-      <!-- Success Message -->
-      <div *ngIf="showMessage" class="alert alert-success mt-3">
-        {{ responseMessage }}
       </div>
     </div>
+  </div>
 
+  <!-- Available Cars Section -->
+  <div *ngIf="!toBook">
+    <h2 class="mb-4">Available Cars for Rent</h2>
 
-<div *ngIf="!toBook">
-    <h2>Available Cars for Rent</h2>
-  
     <!-- Error Alert -->
     <div *ngIf="showError" class="alert alert-danger">
       {{ errorMessage }}
     </div>
 
-   <!-- Filter Form Section -->
-   <form [formGroup]="filterForm" class="row mb-3">
-     <div class="col-md-3">
-       <input type="text" class="form-control" placeholder="Filter by Make" formControlName="make">
-     </div>
-     <div class="col-md-3">
-       <input type="text" class="form-control" placeholder="Filter by Model" formControlName="model">
-     </div>
-     <div class="col-md-3">
-       <input type="text" class="form-control" placeholder="Filter by Category" formControlName="category">
-     </div>
-   </form>
+    <!-- Filter Form Section -->
+    <form [formGroup]="filterForm" class="row g-3 mb-3">
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Filter by Make" formControlName="make">
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Filter by Model" formControlName="model">
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Filter by Category" formControlName="category">
+      </div>
+    </form>
 
     <!-- Cars Table -->
-    <table class="table table-bordered table-hover mt-3" *ngIf=" carList?.length">
-      <thead class="table-dark">
-        <tr>
-          <th (click)="sortBy('make')" class="sortable">Make <span *ngIf="sortColumn === 'make'">
-              {{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-           </th>
-          <th (click)="sortBy('model')" class="sortable">Model <span *ngIf="sortColumn === 'model'">
-            {{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-          </th>
-          <th (click)="sortBy('manufactureYear')" class="sortable">Year 
-            <span *ngIf="sortColumn === 'manufactureYear'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-          </th>
-          <th (click)="sortBy('registrationNumber')" class="sortable">Registration <span *ngIf="sortColumn === 'registrationNumber'">
-            {{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-          </th>
-          <th (click)="sortBy('rentalRatePerDay')" class="sortable">Rate/Day <span *ngIf="sortColumn === 'rentalRatePerDay'">
-            {{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-          </th>
-          <th (click)="sortBy('category.name')" class="sortable">Category <span *ngIf="sortColumn === 'category.name'">
-            {{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-          </th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let car of filteredCars">
-          <td>{{ car.make }}</td>
-          <td>{{ car.model }}</td>
-          <td>{{ car.manufactureYear }}</td>
-          <td>{{ car.registrationNumber }}</td>
-          <td>₹ {{ car.rentalRatePerDay }}</td>
-          <td>{{ car.category?.name }}</td>
-          <td>
-            <button class="btn btn-outline-primary btn-sm" (click)="book(car)">Book Now</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle" *ngIf="carList?.length">
+        <thead class="table-dark">
+          <tr>
+            <th (click)="sortBy('make')" class="sortable">Make <span *ngIf="sortColumn === 'make'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span></th>
+            <th (click)="sortBy('model')" class="sortable">Model <span *ngIf="sortColumn === 'model'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span></th>
+            <th (click)="sortBy('manufactureYear')" class="sortable">Year <span *ngIf="sortColumn === 'manufactureYear'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span></th>
+            <th (click)="sortBy('registrationNumber')" class="sortable">Registration <span *ngIf="sortColumn === 'registrationNumber'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span></th>
+            <th (click)="sortBy('rentalRatePerDay')" class="sortable">Rate/Day <span *ngIf="sortColumn === 'rentalRatePerDay'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span></th>
+            <th (click)="sortBy('category.name')" class="sortable">Category <span *ngIf="sortColumn === 'category.name'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span></th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let car of filteredCars">
+            <td>{{ car.make }}</td>
+            <td>{{ car.model }}</td>
+            <td>{{ car.manufactureYear }}</td>
+            <td>{{ car.registrationNumber }}</td>
+            <td>₹ {{ car.rentalRatePerDay }}</td>
+            <td>{{ car.category?.name }}</td>
+            <td>
+              <button class="btn btn-outline-primary btn-sm" (click)="book(car)">Book Now</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  
-    
-  </div>
+
+</div>
+``

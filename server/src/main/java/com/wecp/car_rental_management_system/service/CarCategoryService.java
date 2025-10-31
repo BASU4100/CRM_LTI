@@ -24,14 +24,10 @@ public class CarCategoryService {
 
     //create Car Category
     public CarCategory createCarCategory(CarCategory carCategory){
-        // logger.info(carCategory);
-        // if (carCategoryRepository.findByName(carCategory.getName()).isPresent()) {
-            //     throw new ResourceAlreadyExists("Car category already exists.");
-            // }
         carCategoryRepository.findByName(carCategory.getName()).ifPresent(e -> {throw new ResourceAlreadyExistsException("Car category already exists.");});
         return  carCategoryRepository.save(carCategory);
     }
-
+    
     //Get all car categories
     public List<CarCategory> getAllCarCategories(){
         return carCategoryRepository.findAll();
@@ -42,6 +38,9 @@ public class CarCategoryService {
     @Transactional
     public CarCategory updateCarCategory(Long categoryId,CarCategory updatedCarCategory){
         CarCategory carCategory = carCategoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Car category not found."));
+        if (!carCategory.getName().equalsIgnoreCase(updatedCarCategory.getName())) {
+            carCategoryRepository.findByName(updatedCarCategory.getName()).ifPresent(e -> {throw new ResourceAlreadyExistsException("Car category already exists.");});
+        }
         updatedCarCategory.setId(categoryId);
         updatedCarCategory.setCars(carCategory.getCars());
         return carCategoryRepository.save(updatedCarCategory);

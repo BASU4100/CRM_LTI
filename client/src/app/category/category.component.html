@@ -1,19 +1,18 @@
+<h2>Manage Category</h2>
 
-    <h2>Manage Category</h2>
+<div *ngIf="showMessage">
+    {{responseMessage}}
+</div>
 
-    <div *ngIf="showMessage">
-        {{responseMessage}}
-    </div>
+<div *ngIf="showError">
+    {{errorMessage}}
+</div>
 
-    <div *ngIf="showError">
-        {{errorMessage}}
-    </div>
-
-<!--Category Form--> 
- <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+<!--Category Form-->
+<form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
     <div>
         <label for="name">Category Name</label>
-        <input type="text" id="name" formControlName="name"/>
+        <input type="text" id="name" formControlName="name" />
         <div *ngIf="itemForm.get('name')?.invalid && itemForm.get('name')?.touched" class="error-message">
             Name is required.
         </div>
@@ -21,7 +20,7 @@
 
     <div>
         <label for="description">Description</label>
-        <input type="text" id="description" formControlName="description"/>
+        <input type="text" id="description" formControlName="description" />
         <div *ngIf="itemForm.get('description')?.invalid && itemForm.get('description')?.touched" class="error-message">
             Description is required.
         </div>
@@ -29,7 +28,7 @@
 
     <div>
         <label for="baseRate">Base Rate</label>
-        <input type="number" id="baseRate" formControlName="baseRate"/>
+        <input type="number" id="baseRate" formControlName="baseRate" />
         <div *ngIf="itemForm.get('baseRate')?.invalid && itemForm.get('baseRate')?.touched" class="error-message">
             Base rate is required.
         </div>
@@ -40,25 +39,3 @@
     </button>
 
 </form>
-
-<!--Category List-->
-<table>
-    <thead>
-        <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Base Rate</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let category of categoryList">
-            <td>{{category.name}}</td>
-            <td>{{category.description}}</td>
-            <td>{{category.baseRate}}</td>
-            <td>
-                <button (click)="edit(category)">Edit</button>
-            </td>
-        </tr>
-    </tbody>
-</table>

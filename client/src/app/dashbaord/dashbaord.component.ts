@@ -22,4 +22,11 @@ export class DashbaordComponent implements OnInit {
       email: this.authService.getEmail()
     }
   }
+
+  // getCategories(): void {
+  //   this.httpService.getAllCategories().subscribe({
+  //     next: (res: any[]) => this.categoryList = res,
+  //     error: () => this.errorMessage = 'Failed to load categories'
+  //   });
+  // }
 }

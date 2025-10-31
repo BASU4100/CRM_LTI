@@ -111,9 +111,11 @@ export class AddCarComponent implements OnInit {
     })
   }
 
+  //overides the category field wraps as an obj
   onSubmit(): void {
-    const carData = {...this.itemForm.value,category:{id:this.itemForm.value.category}}
-    
+    const carData = {...this.itemForm.value,
+      category:{id:this.itemForm.value.category}}
+
     if (this.updateId) {
       this.httpService.updateCar(this.updateId,carData).subscribe({
         next: () => {

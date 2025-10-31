@@ -1,14 +1,12 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpService } from '../../services/http.service';
-import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-registration',
-  templateUrl: './registration.component.html'
-
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
 
@@ -16,6 +14,7 @@ export class RegistrationComponent implements OnInit {
   formModel: any
   showMessage: any = false;
   responseMessage: any = '';
+  errorMessage: any = false;
 
   // form structure and placeholder value before the user interacts with the form.
   constructor(private router: Router, private httpService: HttpService, private fb: FormBuilder) { }
@@ -24,8 +23,8 @@ export class RegistrationComponent implements OnInit {
     this.itemForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern(/^[A-Za-z][A-Za-z0-9._-]+$/)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      role: [null, Validators.required]
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[\W_])[\W\w]{8,}/)]],
+      role: ['', [Validators.required]]
     });
 
     this.formModel = {
@@ -36,10 +35,11 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  //navigate to Login.
-  toLogin(): void{
+  // navigate to Login.
+  toLogin(): void {
     this.router.navigate(['/login']);
   }
+
   // the user clicks on Register button, if valid then success message is displayed.
   onRegister(): void {
     if (this.itemForm.valid) {
@@ -58,23 +58,21 @@ export class RegistrationComponent implements OnInit {
         },
         // error - scenario
         error: (error: any) => {
-          this.showMessage = true
-          this.responseMessage = "Registration failed, please try again."
-          console.error('Registration error :', error)
-          //error.error.responseMessage('Registration error :',error) 
+          this.errorMessage = true
+          this.responseMessage = error.error.text;
+          console.error('Registration error :', error.error)
           setTimeout(() => {
-            this.showMessage = false
+            this.errorMessage = false
             this.responseMessage = ''
           }, 1500);
         }
       });
+    }
 
-      // in case the user enters the fields incorrectly, the response message is displayed.
-    } else {
-      this.showMessage = true
+    // in case the user enters the fields incorrectly, the response message is displayed.
+    else {
+      this.errorMessage = true
       this.responseMessage = 'Please fill all the fields correctly.'
     }
   }
-
-
 }

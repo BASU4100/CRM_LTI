@@ -12,9 +12,10 @@
         formControlName="username"
         [placeholder]="formModel.username"
       />
-      <div *ngIf="itemForm.get('username')?.touched" class="text-danger">
+      <div *ngIf="itemForm.get('username')?.touched" class="text-danger container">
         <small *ngIf="itemForm.get('username')?.errors?.['required']">Username is required.</small>
-        <small *ngIf="itemForm.get('username')?.errors?.['pattern']">Only letters, numbers, dots, underscores, and hyphens allowed.</small>
+        <small *ngIf="itemForm.get('username')?.errors?.['pattern']">Starts with letters and can have digits, '.' '-' '_'</small>
+        <!-- error Message -->
       </div>
     </div>
 
@@ -28,7 +29,7 @@
         formControlName="email"
         [placeholder]="formModel.email"
       />
-      <div *ngIf="itemForm.get('email')?.touched" class="text-danger">
+      <div *ngIf="itemForm.get('email')?.touched" class="text-danger container">
         <small *ngIf="itemForm.get('email')?.errors?.['required']">Email is required.</small>
         <small *ngIf="itemForm.get('email')?.errors?.['email']">Enter a valid email address.</small>
       </div>
@@ -44,7 +45,7 @@
         formControlName="password"
         [placeholder]="formModel.password"
       />
-      <div *ngIf="itemForm.get('password')?.touched" class="text-danger">
+      <div *ngIf="itemForm.get('password')?.touched" class="text-danger container">
         <small *ngIf="itemForm.get('password')?.errors?.['required']">Password is required.</small>
         <small *ngIf="itemForm.get('password')?.errors?.['pattern']">
           Must contain at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character (!@$%&*?).
@@ -56,13 +57,13 @@
     <div class="form-group mb-3">
       <label for="role">Role</label>
       <select id="role" class="form-control" formControlName="role">
-        <option value="" selected>{{formModel.role}}</option>
+        <option value="" disabled hidden selected>{{formModel.role}}</option>
         <option value="CUSTOMER">Customer</option>
         <option value="AGENT">Agent</option>
         <option value="ADMINISTRATOR">Administrator</option>
       </select>
-      <div *ngIf="itemForm.get('role')?.touched" class="text-danger">
-        <small>Role is required.</small>
+      <div *ngIf="itemForm.get('role')?.touched" class="text-danger container">
+        <small *ngIf="itemForm.get('role')?.errors?.['required']">Role is required.</small>
       </div>
     </div>
 
@@ -79,7 +80,7 @@
 
 
     <!-- Alert Message -->
-    <div *ngIf="showMessage" class="mt-3">
-      <div class="alert alert-info">{{ responseMessage }}</div>
+    <div *ngIf="errorMessage || showMessage" class="mt-3">
+      <div [ngClass]="errorMessage ? 'alert alert-danger': 'alert alert-info'">{{ responseMessage }}</div>
     </div>
  

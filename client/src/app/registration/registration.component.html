@@ -80,7 +80,7 @@
 
 
     <!-- Alert Message -->
-    <div *ngIf="showMessage" class="mt-3">
-      <div class="alert alert-info">{{ responseMessage }}</div>
+    <div *ngIf="errorMessage || showMessage" class="mt-3">
+      <div [ngClass]="errorMessage ? 'alert alert-danger': 'alert alert-info'">{{ responseMessage }}</div>
     </div>
  

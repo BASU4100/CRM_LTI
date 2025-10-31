@@ -14,13 +14,14 @@ export class RegistrationComponent implements OnInit {
   formModel: any
   showMessage: any = false;
   responseMessage: any = '';
+  errorMessage: any = false;
 
   // form structure and placeholder value before the user interacts with the form.
   constructor(private router: Router, private httpService: HttpService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.itemForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern(/^[A-Za-z][A-Za-z0-9._-]$/)]],
+      username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern(/^[A-Za-z][A-Za-z0-9._-]+$/)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[\W_])[\W\w]{8,}/)]],
       role: ['', [Validators.required]]
@@ -57,11 +58,11 @@ export class RegistrationComponent implements OnInit {
         },
         // error - scenario
         error: (error: any) => {
-          this.showMessage = true
-          this.responseMessage = "Registration failed, please try again."
+          this.errorMessage = true
+          this.responseMessage = error.error.text;
           console.error('Registration error :', error.error)
           setTimeout(() => {
-            this.showMessage = false
+            this.errorMessage = false
             this.responseMessage = ''
           }, 1500);
         }
@@ -70,7 +71,7 @@ export class RegistrationComponent implements OnInit {
 
     // in case the user enters the fields incorrectly, the response message is displayed.
     else {
-      this.showMessage = true
+      this.errorMessage = true
       this.responseMessage = 'Please fill all the fields correctly.'
     }
   }

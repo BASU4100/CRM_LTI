@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpService } from '../../services/http.service';
 import { AuthService } from '../../services/auth.service';
-import { DatePipe } from '@angular/common';
-
 
 @Component({
   selector: 'app-login',
@@ -21,8 +19,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private httpService: HttpService,
     private fb: FormBuilder,
-    private authService: AuthService,
-
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -32,12 +29,10 @@ export class LoginComponent implements OnInit {
     });
 
     // Initialize formModel
-    this.formModel = { username: '', password: '' };
-
-    // Sync formModel with form values
-    this.itemForm.valueChanges.subscribe(value => {
-      this.formModel = { ...value };
-    });
+    this.formModel = {
+      username: 'Enter your username',
+      password: 'Enter your password'
+    };
   }
 
   onSubmit(): void {
@@ -61,16 +56,16 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         this.showError = true;
-        this.errorMessage = error.error?.message || 'Invalid email or password';
+        console.error(error);
+        this.errorMessage = "Invalid Username or Password";
         setTimeout(() => {
           this.showError = false
           this.errorMessage = ''
         }, 1500);
-        console.error(error);
       }
     });
   }
-  
+
   registration(): void {
     this.router.navigate(['/registration']);
   }

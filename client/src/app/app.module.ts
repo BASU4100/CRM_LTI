@@ -19,6 +19,7 @@ import { BookingReportComponent } from './booking-report/booking-report.componen
 import { PaymentReportComponent } from './payment-report/payment-report.component';
 import { AuthInterceptor } from './auth.interceptors';
 import { AppNavbarComponent } from './app-navbar/app-navbar.component';
+import { ViewCarsComponent } from './view-cars/viewcars.component';
 
 
 
@@ -34,7 +35,8 @@ import { AppNavbarComponent } from './app-navbar/app-navbar.component';
     GetBookingsComponent,
     BookingReportComponent,
     PaymentReportComponent,
-    AppNavbarComponent
+    AppNavbarComponent,
+    ViewCarsComponent
   ],
   imports: [
     BrowserModule,

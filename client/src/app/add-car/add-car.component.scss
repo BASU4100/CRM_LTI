@@ -1,0 +1,28 @@
+.form-select:focus {
+  border-color: #ff6600;
+  box-shadow: 0 0 5px rgba(255, 102, 0, 0.5);
+}
+
+.btn-primary {
+  background-color: #ff6600;
+  border-color: #ff6600;
+}
+
+.btn-primary:hover {
+  background-color: #e65c00;
+  border-color: #e65c00;
+}
+
+.table thead {
+  background-color: #ff6600;
+  color: white;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(255, 165, 0, 0.2);
+}
+
+h5 {
+  color: #333;
+  font-weight: bold;
+}

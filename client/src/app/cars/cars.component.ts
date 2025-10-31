@@ -24,6 +24,16 @@ export class CarsComponent implements OnInit {
   showMessage: any = false;
   responseMessage: any = '';
   updateId: any = null;
+  searchTerm: string = ''
+
+  //sorting
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  //filtering
+  filterForm!: FormGroup;
+  filteredCars: any[] = [];
+
 
   constructor(
     private router: Router,
@@ -39,19 +49,64 @@ export class CarsComponent implements OnInit {
     });
   }
 
+  // ngOnInit(): void {
+  //   if(!this.authService.getLoginStatus)
+  //   {
+  //     this.router.navigate(['/login'])
+  //   }
+  //   this.getCars();
+  // }
   ngOnInit(): void {
-    if(!this.authService.getLoginStatus)
-    {
-      this.router.navigate(['/login'])
+    if (!this.authService.getLoginStatus) {
+      this.router.navigate(['/login']);
     }
+  
+    this.filterForm = this.fb.group({
+      make: [''],
+      model: [''],
+      category: ['']
+    });
+  
     this.getCars();
+  
+    // Listen to filter changes
+    this.filterForm.valueChanges.subscribe(() => {
+      this.applyFilters();
+    });
+  }
+  //add filter
+  applyFilters(): void {
+    const { make, model, category } = this.filterForm.value;
+
+    this.filteredCars = this.carList.filter(car => {
+      const matchesMake = make ? car.make.toLowerCase().includes(make.toLowerCase()) : true;
+      const matchesModel = model ? car.model.toLowerCase().includes(model.toLowerCase()) : true;
+      const matchesCategory = category ? car.category?.name?.toLowerCase().includes(category.toLowerCase()) : true;
+
+      return matchesMake && matchesModel && matchesCategory;
+    });
   }
 
+  
   // Fetch all available cars
+  // getCars(): void {
+  //   this.httpService.getCars().subscribe({
+  //     next: (data: any[]) => {
+  //       this.carList = data;
+  //       this.showError = false;
+  //     },
+  //     error: (err: any) => {
+  //       this.showError = true;
+  //       this.errorMessage = 'Failed to load available cars. Please try again.';
+  //       console.error(err);
+  //     }
+  //   });
+  // }
   getCars(): void {
     this.httpService.getCars().subscribe({
       next: (data: any[]) => {
         this.carList = data;
+        this.filteredCars = data;
         this.showError = false;
       },
       error: (err: any) => {
@@ -61,7 +116,25 @@ export class CarsComponent implements OnInit {
       }
     });
   }
+  
 
+sortBy(column: string): void {
+  if (this.sortColumn === column) {
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+  } else {
+    this.sortColumn = column;
+    this.sortDirection = 'asc';
+  }
+
+  this.carList.sort((a, b) => {
+    const valA = a[column];
+    const valB = b[column];
+
+    if (valA < valB) return this.sortDirection === 'asc' ? -1 : 1;
+    if (valA > valB) return this.sortDirection === 'asc' ? 1 : -1;
+    return 0;
+  });
+}
   // Open booking modal/form for a specific car
   book(val: any): void {
     this.toBook = { ...val }; // Copy car details

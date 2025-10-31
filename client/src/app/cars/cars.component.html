@@ -7,7 +7,7 @@
       <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
         <div class="mb-3">
           <label>Rental Start Date & Time</label>
-          <input type="datetime-local" class="form-control" formControlName="rentalStartDate"
+          <input type="date" class="form-control" formControlName="rentalStartDate"
             [class.is-invalid]="itemForm.get('rentalStartDate')?.touched && itemForm.get('rentalStartDate')?.invalid">
           <div class="text-danger" *ngIf="itemForm.get('rentalStartDate')?.touched && itemForm.get('rentalStartDate')?.errors?.['required']">
             Start date is required.
@@ -16,7 +16,7 @@
   
         <div class="mb-3">
           <label>Rental End Date & Time</label>
-          <input type="datetime-local" class="form-control" formControlName="rentalEndDate"
+          <input type="date" class="form-control" formControlName="rentalEndDate"
             [class.is-invalid]="itemForm.get('rentalEndDate')?.touched && itemForm.get('rentalEndDate')?.invalid">
           <div class="text-danger" *ngIf="itemForm.get('rentalEndDate')?.touched && itemForm.get('rentalEndDate')?.errors?.['required']">
             End date is required.
@@ -41,22 +41,47 @@
     <div *ngIf="showError" class="alert alert-danger">
       {{ errorMessage }}
     </div>
-  
+
+   <!-- Filter Form Section -->
+   <form [formGroup]="filterForm" class="row mb-3">
+     <div class="col-md-3">
+       <input type="text" class="form-control" placeholder="Filter by Make" formControlName="make">
+     </div>
+     <div class="col-md-3">
+       <input type="text" class="form-control" placeholder="Filter by Model" formControlName="model">
+     </div>
+     <div class="col-md-3">
+       <input type="text" class="form-control" placeholder="Filter by Category" formControlName="category">
+     </div>
+   </form>
+
     <!-- Cars Table -->
     <table class="table table-bordered table-hover mt-3" *ngIf=" carList?.length">
       <thead class="table-dark">
         <tr>
-          <th>Make</th>
-          <th>Model</th>
-          <th>Year</th>
-          <th>Registration</th>
-          <th>Rate/Day</th>
-          <th>Category</th>
+          <th (click)="sortBy('make')" class="sortable">Make <span *ngIf="sortColumn === 'make'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
+           </th>
+          <th (click)="sortBy('model')" class="sortable">Model <span *ngIf="sortColumn === 'model'">
+            {{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
+          </th>
+          <th (click)="sortBy('manufactureYear')" class="sortable">Year 
+            <span *ngIf="sortColumn === 'manufactureYear'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
+          </th>
+          <th (click)="sortBy('registrationNumber')" class="sortable">Registration <span *ngIf="sortColumn === 'registrationNumber'">
+            {{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
+          </th>
+          <th (click)="sortBy('rentalRatePerDay')" class="sortable">Rate/Day <span *ngIf="sortColumn === 'rentalRatePerDay'">
+            {{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
+          </th>
+          <th (click)="sortBy('category.name')" class="sortable">Category <span *ngIf="sortColumn === 'category.name'">
+            {{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
+          </th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let car of carList">
+        <tr *ngFor="let car of filteredCars">
           <td>{{ car.make }}</td>
           <td>{{ car.model }}</td>
           <td>{{ car.manufactureYear }}</td>

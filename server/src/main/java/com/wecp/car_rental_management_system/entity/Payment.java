@@ -99,12 +99,4 @@ public class Payment {
     public void setBooking(Booking booking) {
         this.booking = booking;
     }
-
-    public Long getBookingId() {
-        return booking.getId();
-    }
-
-    public void setBookingId(Long id) {
-        this.booking.setId(id);
-    }
 }

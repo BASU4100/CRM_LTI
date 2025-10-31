@@ -27,19 +27,19 @@ public class PaymentService {
 
     // create a new payment after fetching the booking with bookingId
     public Payment generateInvoice(Long bookingId, Payment paymentRequest) {
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
-        if (booking.getPaymentStatus().equalsIgnoreCase("Paid")) {
-            throw new ResourceAlreadyExistsException("Payment already done.");
-        }
-        booking.setPaymentStatus(paymentRequest.getPaymentStatus());
-        booking = bookingRepository.save(booking);
-        paymentRequest.setBooking(booking);
-        return paymentRepository.save(paymentRequest);
-        // Booking booking = bookingRepository.findById(bookingId).orElse(null);
-        // if (booking!=null) {
-        //     paymentRequest.setBooking(booking);
-        //     return paymentRepository.save(paymentRequest);
+        // Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+        // if (booking.getPaymentStatus().equalsIgnoreCase("Paid")) {
+        //     throw new ResourceAlreadyExistsException("Payment already done.");
         // }
-        // return null;
+        // booking.setPaymentStatus(paymentRequest.getPaymentStatus());
+        // booking = bookingRepository.save(booking);
+        // paymentRequest.setBooking(booking);
+        // return paymentRepository.save(paymentRequest);
+        Booking booking = bookingRepository.findById(bookingId).orElse(null);
+        if (booking!=null) {
+            paymentRequest.setBooking(booking);
+            return paymentRepository.save(paymentRequest);
+        }
+        return null;
     }
 }

@@ -1,8 +1,6 @@
-import { animate } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { HttpService } from '../../services/http.service';
 

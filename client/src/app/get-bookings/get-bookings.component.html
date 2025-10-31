@@ -68,96 +68,141 @@
     {{ responseMessage }}
   </div>
 </div> -->
-<div class="container py-4"> <!-- ==================== SUCCESS / ERROR ==================== -->
-  <div *ngIf="showMessage" class="alert alert-success alert-dismissible fade show"> {{ responseMessage }} <button
-      type="button" class="btn-close" (click)="showMessage=false"></button> </div>
-  <div *ngIf="showError" class="alert alert-danger alert-dismissible fade show"> {{ errorMessage }} <button
-      type="button" class="btn-close" (click)="showError=false"></button> </div>
-  <!-- ==================== BOOKINGS TABLE ==================== -->
-  <h2 class="mb-4">Bookings (Agent View)</h2>
-  <div class="table-responsive mb-5">
-    <table class="table table-striped table-hover align-middle">
+
+<div class="container mt-4">
+  <h2 class="mb-4">Agent Bookings</h2>
+
+  <!-- Alerts -->
+  <div *ngIf="showMessage" class="alert alert-success alert-dismissible fade show">
+    <span [innerHTML]="responseMessage"></span>
+    <button type="button" class="btn-close" (click)="showMessage = false"></button>
+  </div>
+  <div *ngIf="showError" class="alert alert-danger alert-dismissible fade show">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="showError = false"></button>
+  </div>
+
+  <!-- Table -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
       <thead class="table-dark">
         <tr>
           <th>#</th>
           <th>Car</th>
-          <th>Customer</th>
+          <th>User</th>
           <th>Start</th>
           <th>End</th>
           <th>Status</th>
-          <th>Amount</th>
           <th>Payment</th>
+          <th>Total</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let b of bookingList; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ b.car?.model || '-' }} ({{ b.car?.plateNumber }})</td>
-          <td>{{ b.customer?.name || '-' }}</td>
+          <td>{{ b.car?.make }} {{ b.car?.model }}</td>
+          <td>{{ b.user?.username }}</td>
           <td>{{ b.rentalStartDate }}</td>
           <td>{{ b.rentalEndDate }}</td>
-          <td> <span class="badge"
-              [ngClass]="{ 'bg-warning': b.status === 'pending', 'bg-success': b.status === 'booked', 'bg-secondary': b.status === 'cancelled' }">
-              {{ b.status | uppercase }} </span> </td>
-          <td>{{ b.totalAmount | currency:'USD':'symbol':'1.2-2' }}</td>
-          <td> <span class="badge"
-              [ngClass]="{ 'bg-success': b.payment?.paymentStatus === 'COMPLETED', 'bg-danger': b.payment?.paymentStatus === 'FAILED', 'bg-secondary': !b.payment }">
-              {{ b.payment?.paymentStatus || '—' }} </span> </td>
-          <td> <!-- BOOK NOW --> <button class="btn btn-sm btn-outline-primary me-2" [disabled]="b.status !== 'pending'"
-              (click)="bookNow(b)" title="Mark as booked"> Book Now </button> <!-- PAYMENT --> <button
-              class="btn btn-sm btn-outline-success" [disabled]="b.payment?.paymentStatus === 'COMPLETED'"
-              (click)="payment(b)" title="Record payment"> Payment </button> </td>
+
+          <td>
+            <span class="badge"
+                  [class.bg-success]="b.bookingStatus === 'BOOKED'"
+                  [class.bg-warning]="b.bookingStatus === 'PENDING'"
+                  [class.bg-danger]="b.bookingStatus === 'CANCELLED'">
+              {{ b.bookingStatus }}
+            </span>
+          </td>
+
+          <td>
+            <span class="badge"
+                  [class.bg-success]="b.paymentStatus === 'PAID'"
+                  [class.bg-secondary]="b.paymentStatus === 'UNPAID'">
+              {{ b.paymentStatus }}
+            </span>
+          </td>
+
+          <td class="text-end">₹{{ b.totalAmount | number:'1.0-0' }}</td>
+
+          <td>
+            <!-- Book Now Button -->
+            <button *ngIf="b.bookingStatus?.toLowerCase() === 'pending'"
+                    class="btn btn-sm btn-primary me-1"
+                    (click)="bookNow(b)">
+              Book Now
+            </button>
+
+            <!-- Pay Button -->
+            <button *ngIf="b.paymentStatus?.toLowerCase() === 'unpaid'"
+                    class="btn btn-sm btn-success"
+                    (click)="payment(b)">
+              Pay
+            </button>
+          </td>
+        </tr>
+
+        <!-- INLINE FORM ROW (BOOK NOW) -->
+        <tr *ngIf="updateId && selectedBooking?.id === updateId" class="table-light">
+          <td colspan="9" class="p-3">
+            <div class="border rounded p-3 bg-white">
+              <h6>Confirm Booking for {{ selectedBooking.user?.username }}</h6>
+              <p><strong>Car:</strong> {{ selectedBooking.car?.make }} {{ selectedBooking.car?.model }} | 
+                 <strong>Total:</strong> ₹{{ selectedBooking.totalAmount | number:'1.0-0' }}</p>
+
+              <div class="d-flex gap-2">
+                <button class="btn btn-primary" (click)="onStatusSubmit()">Update Booking</button>
+                <button class="btn btn-secondary" (click)="reset()">Cancel</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- INLINE FORM ROW (PAYMENT) -->
+        <tr *ngIf="paymentId && selectedBooking?.id === paymentId" class="table-light">
+          <td colspan="9" class="p-3">
+            <form [formGroup]="itemForm" (ngSubmit)="onPaymentSubmit()" class="border rounded p-3 bg-white">
+              <h6>Record Payment – ₹{{ selectedBooking.totalAmount | number:'1.0-0' }}</h6>
+
+              <div class="row g-3">
+                <div class="col-md-3">
+                  <label>Amount</label>
+                  <input type="number" class="form-control" formControlName="amount" readonly>
+                </div>
+                <div class="col-md-3">
+                  <label>Date</label>
+                  <input type="date" class="form-control" formControlName="paymentDate">
+                </div>
+                <div class="col-md-3">
+                  <label>Method</label>
+                  <select class="form-select" formControlName="paymentMethod">
+                    <option value="CREDIT_CARD">Credit Card</option>
+                    <option value="DEBIT_CARD">Debit Card</option>
+                    <option value="UPI">UPI</option>
+                    <option value="CASH">Cash</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label>Status</label>
+                  <input type="text" class="form-control" formControlName="paymentStatus" readonly>
+                </div>
+              </div>
+
+              <div class="mt-3 d-flex gap-2">
+                <button type="submit" class="btn btn-success" [disabled]="itemForm.invalid">
+                  Confirm Payment
+                </button>
+                <button type="button" class="btn btn-secondary" (click)="reset()">Cancel</button>
+              </div>
+            </form>
+          </td>
         </tr>
       </tbody>
     </table>
-  </div> <!-- ==================== FORM (STATUS + PAYMENT) ==================== -->
-  <div *ngIf="selectedBooking" class="card">
-    <div class="card-header"> <strong> {{ updateId ? 'Update Booking Status' : 'Record Payment' }} – #{{
-        selectedBooking.id }} </strong> </div>
-    <div class="card-body">
-      <form [formGroup]="itemForm" (ngSubmit)="updateId ? onStatusSubmit() : onPaymentSubmit()">
-        <!-- STATUS (only shown for Book-Now) -->
-        <div class="mb-3" *ngIf="updateId"> <label class="form-label">Current Status</label> <input type="text"
-            class="form-control" [value]="selectedBooking.status" disabled> </div> <!-- AMOUNT -->
-        <div class="mb-3"> <label for="amount" class="form-label">Amount <span class="text-danger">*</span></label>
-          <input id="amount" type="number" formControlName="amount" class="form-control"
-            [class.is-invalid]="itemForm.get('amount')?.invalid && itemForm.get('amount')?.touched">
-          <div class="invalid-feedback"> Amount is required and must be ≥ 0. </div>
-        </div> <!-- PAYMENT DATE -->
-        <div class="mb-3"> <label for="paymentDate" class="form-label">Payment Date <span
-              class="text-danger">*</span></label> <input id="paymentDate" type="date" formControlName="paymentDate"
-            class="form-control"
-            [class.is-invalid]="itemForm.get('paymentDate')?.invalid && itemForm.get('paymentDate')?.touched">
-          <div class="invalid-feedback">Date is required.</div>
-        </div> <!-- PAYMENT METHOD -->
-        <div class="mb-3"> <label for="paymentMethod" class="form-label">Method <span
-              class="text-danger">*</span></label> <select id="paymentMethod" formControlName="paymentMethod"
-            class="form-select"
-            [class.is-invalid]="itemForm.get('paymentMethod')?.invalid && itemForm.get('paymentMethod')?.touched">
-            <option value="">-- Select --</option>
-            <option value="CREDIT_CARD">Credit Card</option>
-            <option value="DEBIT_CARD">Debit Card</option>
-            <option value="UPI">UPI</option>
-            <option value="CASH">Cash</option>
-          </select>
-          <div class="invalid-feedback">Method required.</div>
-        </div> <!-- PAYMENT STATUS -->
-        <div class="mb-3"> <label for="paymentStatus" class="form-label">Payment Status <span
-              class="text-danger">*</span></label> <select id="paymentStatus" formControlName="paymentStatus"
-            class="form-select"
-            [class.is-invalid]="itemForm.get('paymentStatus')?.invalid && itemForm.get('paymentStatus')?.touched">
-            <option value="">-- Select --</option>
-            <option value="COMPLETED">Completed</option>
-            <option value="PENDING">Pending</option>
-            <option value="FAILED">Failed</option>
-          </select>
-          <div class="invalid-feedback">Status required.</div>
-        </div>
-        <div class="d-flex gap-2"> <button type="submit" class="btn btn-primary" [disabled]="itemForm.invalid"> {{
-            updateId ? 'Confirm Booking' : 'Save Payment' }} </button> <button type="button" class="btn btn-secondary"
-            (click)="resetSelection()"> Cancel </button> </div>
-      </form>
+
+    <!-- Empty State -->
+    <div *ngIf="bookingList.length === 0 && !showError" class="text-center py-5 text-muted">
+      <p class="lead">No bookings assigned to you.</p>
     </div>
   </div>
 </div>

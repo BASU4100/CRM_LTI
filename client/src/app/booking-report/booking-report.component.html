@@ -12,6 +12,18 @@
     {{ responseMessage }}
   </div>
 
+  <form [formGroup]="filterForm" class="row g-3 mb-3">
+    <div class="col-md-4">
+      <input type="text" class="form-control" placeholder="Filter by Customer Name" formControlName="customerName">
+    </div>
+    <div class="col-md-4">
+      <input type="text" class="form-control" placeholder="Filter by Car Model" formControlName="carModel">
+    </div>
+    <div class="col-md-4">
+      <input type="text" class="form-control" placeholder="Filter by Status" formControlName="status">
+    </div>
+    </form>
+
   <!-- Booking Report Table -->
   <div class="table-responsive">
     <table class="table table-bordered table-striped">
@@ -27,7 +39,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let booking of bookingList">
+        <tr *ngFor="let booking of filteredBookings">
           <td>{{ booking.car.make }}</td>
           <td>{{ booking.car.model }}</td>
           <td>{{ booking.user.username }}</td>

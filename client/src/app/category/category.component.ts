@@ -37,9 +37,10 @@ export class CategoryComponent implements OnInit {
     this.itemForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      baseRate: ['', [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/), Validators.min(3000)]]
+      baseRate: ['', [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/), Validators.min(2000)]]
     });
 
+    this.getCategories();
     this.formModel = {
       name: 'Enter category name',
       description: 'Enter category description',
@@ -52,6 +53,36 @@ export class CategoryComponent implements OnInit {
     this.itemForm.patchValue(val);
   }
 
+  getCategories(): void {
+      this.httpService.getAllCategories().subscribe({
+        next: (res: any) => this.categoryList = res,
+        error: () => this.errorMessage = 'Failed to load categories'
+      });
+    }
+
+    deleteCategory(id: any): void {
+      if (confirm('Are you sure you want to delete this category?')) {
+        this.httpService.deleteCategory(id).subscribe({
+          next: () => {
+            this.showMessage = true;
+            this.getCategories();
+            this.responseMessage = 'Category deleted successfully';
+            setTimeout(() => {
+              this.showMessage = false;
+              this.responseMessage = '';
+            }, 1500);
+          },
+          error: (error) => {
+            this.showError = true;
+            this.errorMessage = error.error.text || 'Failed to delete category';
+            setTimeout(() => {
+              this.showError = false;
+              this.errorMessage = '';
+            }, 1500);
+          }
+        });
+      }
+    }
   onSubmit(): void {
     const categoryData = this.itemForm.value;
 

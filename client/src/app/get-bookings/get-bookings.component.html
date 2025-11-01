@@ -1,76 +1,6 @@
-<!-- <div class="container">
-  <h2>Update Booking</h2>
-
-  <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="status">Booking Status</label>
-      <input id="status" formControlName="status" class="form-control" />
-      <div *ngIf="itemForm.get('status')?.invalid && itemForm.get('status')?.touched" class="text-danger">
-        Status is required.
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="amount">Amount</label>
-      <input id="amount" type="number" formControlName="amount" class="form-control" />
-      <div *ngIf="itemForm.get('amount')?.invalid && itemForm.get('amount')?.touched" class="text-danger">
-        Amount must be a positive number.
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="paymentDate">Payment Date</label>
-      <input id="paymentDate" type="date" formControlName="paymentDate" class="form-control" />
-      <div *ngIf="itemForm.get('paymentDate')?.invalid && itemForm.get('paymentDate')?.touched" class="text-danger">
-        Payment date is required.
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="paymentMethod">Payment Method</label>
-      <select id="paymentMethod" formControlName="paymentMethod" class="form-control">
-        <option value="">Select Method</option>
-        <option value="CREDIT_CARD">Credit Card</option>
-        <option value="DEBIT_CARD">Debit Card</option>
-        <option value="UPI">UPI</option>
-        <option value="CASH">Cash</option>
-      </select>
-      <div *ngIf="itemForm.get('paymentMethod')?.invalid && itemForm.get('paymentMethod')?.touched" class="text-danger">
-        Payment method is required.
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="paymentStatus">Payment Status</label>
-      <select id="paymentStatus" formControlName="paymentStatus" class="form-control">
-        <option value="">Select Status</option>
-        <option value="COMPLETED">Completed</option>
-        <option value="PENDING">Pending</option>
-        <option value="FAILED">Failed</option>
-      </select>
-      <div *ngIf="itemForm.get('paymentStatus')?.invalid && itemForm.get('paymentStatus')?.touched" class="text-danger">
-        Payment status is required.
-      </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary" [disabled]="!itemForm.valid">Update Booking</button>
-
-    <div *ngIf="itemForm.valid" class="alert alert-success mt-3">
-      ✅ Form is valid and ready to submit.
-    </div>
-  </form>
-
-  <div *ngIf="showError" class="alert alert-danger mt-3">
-    {{ errorMessage }}
-  </div>
-
-  <div *ngIf="showMessage" class="alert alert-success mt-3">
-    {{ responseMessage }}
-  </div>
-</div> -->
 
 <div class="container mt-4">
-  <h2 class="mb-4">Agent Bookings</h2>
+  <h2 class="mb-4">Car Bookings</h2>
 
   <!-- Alerts -->
   <div *ngIf="showMessage" class="alert alert-success alert-dismissible fade show">
@@ -108,7 +38,7 @@
 
           <td>
             <span class="badge"
-                  [class.bg-success]="b.bookingStatus === 'BOOKED'"
+                  [class.bg-success]="b.bookingStatus === 'CONFIRMED'"
                   [class.bg-warning]="b.bookingStatus === 'PENDING'"
                   [class.bg-danger]="b.bookingStatus === 'CANCELLED'">
               {{ b.bookingStatus }}
@@ -126,17 +56,17 @@
           <td class="text-end">₹{{ b.totalAmount | number:'1.0-0' }}</td>
 
           <td>
-            <!-- Book Now Button -->
-            <button *ngIf="b.bookingStatus?.toLowerCase() === 'pending'"
-                    class="btn btn-sm btn-primary me-1"
-                    (click)="bookNow(b)">
-              Book Now
+            <button 
+              class="btn btn-sm btn-primary me-1"
+              (click)="bookNow(b)"
+              [disabled]="b.bookingStatus?.toLowerCase() !== 'pending'">
+              Confirm Now
             </button>
-
-            <!-- Pay Button -->
-            <button *ngIf="b.paymentStatus?.toLowerCase() === 'unpaid'"
-                    class="btn btn-sm btn-success"
-                    (click)="payment(b)">
+          
+            <button 
+              class="btn btn-sm btn-success"
+              (click)="payment(b)"
+              [disabled]="b.paymentStatus?.toLowerCase() !== 'unpaid'">
               Pay
             </button>
           </td>

@@ -19,7 +19,6 @@ import { BookingReportComponent } from './booking-report/booking-report.componen
 import { PaymentReportComponent } from './payment-report/payment-report.component';
 import { AuthInterceptor } from './auth.interceptors';
 import { AppNavbarComponent } from './app-navbar/app-navbar.component';
-import { ViewCarsComponent } from './view-cars/viewcars.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -49,9 +48,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     GetBookingsComponent,
     BookingReportComponent,
     PaymentReportComponent,
-    AppNavbarComponent,
-    ViewCarsComponent,
-    
+    AppNavbarComponent    
   ],
   imports: [
     BrowserModule,

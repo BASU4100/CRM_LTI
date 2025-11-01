@@ -29,48 +29,82 @@
         </div>
         <div class="row card shadow">
             <h4>Today's Revenue</h4>
-            <h2>{{todayRevenue  | currency: 'INR'}}</h2>
+            <h2>{{todayRevenue | currency: 'INR'}}</h2>
         </div>
     </div>
 </div>
 
-<ng-template #agent> 
+<ng-template #agent>
     <div *ngIf="role === 'AGENT'; else customer">
-        
+        <div class="container my-5 p-4 rounded shadow-lg custom-container">
+            <h5 class="mb-3 text-dark">Submitted Car Details:</h5>
+            <!-- <div *ngIf="showError" class="alert alert-danger">{{ errorMessage }}</div> --> <!-- Filter Input -->
+            <div class="mb-3"> <input type="text" class="form-control"
+                    placeholder="Search by Make, Model, or Registration Number" [(ngModel)]="filterText"
+                    (input)="applyFilter()" /> </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-orange text-white">
+                        <tr>
+                            <th (click)="sortBy('make')">Make</th>
+                            <th (click)="sortBy('model')">Model</th>
+                            <th (click)="sortBy('status')">Status</th>
+                            <th (click)="sortBy('category.name')">Category</th>
+                            <th (click)="sortBy('manufactureYear')">Manufacture Year</th>
+                            <th (click)="sortBy('registrationNumber')">Registration Number</th>
+                            <th (click)="sortBy('rentalRatePerDay')">Rental Rate Per Day</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let car of filteredCarList">
+                            <td>{{ car.make }}</td>
+                            <td>{{ car.model }}</td>
+                            <td>{{ car.status }}</td>
+                            <td>{{ car.category.name }}</td>
+                            <td>{{ car.manufactureYear }}</td>
+                            <td>{{ car.registrationNumber }}</td>
+                            <td>{{ car.rentalRatePerDay }}</td>
+                            <td> <button class="btn btn-sm btn-primary" (click)="editCar(car)">Edit</button> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    
+
     <ng-template #customer>
         <div class="container">
-          <h2>My Bookings</h2>
-          
-          <div *ngIf="showMessage" class="alert alert-success">{{ responseMessage }}</div>
-          <div *ngIf="showError" class="alert alert-danger">{{ errorMessage }}</div>
-        
-          <table class="table table-striped" *ngIf="bookingList.length > 0">
-            <thead>
-              <tr>
-                <th>Booking ID</th>
-                <th>Car</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Status</th>
-                <th>Total Amount</th>
-                <th>Payment Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let booking of bookingList">
-                <td>{{ booking.id }}</td>
-                <td>{{ booking.car.make }} {{ booking.car.model }}</td>
-                <td>{{ booking.rentalStartDate | date:'dd-mm-YYYY'}}</td>
-                <td>{{ booking.rentalEndDate | date:'dd-mm-YYYY' }}</td>
-                <td>{{ booking.status }}</td>
-                <td>{{ booking.totalAmount | currency:'INR' }}</td>
-                <td>{{ booking.paymentStatus }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <p *ngIf="bookingList.length === 0">No bookings found.</p>
+            <h2>My Bookings</h2>
+
+            <div *ngIf="showMessage" class="alert alert-success">{{ responseMessage }}</div>
+            <div *ngIf="showError" class="alert alert-danger">{{ errorMessage }}</div>
+
+            <table class="table table-striped" *ngIf="bookingList.length > 0">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Car</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Total Amount</th>
+                        <th>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let booking of bookingList">
+                        <td>{{ booking.id }}</td>
+                        <td>{{ booking.car.make }} {{ booking.car.model }}</td>
+                        <td>{{ booking.rentalStartDate | date:'dd-mm-YYYY'}}</td>
+                        <td>{{ booking.rentalEndDate | date:'dd-mm-YYYY' }}</td>
+                        <td>{{ booking.status }}</td>
+                        <td>{{ booking.totalAmount | currency:'INR' }}</td>
+                        <td>{{ booking.paymentStatus }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p *ngIf="bookingList.length === 0">No bookings found.</p>
         </div>
     </ng-template>
 </ng-template>

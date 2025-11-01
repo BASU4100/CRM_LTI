@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { AsyncPipe } from '@angular/common';
 

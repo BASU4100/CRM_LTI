@@ -1,44 +1,26 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
-    <a [routerLink]="['/dashboard']" class="navbar-brand">CRMS</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto" *ngIf="roleName === 'ADMINISTRATOR'; else agentNav">
-            <li class="nav-item">
-                <a [routerLink]="['/category']" class="nav-link">Category</a>
-            </li>
-            <li class="nav-item">
-                <a [routerLink]="['/booking-report']" class="nav-link">Booking Report</a>
-            </li>
-            <li class="nav-item">
-                <a [routerLink]="['/payment-report']" class="nav-link">Payment Report</a>
-            </li>
-        </ul>
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <span class="logo" [routerLink]="['/dashboard']" style="cursor: pointer;">CRMS</span>
 
-        <ng-template #agentNav>
-            <ul class="navbar-nav mr-auto" *ngIf="roleName === 'AGENT'; else customerNav">
-                <li class="nav-item">
-                    <a [routerLink]="['/add-car']" class="nav-link">Add car</a>
-                </li>
-                <li class="nav-item">
-                    <a [routerLink]="['/view-cars']" class="nav-link">View Cars</a>
-                </li>
-                <li class="nav-item">
-                    <a [routerLink]="['/get-bookings']" class="nav-link">Bookings</a>
-                </li>
-               
-            </ul>
+  <ng-container *ngIf="roleName === 'ADMINISTRATOR'; else agentNav">
+    <button mat-button [routerLink]="['/category']">Category</button>
+    <button mat-button [routerLink]="['/booking-report']">Booking Report</button>
+    <button mat-button [routerLink]="['/payment-report']">Payment Report</button>
+  </ng-container>
 
-            <ng-template #customerNav>
-                <ul class="navbar-nav mr-auto" *ngIf="roleName === 'CUSTOMER'">
-                    <li class="nav-item">
-                        <a [routerLink]="['/cars']" class="nav-link">Book Car</a>
-                    </li>
-                </ul>
-            </ng-template>
-        </ng-template>
-    </div>
-    <button (click)="logout()" class="btn btn-danger">Logout</button>
-</nav>
+  <ng-template #agentNav>
+    <ng-container *ngIf="roleName === 'AGENT'; else customerNav">
+      <button mat-button [routerLink]="['/add-car']">Add Car</button>
+      <button mat-button [routerLink]="['/get-bookings']">Bookings</button>
+    </ng-container>
+
+    <ng-template #customerNav>
+      <ng-container *ngIf="roleName === 'CUSTOMER'">
+        <button mat-button [routerLink]="['/cars']">Book Car</button>
+      </ng-container>
+    </ng-template>
+  </ng-template>
+
+  <span class="spacer"></span>
+
+  <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+</mat-toolbar>

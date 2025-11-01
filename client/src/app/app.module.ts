@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationComponent } from './registration/registration.component';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpService } from '../services/http.service';
 import { DashbaordComponent } from './dashbaord/dashbaord.component';
 
@@ -20,21 +20,7 @@ import { PaymentReportComponent } from './payment-report/payment-report.componen
 import { AuthInterceptor } from './auth.interceptors';
 import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatTableModule } from '@angular/material/table';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-
-
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -48,7 +34,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     GetBookingsComponent,
     BookingReportComponent,
     PaymentReportComponent,
-    AppNavbarComponent    
+    AppNavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -57,17 +43,11 @@ import { MatNativeDateModule } from '@angular/material/core';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatToolbarModule,
-   MatNativeDateModule
+    MaterialModule
   ],
-  providers: [HttpService, 
-    HttpClientModule, 
-    DatePipe, 
+  providers: [HttpService,
+    HttpClientModule,
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
@@ -76,4 +56,4 @@ import { MatNativeDateModule } from '@angular/material/core';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

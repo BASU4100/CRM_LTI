@@ -48,6 +48,13 @@ public class AdministratorController {
                 HttpStatus.OK);
     }
 
+    //delete car category
+    @DeleteMapping("api/administrator/car-categories/{id}")
+   public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
+    carCategoryService.deleteCategory(id);
+       return new ResponseEntity<>("Car category deleted successfully!",HttpStatus.OK);
+   }
+
     // get all bookings
     @GetMapping("/api/administrator/reports/bookings")
     public ResponseEntity<List<Booking>> getAllBookings() {

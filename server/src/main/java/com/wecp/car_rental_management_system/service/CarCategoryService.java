@@ -8,7 +8,10 @@ import com.wecp.car_rental_management_system.repository.CarCategoryRepository;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -45,5 +48,15 @@ public class CarCategoryService {
         updatedCarCategory.setCars(carCategory.getCars());
         return carCategoryRepository.save(updatedCarCategory);
     }
+
+    @Modifying
+    @Transactional
+    public void deleteCategory(Long categoryId) {
+        CarCategory category = carCategoryRepository.findById(categoryId)
+            .orElseThrow(() -> new ResourceNotFoundException("Car category not found."));
+        carCategoryRepository.delete(category);
+    }
+
+   
 }
 

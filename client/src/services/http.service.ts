@@ -53,6 +53,11 @@ export class HttpService {
   updateCategory(updateId: any, details: any): Observable<any> {
     return this.http.put<any>(`${this.serverName}/api/administrator/car-categories/${updateId}`, details/**, { headers: this.getHeaders() } */);
   }
+
+  // Delete a car category by ID
+  deleteCategory(id: any): Observable<any> {
+    return this.http.delete(`${this.serverName}/api/administrator/car-categories/${id}`);
+  }
  
   // Features used by Agent
   // Get all cars from the cars table

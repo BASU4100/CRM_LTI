@@ -36,3 +36,48 @@
   </table>
   <p *ngIf="bookingList.length === 0">No bookings found.</p>
 </div>
+<div *ngIf="role === 'ADMINISTRATOR'; else agent" class="container row m-auto">
+    <div class="container card shadow col-9">
+        <table class="table table-stripped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Base Rate</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let category of categoryList">
+                    <td>{{category.name}}</td>
+                    <td>{{category.description}}</td>
+                    <td>{{category.baseRate}}</td>
+                    <td>
+                        <button (click)="editCategory(category)">Edit</button>
+                        <button (click)="deleteCategory(category.id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-3">
+        <div class="row card shadow">
+            <h4>Total Revenue</h4>
+            <h2>{{totalRevenue | currency: 'INR'}}</h2>
+        </div>
+        <div class="row card shadow">
+            <h4>Today's Revenue</h4>
+            <h2>{{todayRevenue  | currency: 'INR'}}</h2>
+        </div>
+    </div>
+</div>
+
+<ng-template #agent> 
+    <div *ngIf="role === 'AGENT'; else customer">
+
+    </div>
+
+    <ng-template #customer>
+        
+    </ng-template>
+</ng-template>

@@ -48,43 +48,16 @@
       </div>
     </div>
 
-    <!-- Submit Button -->
-    <div class="mt-4">
-      <button type="submit" class="btn btn-secondary flex-fill" [disabled]="itemForm.invalid">
-        {{ updateId ? 'Update Category' : 'Submit' }}
-      </button>
-        <button type="button" *ngIf="updateId" class="btn btn-secondary flex-fill" (click)="onCancel()">
-          Cancel
-        </button>
-      
-      
-    </div>
-  </form>
+  <div *ngIf="itemForm.get('baseRate')?.hasError('pattern') && itemForm.get('baseRate')?.touched" class="error-message">
+    Base rate must be a valid number.
+  </div>
 
-  <!-- Category List -->
-  <hr class="my-4" />
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover">
-      <thead class="table-orange text-white">
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Base Rate</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let category of categoryList">
-          <td>{{ category.name }}</td>
-          <td>{{ category.description }}</td>
-          <td>{{ category.baseRate }}</td>
-          <td>
-            <button class="btn btn-sm btn-outline-dark" (click)="edit(category)">Edit</button>
-            <button class="btn btn-sm btn-outline-danger" (click)="deleteCategory(category.id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div *ngIf="itemForm.get('baseRate')?.hasError('min') && itemForm.get('baseRate')?.touched" class="error-message">
+    Base rate must be at least 2000.
   </div>
 </div>
+    <button type="submit" [disabled]="itemForm.invalid">
+        {{ updateId ? 'Update Category':'Submit'}}
+    </button>
 
+</form>

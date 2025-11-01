@@ -16,7 +16,6 @@ export class AuthInterceptor implements HttpInterceptor {
         }
 
         if (TOKEN) {
-            console.log("hi1")
             req = req.clone({
                 setHeaders: {
                     "Content-Type": "application/json; charset=utf-8",

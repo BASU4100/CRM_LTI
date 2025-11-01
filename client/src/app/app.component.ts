@@ -12,6 +12,6 @@ export class AppComponent{
   isLoggedIn$: Observable<boolean>;
 
   constructor(private authService: AuthService) {
-    this.isLoggedIn$ = authService.isLoggedIn$;
+    this.isLoggedIn$ = this.authService.isLoggedIn$;
   }
 }

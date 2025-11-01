@@ -27,6 +27,7 @@ const routes: Routes = [
   { path: 'cars', component: CarsComponent }, 
   { path: 'category', component: CategoryComponent }, 
   { path: 'add-car', component: AddCarComponent }, 
+  { path: 'add-car/:id', component: AddCarComponent }, 
   { path: 'view-cars', component: ViewCarsComponent }, 
 
  

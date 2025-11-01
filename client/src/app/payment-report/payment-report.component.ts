@@ -71,7 +71,7 @@ export class PaymentReportComponent implements OnInit {
       this.filteredList = this.bookingList;
     }else{
       const status = this.selectedStatus.toLowerCase();
-      this.filteredList = this.bookingList.filter((val : any) => val?.paymentStatus === status);
+      this.filteredList = this.bookingList.filter((val : any) => val?.paymentStatus.toLowerCase() === status);
     }
   }
 }

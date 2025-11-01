@@ -1,41 +1,3 @@
-<div class="container card shadow mt-5 p-3">
-    <p class="m-0 p-0"><b>Username:</b> {{userDetails.username}}</p>
-    <p class="m-0 p-0"><b>Email:</b> {{userDetails.email}}</p>
-</div>
-
-
-<div class="container">
-  <h2>My Bookings</h2>
-  
-  <div *ngIf="showMessage" class="alert alert-success">{{ responseMessage }}</div>
-  <div *ngIf="showError" class="alert alert-danger">{{ errorMessage }}</div>
-
-  <table class="table table-striped" *ngIf="bookingList.length > 0">
-    <thead>
-      <tr>
-        <th>Booking ID</th>
-        <th>Car</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Status</th>
-        <th>Total Amount</th>
-        <th>Payment Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let booking of bookingList">
-        <td>{{ booking.id }}</td>
-        <td>{{ booking.car.make }} {{ booking.car.model }}</td>
-        <td>{{ booking.rentalStartDate | date:'dd-mm-YYYY'}}</td>
-        <td>{{ booking.rentalEndDate | date:'dd-mm-YYYY' }}</td>
-        <td>{{ booking.status }}</td>
-        <td>{{ booking.totalAmount | currency:'INR' }}</td>
-        <td>{{ booking.paymentStatus }}</td>
-      </tr>
-    </tbody>
-  </table>
-  <p *ngIf="bookingList.length === 0">No bookings found.</p>
-</div>
 <div *ngIf="role === 'ADMINISTRATOR'; else agent" class="container row m-auto">
     <div class="container card shadow col-9">
         <table class="table table-stripped">
@@ -74,10 +36,41 @@
 
 <ng-template #agent> 
     <div *ngIf="role === 'AGENT'; else customer">
-
-    </div>
-
-    <ng-template #customer>
         
+    </div>
+    
+    <ng-template #customer>
+        <div class="container">
+          <h2>My Bookings</h2>
+          
+          <div *ngIf="showMessage" class="alert alert-success">{{ responseMessage }}</div>
+          <div *ngIf="showError" class="alert alert-danger">{{ errorMessage }}</div>
+        
+          <table class="table table-striped" *ngIf="bookingList.length > 0">
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Car</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Total Amount</th>
+                <th>Payment Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let booking of bookingList">
+                <td>{{ booking.id }}</td>
+                <td>{{ booking.car.make }} {{ booking.car.model }}</td>
+                <td>{{ booking.rentalStartDate | date:'dd-mm-YYYY'}}</td>
+                <td>{{ booking.rentalEndDate | date:'dd-mm-YYYY' }}</td>
+                <td>{{ booking.status }}</td>
+                <td>{{ booking.totalAmount | currency:'INR' }}</td>
+                <td>{{ booking.paymentStatus }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <p *ngIf="bookingList.length === 0">No bookings found.</p>
+        </div>
     </ng-template>
 </ng-template>

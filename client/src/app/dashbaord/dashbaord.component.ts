@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpService } from '../../services/http.service';
-import { HttpService } from '../../services/http.service';
 
 @Component({
   selector: 'app-dashbaord',

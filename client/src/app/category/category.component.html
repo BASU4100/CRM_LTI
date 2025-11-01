@@ -13,10 +13,12 @@
         <label for="name" class="form-label">Category Name</label>
         <input id="name" type="text" formControlName="name" class="form-control"
           [ngClass]="{'is-invalid': itemForm.get('name')?.invalid && itemForm.get('name')?.touched}" />
-        <div *ngIf="itemForm.get('name')?.hasError('required') && itemForm.get('name')?.touched" class="invalid-feedback">
+        <div *ngIf="itemForm.get('name')?.hasError('required') && itemForm.get('name')?.touched"
+          class="invalid-feedback">
           Name is required.
         </div>
-        <div *ngIf="itemForm.get('name')?.hasError('minlength') && itemForm.get('name')?.touched" class="invalid-feedback">
+        <div *ngIf="itemForm.get('name')?.hasError('minlength') && itemForm.get('name')?.touched"
+          class="invalid-feedback">
           Name must be at least 3 characters long.
         </div>
       </div>
@@ -26,7 +28,8 @@
         <label for="description" class="form-label">Description</label>
         <input id="description" type="text" formControlName="description" class="form-control"
           [ngClass]="{'is-invalid': itemForm.get('description')?.invalid && itemForm.get('description')?.touched}" />
-        <div *ngIf="itemForm.get('description')?.invalid && itemForm.get('description')?.touched" class="invalid-feedback">
+        <div *ngIf="itemForm.get('description')?.invalid && itemForm.get('description')?.touched"
+          class="invalid-feedback">
           Description is required.
         </div>
       </div>
@@ -36,28 +39,32 @@
         <label for="baseRate" class="form-label">Base Rate</label>
         <input id="baseRate" type="number" formControlName="baseRate" class="form-control"
           [ngClass]="{'is-invalid': itemForm.get('baseRate')?.invalid && itemForm.get('baseRate')?.touched}" />
-        <div *ngIf="itemForm.get('baseRate')?.hasError('required') && itemForm.get('baseRate')?.touched" class="invalid-feedback">
+        <div *ngIf="itemForm.get('baseRate')?.hasError('required') && itemForm.get('baseRate')?.touched"
+          class="invalid-feedback">
           Base rate is required.
         </div>
-        <div *ngIf="itemForm.get('baseRate')?.hasError('pattern') && itemForm.get('baseRate')?.touched" class="invalid-feedback">
+        <div *ngIf="itemForm.get('baseRate')?.hasError('pattern') && itemForm.get('baseRate')?.touched"
+          class="invalid-feedback">
           Base rate must be a valid number.
         </div>
-        <div *ngIf="itemForm.get('baseRate')?.hasError('min') && itemForm.get('baseRate')?.touched" class="invalid-feedback">
+        <div *ngIf="itemForm.get('baseRate')?.hasError('min') && itemForm.get('baseRate')?.touched"
+          class="invalid-feedback">
           Base rate must be at least 2000.
         </div>
       </div>
     </div>
 
-  <div *ngIf="itemForm.get('baseRate')?.hasError('pattern') && itemForm.get('baseRate')?.touched" class="error-message">
-    Base rate must be a valid number.
-  </div>
+    <div *ngIf="itemForm.get('baseRate')?.hasError('pattern') && itemForm.get('baseRate')?.touched"
+      class="error-message">
+      Base rate must be a valid number.
+    </div>
 
-  <div *ngIf="itemForm.get('baseRate')?.hasError('min') && itemForm.get('baseRate')?.touched" class="error-message">
-    Base rate must be at least 2000.
-  </div>
-</div>
+    <div *ngIf="itemForm.get('baseRate')?.hasError('min') && itemForm.get('baseRate')?.touched" class="error-message">
+      Base rate must be at least 2000.
+    </div>
     <button type="submit" [disabled]="itemForm.invalid">
-        {{ updateId ? 'Update Category':'Submit'}}
+      {{ updateId ? 'Update Category':'Submit'}}
     </button>
-
-</form>
+    
+  </form>
+</div>

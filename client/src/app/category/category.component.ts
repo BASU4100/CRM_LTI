@@ -65,7 +65,7 @@ export class CategoryComponent implements OnInit {
         this.httpService.deleteCategory(id).subscribe({
           next: () => {
             this.showMessage = true;
-            this.getCategories();
+            this.ngOnInit();
             this.responseMessage = 'Category deleted successfully';
             setTimeout(() => {
               this.showMessage = false;
@@ -83,6 +83,17 @@ export class CategoryComponent implements OnInit {
         });
       }
     }
+
+    
+    onCancel(): void {
+      this.itemForm.reset();
+      this.updateId = null;
+      this.showMessage = false;
+      this.showError = false;
+      this.responseMessage = '';
+      this.errorMessage = '';
+    }
+    
   onSubmit(): void {
     const categoryData = this.itemForm.value;
 

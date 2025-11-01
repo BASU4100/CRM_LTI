@@ -52,6 +52,7 @@ export class BookingReportComponent implements OnInit {
   
     this.filteredBookings = this.bookingList.filter(booking => {
       const matchesCustomer = customerName ? booking.user?.username?.toLowerCase().includes(customerName.toLowerCase()) : true;
+      // const matchesModel = carModel ? booking.car?.model?.toLowerCase().includes(carModel.toLowerCase()) : true;
       const matchesModel = carModel ? booking.car?.model?.toLowerCase().includes(carModel.toLowerCase()) : true;
       const matchesStatus = status ? booking.status?.toLowerCase().includes(status.toLowerCase()) : true;
   

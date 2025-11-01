@@ -52,7 +52,7 @@ export class HttpService {
 
   // Delete a car category by ID
   deleteCategoryById(id: any): Observable<any> {
-    return this.http.delete(`${this.serverName}/api/administrator/car-categories/${id}`);
+    return this.http.delete<any>(`${this.serverName}/api/administrator/car-categories/${id}`);
   }
  
   // Features used by Agent

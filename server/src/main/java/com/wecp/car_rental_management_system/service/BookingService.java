@@ -74,7 +74,7 @@ public class BookingService {
             booking.setCar(car);
             booking.setRentalStartDate(rentalStartDate);
             booking.setRentalEndDate(rentalEndDate);
-            booking.setStatus("booked");
+            booking.setStatus("pending");
             booking.setTotalAmount(totalAmount);
             booking.setPaymentStatus("pending");
     

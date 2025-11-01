@@ -15,6 +15,7 @@ export class DashbaordComponent implements OnInit {
   categoryList: any[] = [];
   totalRevenue: number | undefined;
   todayRevenue: number | undefined;
+
   //customer bookings
   bookingList: any[]=[];
   showError : boolean = false;
@@ -38,9 +39,8 @@ export class DashbaordComponent implements OnInit {
       
     }
     else {
-
+      this.getCustomerBookings();
     }
-    this.getCustomerBookings();
   }
 
   getCustomerBookings() {
@@ -85,11 +85,10 @@ export class DashbaordComponent implements OnInit {
 
   deleteCategory(categoryId: any) {
     this.httpService.deleteCategoryById(categoryId).subscribe({
-      next: (res) => {
-        console.log(res);
+      error: (err) => {
+        console.log(err.error.message);
         this.ngOnInit();
-      },
-      error: (err) => console.log(err)
+      }
     });
   }
 }

@@ -12,3 +12,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBU0VONDEwMCIsInJvbGUiOiJDV
     "rentalStartDate": "2025-06-08 09:30:30",
     "rentalEndDate": "2025-06-09 10:30:30"
 }
+
+### get customer bookings
+GET http://localhost:5000/api/customers/booking
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdXN0b21lciIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc2MTk3MzcwMiwiZXhwIjoxNzYyMDYwMTAyfQ.1G5gc-koltTAyuYPZsdJJ4uTH1kuT-IM7LkcFdBzz5nUgCDM9XB7skjmnKFQSsDsoum0J22M2Hwu6oYccznNgA

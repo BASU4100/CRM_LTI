@@ -23,6 +23,10 @@
               <div class="invalid-feedback" *ngIf="itemForm.get('rentalEndDate')?.touched && itemForm.get('rentalEndDate')?.errors?.['required']">
                 End date is required.
               </div>
+              <div class="text-danger" *ngIf="itemForm.errors?.['dateRangeInvalid']">
+                End date must be after start date.
+              </div>
+
             </div>
           </div>
 
@@ -49,16 +53,9 @@
       {{ errorMessage }}
     </div>
 
-    <!-- Filter Form Section -->
     <form [formGroup]="filterForm" class="row g-3 mb-3">
-      <div class="col-md-4">
-        <input type="text" class="form-control" placeholder="Filter by Make" formControlName="make">
-      </div>
-      <div class="col-md-4">
-        <input type="text" class="form-control" placeholder="Filter by Model" formControlName="model">
-      </div>
-      <div class="col-md-4">
-        <input type="text" class="form-control" placeholder="Filter by Category" formControlName="category">
+      <div class="col-md-12">
+        <input type="text" class="form-control" placeholder="Search by Make, Model or Category" formControlName="searchTerm">
       </div>
     </form>
 
@@ -94,4 +91,3 @@
   </div>
 
 </div>
-``

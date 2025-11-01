@@ -4,11 +4,15 @@ package com.wecp.car_rental_management_system.controller;
 import com.wecp.car_rental_management_system.dto.BookingDto;
 import com.wecp.car_rental_management_system.entity.Booking;
 import com.wecp.car_rental_management_system.entity.Car;
+import com.wecp.car_rental_management_system.entity.User;
 import com.wecp.car_rental_management_system.service.BookingService;
 import com.wecp.car_rental_management_system.service.CarService;
+import com.wecp.car_rental_management_system.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 // import java.time.LocalDateTime;
@@ -26,6 +30,9 @@ public class CustomerController {
         this.bookingService = bookingService;
     }
 
+    @Autowired
+    private UserService userService;
+
     // get all available cars.
     // note: return all the cars where car status is "available"
     @GetMapping("/api/customers/cars/available")
@@ -39,5 +46,15 @@ public class CustomerController {
                                            @RequestBody BookingDto bookingDto) {
         return new ResponseEntity<Booking>(bookingService.bookCar(userId, carId, bookingDto.getRentalStartDate(), bookingDto.getRentalEndDate()),HttpStatus.CREATED);
     }
+
+    // get customer bookings
+    @GetMapping("/api/customers/booking")
+    public ResponseEntity<List<Booking>> getCustomerBookings(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.getUserByUsername(username);
+        List<Booking> bookings = bookingService.getBookingsByUserId(user.getId());
+        return ResponseEntity.ok(bookings);
+    }
+
 
 }

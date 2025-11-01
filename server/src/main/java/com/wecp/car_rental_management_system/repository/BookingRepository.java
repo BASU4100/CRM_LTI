@@ -8,17 +8,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    @Query("SELECT CASE WHEN COUNT(b) > 0 THEN true ELSE false END " +
-           "FROM Booking b " +
-           "WHERE b.car = :car " +
-           "AND b.status NOT IN ('completed', 'cancelled') " +
-           "AND b.rentalStartDate < :endDate " +
-           "AND b.rentalEndDate > :startDate")
-    boolean existsByCarAndDateOverlap(@Param("car") Car car,
-                                      @Param("startDate") Date startDate,
-                                      @Param("endDate") Date endDate);
+    List<Booking> findByUserId(Long userId);
+
 }

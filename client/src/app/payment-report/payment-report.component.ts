@@ -39,25 +39,19 @@ export class PaymentReportComponent implements OnInit {
       this.roleName = this.authService.getRole;
       if(this.roleName !== 'ADMINISTRATOR'){ 
         this.router.navigate(['/dashboard']);
+      }else{
+        this.getPaymentReport();
       }
-      this.getPaymentReport();
     }
   }
 
   //method that gets the payment report and is called immediately as the page loads.
-  getPaymentReport() {
-    this.bookingList=[];
+  getPaymentReport() : void{
+    // this.bookingList=[];
     this.httpService.paymentReport().subscribe({
       next : (res : any[]) => {
-        this.bookingList=res;
-         
-        this.showMessage = true;
-        this.responseMessage = 'Payment report has been loaded successfully';
-        setTimeout(() => {
-          this.showMessage = false
-          this.responseMessage = ''
-        }, 1500);
-        
+        this.bookingList = res;
+        this.filteredList = res;
       }, 
       // error - scenario
       error : () => {
@@ -69,7 +63,6 @@ export class PaymentReportComponent implements OnInit {
           this.errorMessage = ''
         }, 1500);
         }
-        
       });
   }
   // filtering on the basis of status
@@ -77,26 +70,9 @@ export class PaymentReportComponent implements OnInit {
     if(!this.selectedStatus){
       this.filteredList = this.bookingList;
     }else{
-      this.filteredList = this.bookingList.filter((val : any) => val.paymentStatus === this.selectedStatus);
+      const status = this.selectedStatus.toLowerCase();
+      this.filteredList = this.bookingList.filter((val : any) => val?.paymentStatus === status);
     }
   }
-
-
-  // getPaymentReport() {
-  //   this.bookingList=[];
-  //   this.httpService.paymentReport().subscribe((data: any) => {
-  //     this.bookingList=data;
-  //     console.log(this.bookingList);
-  //   }, error => {
-  //     // Handle error
-  //     this.showError = true;
-  //     this.errorMessage = "An error occurred.. Please try again later.";
-  //     console.error('Login error:', error);
-  //   });;
-  // }
-
- 
- 
-  
 }
 

@@ -165,7 +165,7 @@ public class BookingService {
         booking.setCar(car);
         booking.setRentalStartDate(rentalStartDate);
         booking.setRentalEndDate(rentalEndDate);
-        booking.setStatus("confirmed");        // Customer books → confirmed
+        booking.setStatus("pending");        // Customer books → confirmed
         booking.setPaymentStatus("pending");   // Agent will create payment
         booking.setTotalAmount(totalAmount);
 

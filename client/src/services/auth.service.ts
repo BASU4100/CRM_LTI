@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AuthService {
   private token: string | null = null;
-  private _isLoggedIn = new BehaviorSubject<boolean>(false);
+  private _isLoggedIn = new BehaviorSubject<boolean>(this.getLoginStatus);
   isLoggedIn$: Observable<boolean> = this._isLoggedIn.asObservable();
   private id: string | null | undefined;
 

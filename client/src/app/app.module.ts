@@ -20,7 +20,16 @@ import { PaymentReportComponent } from './payment-report/payment-report.componen
 import { AuthInterceptor } from './auth.interceptors';
 import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { ViewCarsComponent } from './view-cars/viewcars.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+//material
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button'
+import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 
 @NgModule({
@@ -44,6 +53,17 @@ import { ViewCarsComponent } from './view-cars/viewcars.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatCardModule,
+        MatSnackBarModule
+       
   ],
   providers: [HttpService, 
     HttpClientModule, 

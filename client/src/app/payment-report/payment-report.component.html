@@ -1,53 +1,93 @@
-<div class="row mt-3" *ngIf="roleName === 'ADMINISTRATOR'">
-    <div class="card">
-        <div class="card-header">Bookings</div>
-        <div class="card-body">
-        <div class="form-group mb-3">
-            <label for="status">Filter by payment Status</label>
-            <select [(ngModel)]="selectedStatus" (change)="filterByStatus()" class="form-control">
-                <option value="">All</option>
-                <option value="PAID">Paid</option>
-                <option value="PENDING">Pending</option>
-            </select>
-        </div>
-        <div *ngIf="filteredList.length > 0">   
-            <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Sr#</th>
-                        <th>Amount</th>
-                        <th>Payment Date</th>
-                        <th>Payment Method</th>                       
-                        <th>Status</th>
-                        <th>Booking</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let val of filteredList">
-                      <td>{{val.id}}</td>
-                        <td>
-                        {{val.amount}}                         
-                        </td>
-                    
-                        <td>{{val.paymentDate | date:'dd-MMM-yyyy'}}</td>
-                        <td>{{val.paymentMethod}}</td>
-                        <td>{{val.paymentStatus}}</td>
-                        <td>
-                            <p>Start Date:{{val.booking.rentalStartDate | date:'dd-MMM-yyyy'}}</p>
-                            <p>End Date:{{val.booking.rentalEndDate | date:'dd-MMM-yyyy'}}</p>
-                            
-                        </td>
-                    
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-        </div>
-        
-        <div *ngIf="filteredList.length === 0">
-            <p>There is no data to display.</p>
-        </div>
+<div class="elev-card">
+  <!-- Header -->
+  <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+    <div>
+      <h5 class="m-0">Payment Reports</h5>
+      <div class="text-muted small">Manage and track all payment transactions</div>
     </div>
-    
   </div>
+ 
+  <!-- Filters -->
+  <div class="p-3 border-bottom">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">Customer Name</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="customerNameFilter"
+          (input)="applyFilters()"
+          placeholder="Search by customer name...">
+      </div>
+     
+      <div class="col-md-3">
+        <label class="form-label">Payment Method</label>
+        <select
+          class="form-select"
+          [(ngModel)]="paymentMethodFilter"
+          (change)="applyFilters()">
+          <option value="">All Payment Methods</option>
+          <option *ngFor="let method of paymentMethods" [value]="method">
+            {{method}}
+          </option>
+        </select>
+      </div>
+     
+      <div class="col-md-3">
+        <label class="form-label">Status</label>
+        <select
+          class="form-select"
+          [(ngModel)]="selectedStatus"
+          (change)="applyFilters()">
+          <option value="">All Status</option>
+          <option value="paid">Paid</option>
+          <option value="pending">Pending</option>
+          <option value="failed">Failed</option>
+        </select>
+      </div>
+     
+      <div class="col-md-2 d-flex align-items-end">
+        <button class="btn btn-outline-secondary w-100" (click)="resetFilters()">
+          Reset Filters
+        </button>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Table -->
+  <div class="table-responsive">
+    <table class="table align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Customer Name</th>
+          <th>Payment Date</th>
+          <th>Payment Method</th>
+          <th class="text-end">Amount</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let payment of filteredList">
+          <td>{{payment.customerName}}</td>
+          <td>{{payment.paymentDate | date:'dd-MMM-yyyy'}}</td>
+          <td>{{payment.paymentMethod}}</td>
+          <td class="text-end">{{formatCurrency(payment.amount)}}</td>
+          <td>
+            <span [class]="'badge rounded-pill ' + (
+              payment.paymentStatus === 'paid' ? 'badge-paid' :
+              payment.paymentStatus === 'pending' ? 'badge-pending' : 'badge-failed'
+            )">
+              {{payment.paymentStatus | uppercase}}
+            </span>
+          </td>
+        </tr>
+        <tr *ngIf="filteredList.length === 0">
+          <td colspan="5" class="text-center py-3">
+            No payment records found
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+ 

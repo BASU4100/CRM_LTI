@@ -20,6 +20,20 @@ import { PaymentReportComponent } from './payment-report/payment-report.componen
 import { AuthInterceptor } from './auth.interceptors';
 import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { ViewCarsComponent } from './view-cars/viewcars.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -36,7 +50,8 @@ import { ViewCarsComponent } from './view-cars/viewcars.component';
     BookingReportComponent,
     PaymentReportComponent,
     AppNavbarComponent,
-    ViewCarsComponent
+    ViewCarsComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -44,6 +59,14 @@ import { ViewCarsComponent } from './view-cars/viewcars.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatToolbarModule,
+   MatNativeDateModule
   ],
   providers: [HttpService, 
     HttpClientModule, 

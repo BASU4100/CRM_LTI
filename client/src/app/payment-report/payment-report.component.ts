@@ -11,92 +11,98 @@ import { HttpService } from '../../services/http.service';
   styleUrls: ['./payment-report.component.scss']
 })
 export class PaymentReportComponent implements OnInit {
-
-  formModel:any={status:null};
-  showError:boolean=false;
-  errorMessage:any;
-  carList:any=[];
-  assignModel: any={};
-
+  formModel: any = { status: null };
+  showError: boolean = false;
+  errorMessage: any;
+  carList: any = [];
+  assignModel: any = {};
   showMessage: any;
   responseMessage: any;
   updateId: any;
-  toBook: any={};
-  bookingList: any=[];
-  filteredList : any=[];
-  selectedStatus : string = ''
-  roleName : string | null = null;
+  toBook: any = {};
+  bookingList: any = [];
+  filteredList: any = [];
+  selectedStatus: string = '';
+  roleName: string | null = null;
 
-  // form structure and placeholder value before the user interacts with the form.
-  constructor(public router:Router, public httpService:HttpService, private formBuilder: FormBuilder, private authService:AuthService,private datePipe: DatePipe){}
-  
+  customerNameFilter: string = '';
+  paymentMethodFilter: string = '';
+  paymentMethods: string[] = ['All', 'UPI', 'Card', 'NetBanking', 'Cash'];
 
-  // load payment-report only if the role is ADMIN.
+  constructor(
+    public router: Router,
+    public httpService: HttpService,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private datePipe: DatePipe
+  ) {}
+
   ngOnInit(): void {
-    if(!this.authService.getLoginStatus){
+    if (!this.authService.getLoginStatus) {
       this.router.navigate(['/login']);
-    }else{
+    } else {
       this.roleName = this.authService.getRole;
-      if(this.roleName !== 'ADMINISTRATOR'){ 
+      if (this.roleName !== 'ADMINISTRATOR') {
         this.router.navigate(['/dashboard']);
+      } else {
+        this.getPaymentReport();
       }
-      this.getPaymentReport();
     }
   }
 
-  //method that gets the payment report and is called immediately as the page loads.
-  getPaymentReport() {
-    this.bookingList=[];
+  getPaymentReport(): void {
     this.httpService.paymentReport().subscribe({
-      next : (res : any[]) => {
-        this.bookingList=res;
-         
-        this.showMessage = true;
-        this.responseMessage = 'Payment report has been loaded successfully';
-        setTimeout(() => {
-          this.showMessage = false
-          this.responseMessage = ''
-        }, 1500);
-        
-      }, 
-      // error - scenario
-      error : () => {
-
+      next: (res: any[]) => {
+        this.bookingList = res;
+        this.filteredList = res;
+      },
+      error: () => {
         this.showError = true;
         this.errorMessage = "An error occurred.. Please try again later.";
         setTimeout(() => {
-          this.showError = false
-          this.errorMessage = ''
+          this.showError = false;
+          this.errorMessage = '';
         }, 1500);
-        }
-        
-      });
+      }
+    });
   }
-  // filtering on the basis of status
-  filterByStatus(){
-    if(!this.selectedStatus){
+
+  applyFilters(): void {
+    if (!this.customerNameFilter && !this.paymentMethodFilter && !this.selectedStatus) {
       this.filteredList = this.bookingList;
-    }else{
-      this.filteredList = this.bookingList.filter((val : any) => val.paymentStatus === this.selectedStatus);
+      return;
     }
+
+    this.filteredList = this.bookingList.filter((payment: any) => {
+      const nameMatch = !this.customerNameFilter ||
+        (payment.customerName || '').toLowerCase().includes(this.customerNameFilter.toLowerCase());
+
+      const methodMatch = !this.paymentMethodFilter ||
+        this.paymentMethodFilter === 'All' ||
+        (payment.paymentMethod || '') === this.paymentMethodFilter;
+
+      const statusMatch = !this.selectedStatus ||
+        (payment.paymentStatus || '').toLowerCase() === this.selectedStatus.toLowerCase();
+
+      return nameMatch && methodMatch && statusMatch;
+    });
   }
 
+  filterByStatus(): void {
+    this.applyFilters();
+  }
 
-  // getPaymentReport() {
-  //   this.bookingList=[];
-  //   this.httpService.paymentReport().subscribe((data: any) => {
-  //     this.bookingList=data;
-  //     console.log(this.bookingList);
-  //   }, error => {
-  //     // Handle error
-  //     this.showError = true;
-  //     this.errorMessage = "An error occurred.. Please try again later.";
-  //     console.error('Login error:', error);
-  //   });;
-  // }
+  resetFilters(): void {
+    this.customerNameFilter = '';
+    this.paymentMethodFilter = '';
+    this.selectedStatus = '';
+    this.filteredList = this.bookingList;
+  }
 
- 
- 
-  
+  formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR'
+    }).format(amount);
+  }
 }
-

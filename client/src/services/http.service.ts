@@ -110,4 +110,9 @@ export class HttpService {
   registerUser(registerData: any): Observable<any> {
     return this.http.post<any>(`${this.serverName}/api/user/register`, registerData);
   }
+
+  //customer bookings for customer
+  getCustomerBookings(): Observable<any>{
+    return this.http.get(`${this.serverName}/api/customers/booking`);
+  }
 }

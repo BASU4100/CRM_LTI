@@ -6,6 +6,7 @@ import { HttpService } from '../../services/http.service';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment.development';
 
+import { debounce, debounceTime } from 'rxjs';
 @Component({
   selector: 'app-cars',
   templateUrl: './cars.component.html',
@@ -34,7 +35,7 @@ export class CarsComponent implements OnInit {
   filterForm!: FormGroup;
   filteredCars: any[] = [];
 
-
+//constructor
   constructor(
     private router: Router,
     private httpService: HttpService,
@@ -46,62 +47,42 @@ export class CarsComponent implements OnInit {
     this.itemForm = this.fb.group({
       rentalStartDate: ['', Validators.required],
       rentalEndDate: ['', Validators.required]
+    }, {
+      validators: [this.dateRangeValidator]
     });
   }
 
-  // ngOnInit(): void {
-  //   if(!this.authService.getLoginStatus)
-  //   {
-  //     this.router.navigate(['/login'])
-  //   }
-  //   this.getCars();
-  // }
   ngOnInit(): void {
     if (!this.authService.getLoginStatus) {
       this.router.navigate(['/login']);
     }
-  
+
     this.filterForm = this.fb.group({
-      make: [''],
-      model: [''],
-      category: ['']
+     searchTerm : ['']
     });
-  
+
     this.getCars();
-  
+
     // Listen to filter changes
-    this.filterForm.valueChanges.subscribe(() => {
-      this.applyFilters();
-    });
+    this.filterForm.get('searchTerm')?.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(() => {
+        this.applyFilters();
+      });
   }
-  //add filter
+  // add filter
   applyFilters(): void {
-    const { make, model, category } = this.filterForm.value;
-
-    this.filteredCars = this.carList.filter(car => {
-      const matchesMake = make ? car.make.toLowerCase().includes(make.toLowerCase()) : true;
-      const matchesModel = model ? car.model.toLowerCase().includes(model.toLowerCase()) : true;
-      const matchesCategory = category ? car.category?.name?.toLowerCase().includes(category.toLowerCase()) : true;
-
-      return matchesMake && matchesModel && matchesCategory;
-    });
+    const term = this.filterForm.get('searchTerm')?.value?.toLowerCase() || '';
+  
+    this.filteredCars = this.carList.filter(car =>
+      car.make.toLowerCase().includes(term) ||
+      car.model.toLowerCase().includes(term) ||
+      car.category?.name?.toLowerCase().includes(term)
+    );
   }
 
-  
-  // Fetch all available cars
-  // getCars(): void {
-  //   this.httpService.getCars().subscribe({
-  //     next: (data: any[]) => {
-  //       this.carList = data;
-  //       this.showError = false;
-  //     },
-  //     error: (err: any) => {
-  //       this.showError = true;
-  //       this.errorMessage = 'Failed to load available cars. Please try again.';
-  //       console.error(err);
-  //     }
-  //   });
-  // }
+
+//get all available cars
   getCars(): void {
     this.httpService.getCars().subscribe({
       next: (data: any[]) => {
@@ -116,25 +97,35 @@ export class CarsComponent implements OnInit {
       }
     });
   }
-  
 
-sortBy(column: string): void {
-  if (this.sortColumn === column) {
-    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-  } else {
-    this.sortColumn = column;
-    this.sortDirection = 'asc';
+  //Validate date 
+  dateRangeValidator(formGroup: FormGroup) {
+    const start = formGroup.get('rentalStartDate')?.value;
+    const end = formGroup.get('rentalEndDate')?.value;
+
+    if (start && end && new Date(start) > new Date(end)) {
+      return { dateRangeInvalid: true };
+    }
+    return null;
   }
+//sort by column names
+  sortBy(column: string): void {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
 
-  this.carList.sort((a, b) => {
-    const valA = a[column];
-    const valB = b[column];
+    this.carList.sort((a, b) => {
+      const valA = a[column];
+      const valB = b[column];
 
-    if (valA < valB) return this.sortDirection === 'asc' ? -1 : 1;
-    if (valA > valB) return this.sortDirection === 'asc' ? 1 : -1;
-    return 0;
-  });
-}
+      if (valA < valB) return this.sortDirection === 'asc' ? -1 : 1;
+      if (valA > valB) return this.sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
   // Open booking modal/form for a specific car
   book(val: any): void {
     this.toBook = { ...val }; // Copy car details
@@ -188,10 +179,10 @@ sortBy(column: string): void {
     });
   }
 
-cancelBooking() {
-  this.toBook = null;
-  this.itemForm.reset();
-}
+  cancelBooking() {
+    this.toBook = null;
+    this.itemForm.reset();
+  }
   // Close modal helper
   closeModal(): void {
     const modal = document.getElementById('bookCarModal');

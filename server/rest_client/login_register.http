@@ -37,6 +37,6 @@ Content-Type: application/json
 # }
 
 {
-    "username" : "agent",
-    "password" : "Agent@123"
+    "username" : "customer",
+    "password" : "Customer@123"
 }

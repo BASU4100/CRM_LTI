@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpService } from '../../services/http.service';
 
@@ -21,25 +21,9 @@ export class AddCarComponent implements OnInit {
   showMessage: any = false
   responseMessage: any
   updateId: any
-  // Validators.pattern('^[A-Z]{2}[0-9]{6}$')
+
   // form structure and placeholder value
-  constructor(private router: Router, private httpService: HttpService, private fb: FormBuilder, private authService: AuthService) {
-    // this.itemForm = this.fb.group({
-    //   make:['', Validators.required],
-    //   model:['', [Validators.required,Validators.minLength(2)]],
-    //   manufactureYear:['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]], // Validators.pattern('^19[0-9]{2}|20[0-2][0-9]$')
-    //   registrationNumber:['', [Validators.required]],
-    //   status: ['', Validators.required],
-    //   category: ['',Validators.required]
-    // });
-    // this.formModel = {
-    //   make: 'Make',
-    //   model: 'Model',
-    //   manufactureYear: 'Manufacture Year',
-    //   registrationNumber: 'Registration Number',
-    //   status: 'Choose'
-    // };
-  }
+  constructor(private router: Router, private httpService: HttpService, private fb: FormBuilder, private authService: AuthService, private route: ActivatedRoute) { }
 
   // loading all cars on component loading
   ngOnInit(): void {
@@ -68,9 +52,20 @@ export class AddCarComponent implements OnInit {
     };
 
     this.getAllCategoryList()
-    this.getAllCarsList()
     
-
+    this.updateId = this.route.snapshot.paramMap.get('id')
+    if (this.updateId) {
+      this.getAllCarsList();
+      setTimeout(() => {
+        const car = this.carList.find(c => c.id === +this.updateId);
+        this.itemForm.patchValue({
+          ...car, 
+          category: {
+            name: car.category.name
+          } 
+        });
+      }, 100)
+    }
   }
 
   // fetching all cars list from database
@@ -111,11 +106,13 @@ export class AddCarComponent implements OnInit {
 
   //overides the category field wraps as an obj
   onSubmit(): void {
-    const carData = {...this.itemForm.value,
-      category:{id:this.itemForm.value.category}}
+    const carData = {
+      ...this.itemForm.value,
+      category: { id: this.itemForm.value.category }
+    }
 
     if (this.updateId) {
-      this.httpService.updateCar(this.updateId,carData).subscribe({
+      this.httpService.updateCar(this.updateId, carData).subscribe({
         next: () => {
           this.showMessage = true
           this.errorMessage = false

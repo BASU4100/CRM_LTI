@@ -8,8 +8,7 @@ import { HttpService } from "../../services/http.service";
     selector: 'app-viewcars',
     templateUrl: './viewcars.component.html',
     styleUrls: ['./viewcars.component.scss']
-  })
-
+})
 export class ViewCarsComponent implements OnInit {
     
       carList: any[] = [];

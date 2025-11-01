@@ -25,7 +25,8 @@ const routes: Routes = [
   { path: 'payment-report', component: PaymentReportComponent }, 
   { path: 'booking-report', component: BookingReportComponent }, 
   { path: 'cars', component: CarsComponent }, 
-  { path: 'category', component: CategoryComponent }, 
+  { path: 'category', component: CategoryComponent },
+  { path: 'category/:updateId', component: CategoryComponent },
   { path: 'add-car', component: AddCarComponent }, 
   { path: 'view-cars', component: ViewCarsComponent }, 
 

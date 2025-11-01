@@ -50,27 +50,3 @@
     </button>
 
 </form>
-
-<!--Category List-->
-<table>
-    <thead>
-        <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Base Rate</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let category of categoryList">
-            <td>{{category.name}}</td>
-            <td>{{category.description}}</td>
-            <td>{{category.baseRate}}</td>
-            <td>
-                <button (click)="edit(category)">Edit</button>
-                <button (click)="deleteCategory(category.id)">Delete</button>
-                
-            </td>
-        </tr>
-    </tbody>
-</table>

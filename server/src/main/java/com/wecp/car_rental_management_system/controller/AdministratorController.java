@@ -40,6 +40,11 @@ public class AdministratorController {
         return new ResponseEntity<>(carCategoryService.getAllCarCategories(), HttpStatus.OK);
     }
 
+    @GetMapping("/api/administrator/car-categories/{categoryId}")
+    public ResponseEntity<CarCategory> getCategoryById(@PathVariable Long categoryId) {
+        return new ResponseEntity<CarCategory>(carCategoryService.getCarCategoryById(categoryId), HttpStatus.OK);
+    }
+
     // update car category
     @PutMapping("/api/administrator/car-categories/{categoryId}")
     public ResponseEntity<CarCategory> updateCarCategory(@PathVariable Long categoryId,
@@ -48,12 +53,12 @@ public class AdministratorController {
                 HttpStatus.OK);
     }
 
-    //delete car category
+    // delete car category
     @DeleteMapping("api/administrator/car-categories/{id}")
-   public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
-    carCategoryService.deleteCategory(id);
-       return new ResponseEntity<>("Car category deleted successfully!",HttpStatus.OK);
-   }
+    public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
+        carCategoryService.deleteCategory(id);
+        return new ResponseEntity<>("Car category deleted successfully!", HttpStatus.OK);
+    }
 
     // get all bookings
     @GetMapping("/api/administrator/reports/bookings")

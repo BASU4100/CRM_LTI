@@ -44,9 +44,7 @@ export class AuthService {
 
   // Method to retrieve login status
   get getLoginStatus(): boolean {
-    let loginStatus!: boolean;
-    this.isLoggedIn$.subscribe(isLoggedIn => loginStatus = isLoggedIn);
-    return loginStatus;
+    return !!localStorage.getItem('token');
   }
 
   logout() {

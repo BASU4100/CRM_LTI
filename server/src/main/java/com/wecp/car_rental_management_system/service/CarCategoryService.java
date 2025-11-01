@@ -36,6 +36,11 @@ public class CarCategoryService {
         return carCategoryRepository.findAll();
     }
 
+    // Get car category by Id
+    public CarCategory getCarCategoryById(Long categoryId) {
+        return carCategoryRepository.findById(categoryId).get();
+    }
+
     //update car category after checking id exists or not
     @Modifying
     @Transactional
@@ -56,7 +61,5 @@ public class CarCategoryService {
             .orElseThrow(() -> new ResourceNotFoundException("Car category not found."));
         carCategoryRepository.delete(category);
     }
-
-   
 }
 

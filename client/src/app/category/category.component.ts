@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpService } from '../../services/http.service';
 
@@ -23,7 +23,8 @@ export class CategoryComponent implements OnInit {
     private router: Router,
     private httpService: HttpService,
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -41,48 +42,50 @@ export class CategoryComponent implements OnInit {
     });
 
     this.getCategories();
+
     this.formModel = {
       name: 'Enter category name',
       description: 'Enter category description',
       baseRate: 'Enter base rate'
     }
-  }
 
-  edit(val: any): void {
-    this.updateId = val.id;
-    this.itemForm.patchValue(val);
+    this.updateId = this.route.snapshot.paramMap.get('updateId');
+    if (this.updateId) {
+      this.httpService.getCategoryById(this.updateId).subscribe(data => this.itemForm.patchValue(data));
+    }
   }
 
   getCategories(): void {
-      this.httpService.getAllCategories().subscribe({
-        next: (res: any) => this.categoryList = res,
-        error: () => this.errorMessage = 'Failed to load categories'
-      });
-    }
+    this.httpService.getAllCategories().subscribe({
+      next: (res: any) => this.categoryList = res,
+      error: () => this.errorMessage = 'Failed to load categories'
+    });
+  }
 
-    deleteCategory(id: any): void {
-      if (confirm('Are you sure you want to delete this category?')) {
-        this.httpService.deleteCategory(id).subscribe({
-          next: () => {
-            this.showMessage = true;
-            this.getCategories();
-            this.responseMessage = 'Category deleted successfully';
-            setTimeout(() => {
-              this.showMessage = false;
-              this.responseMessage = '';
-            }, 1500);
-          },
-          error: (error) => {
-            this.showError = true;
-            this.errorMessage = error.error.text || 'Failed to delete category';
-            setTimeout(() => {
-              this.showError = false;
-              this.errorMessage = '';
-            }, 1500);
-          }
-        });
-      }
-    }
+  // deleteCategory(id: any): void {
+  //   if (confirm('Are you sure you want to delete this category?')) {
+  //     this.httpService.deleteCategoryById(id).subscribe({
+  //       next: () => {
+  //         this.showMessage = true;
+  //         this.getCategories();
+  //         this.responseMessage = 'Category deleted successfully';
+  //         setTimeout(() => {
+  //           this.showMessage = false;
+  //           this.responseMessage = '';
+  //         }, 1500);
+  //       },
+  //       error: (error) => {
+  //         this.showError = true;
+  //         this.errorMessage = error.error.text || 'Failed to delete category';
+  //         setTimeout(() => {
+  //           this.showError = false;
+  //           this.errorMessage = '';
+  //         }, 1500);
+  //       }
+  //     });
+  //   }
+  // }
+
   onSubmit(): void {
     const categoryData = this.itemForm.value;
 

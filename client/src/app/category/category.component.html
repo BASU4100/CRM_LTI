@@ -1,15 +1,6 @@
 <mat-card class="mat-elevation-z4">
   <mat-card-title class="text-center mb-4">{{updateId ? 'Update' : 'Create'}} Category</mat-card-title>
 
-  <!-- Success/Error Messages -->
-  <mat-card *ngIf="showMessage" class="mat-elevation-z2" style="background-color: #e8f5e9; color: #2e7d32;">
-    {{ responseMessage }}
-  </mat-card>
-
-  <mat-card *ngIf="showError" class="mat-elevation-z2" style="background-color: #ffebee; color: #c62828;">
-    {{ errorMessage }}
-  </mat-card>
-
   <!-- Category Form -->
   <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
     <!-- Category Name -->
@@ -48,13 +39,22 @@
       </mat-error>
     </mat-form-field>
 
+    <!-- Success/Error Messages -->
+    <mat-card *ngIf="showMessage" class="mat-elevation-z2 mt-0" style="background-color: #e8f5e9; color: #2e7d32;">
+      {{ responseMessage }}
+    </mat-card>
+
+    <mat-card *ngIf="showError" class="mat-elevation-z2 mt-0" style="background-color: #ffebee; color: #c62828;">
+      {{ errorMessage }}
+    </mat-card>
+
     <!-- Buttons Row -->
     <div class="button-row">
       <!-- Cancel Button (Left) -->
       <button mat-raised-button color="warn" (click)="onCancel()" type="button">
         Cancel
       </button>
-    
+
       <!-- Submit Button (Right) -->
       <button mat-raised-button color="primary" type="submit" [disabled]="itemForm.invalid">
         {{ updateId ? 'Update Category' : 'Submit' }}

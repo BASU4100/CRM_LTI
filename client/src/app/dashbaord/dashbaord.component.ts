@@ -85,8 +85,8 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
 
   getPayments(): void {
     this.httpService.paymentReport().subscribe(data => {
-      this.totalRevenue = data.reduce((total, curr) => total + curr, 0);
-      this.todayRevenue = data.filter(payment => payment.paymentDate === new Date()).reduce((total, curr) => total + curr, 0);
+      this.totalRevenue = data.map(payment => payment.amount).reduce((total, curr) => total + curr, 0);
+      this.todayRevenue = data.filter(payment => new Date(payment.paymentDate).toLocaleDateString() === new Date().toLocaleDateString()).map(payment => payment.amount).reduce((total, curr) => total + curr, 0);
     });
   }
 

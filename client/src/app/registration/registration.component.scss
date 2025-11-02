@@ -1,0 +1,74 @@
+.registration-card {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px 8px 0 0;
+}
+
+.toolbar-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+button mat-icon {
+  margin-right: 4px;
+}
+
+.alert-card {
+  padding: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+@media (max-width: 480px) {
+  .registration-card {
+    max-width: 90%;
+    margin: 20px auto;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .toolbar-title {
+    font-size: 16px;
+  }
+}

@@ -1,86 +1,54 @@
-<div class="container mt-5">
-  <h2 class="text-center">Register for Car Rental</h2>
+<mat-card class="mat-elevation-z4 registration-card">
+  <mat-toolbar color="primary">
+    <span>Register for Car Rental</span>
+  </mat-toolbar>
 
-  <form [formGroup]="itemForm" (ngSubmit)="onRegister()" novalidate>
-    <!-- Username field-->
-    <div class="form-group mb-3">
-      <label for="username">Username</label>
-      <input
-        type="text"
-        id="username"
-        class="form-control"
-        formControlName="username"
-        [placeholder]="formModel.username"
-      />
-      <div *ngIf="itemForm.get('username')?.touched" class="text-danger container">
-        <small *ngIf="itemForm.get('username')?.errors?.['required']">Username is required.</small>
-        <small *ngIf="itemForm.get('username')?.errors?.['pattern']">Starts with letters and can have digits, '.' '-' '_'</small>
-        <!-- error Message -->
-      </div>
+  <form [formGroup]="itemForm" (ngSubmit)="onRegister()" class="registration-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username" [placeholder]="formModel.username" />
+      <mat-error *ngIf="itemForm.get('username')?.hasError('required')">Username is required.</mat-error>
+      <mat-error *ngIf="itemForm.get('username')?.hasError('pattern')">
+        Starts with letters and can have digits, '.', '-' or '_'.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" [placeholder]="formModel.email" />
+      <mat-error *ngIf="itemForm.get('email')?.hasError('required')">Email is required.</mat-error>
+      <mat-error *ngIf="itemForm.get('email')?.hasError('email')">Enter a valid email address.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" [placeholder]="formModel.password" />
+      <mat-error *ngIf="itemForm.get('password')?.hasError('required')">Password is required.</mat-error>
+      <mat-error *ngIf="itemForm.get('password')?.hasError('pattern')">
+        Must contain at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character (!@$%&*?).
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role">
+        <mat-option value="" disabled>{{ formModel.role }}</mat-option>
+        <mat-option value="CUSTOMER">Customer</mat-option>
+        <mat-option value="AGENT">Agent</mat-option>
+        <mat-option value="ADMINISTRATOR">Administrator</mat-option>
+      </mat-select>
+      <mat-error *ngIf="itemForm.get('role')?.hasError('required')">Role is required.</mat-error>
+    </mat-form-field>
+
+    <div class="button-group">
+      <button mat-raised-button color="primary" type="submit" [disabled]="itemForm.invalid">Register</button>
+      <button mat-raised-button color="primary" type="button" (click)="toLogin()">Login</button>
     </div>
 
-    <!-- Email field-->
-    <div class="form-group mb-3">
-      <label for="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        class="form-control"
-        formControlName="email"
-        [placeholder]="formModel.email"
-      />
-      <div *ngIf="itemForm.get('email')?.touched" class="text-danger container">
-        <small *ngIf="itemForm.get('email')?.errors?.['required']">Email is required.</small>
-        <small *ngIf="itemForm.get('email')?.errors?.['email']">Enter a valid email address.</small>
-      </div>
-    </div>
-
-    <!-- Password field-->
-    <div class="form-group mb-3">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        class="form-control"
-        formControlName="password"
-        [placeholder]="formModel.password"
-      />
-      <div *ngIf="itemForm.get('password')?.touched" class="text-danger container">
-        <small *ngIf="itemForm.get('password')?.errors?.['required']">Password is required.</small>
-        <small *ngIf="itemForm.get('password')?.errors?.['pattern']">
-          Must contain at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character (!@$%&*?).
-        </small>
-      </div>
-    </div>
-
-    <!-- Select Role -->
-    <div class="form-group mb-3">
-      <label for="role">Role</label>
-      <select id="role" class="form-control" formControlName="role">
-        <option value="" disabled hidden selected>{{formModel.role}}</option>
-        <option value="CUSTOMER">Customer</option>
-        <option value="AGENT">Agent</option>
-        <option value="ADMINISTRATOR">Administrator</option>
-      </select>
-      <div *ngIf="itemForm.get('role')?.touched" class="text-danger container">
-        <small *ngIf="itemForm.get('role')?.errors?.['required']">Role is required.</small>
-      </div>
-    </div>
-
-    <div class="d-flex justify-content-center gap-3 mt-3">
-
-    <!-- Submit Button -->
-    <button type="submit" class="btn btn-primary" [disabled]="itemForm.invalid">Register</button>
-    <!-- Login Button -->
-    <button type="login" class="btn btn-success" (click)="toLogin()">Login</button>
-    
-    </div>
-
-
-
-
-    <!-- Alert Message -->
     <div *ngIf="errorMessage || showMessage" class="mt-3">
-      <div [ngClass]="errorMessage ? 'alert alert-danger': 'alert alert-info'">{{ responseMessage }}</div>
+      <mat-card [ngClass]="errorMessage ? 'alert-danger' : 'alert-info'" class="alert-card">
+        {{ responseMessage }}
+      </mat-card>
     </div>
- 
+  </form>
+</mat-card>

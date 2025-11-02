@@ -1,121 +1,100 @@
-<div class="container my-5 p-4 rounded shadow-lg custom-container">
-  <!-- Success/Error Messages -->
-  <!-- <div *ngIf="showMessage" class="alert alert-success">{{ responseMessage }}</div>
-  <div *ngIf="showError" class="alert alert-danger">{{ errorMessage }}</div> -->
+<div class="form-wrapper">
+  <mat-card class="mat-elevation-z4 p-4">
+    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3">
+        <!-- Make -->
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Make</mat-label>
+            <input matInput formControlName="make" [placeholder]="formModel.make">
+            <mat-error *ngIf="itemForm.get('make')?.invalid && itemForm.get('make')?.touched">
+              Make is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-  <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
-    <div class="row g-3">
-      <div class="col-md-6">
-        <label for="make" class="form-label">Make</label>
-        <input id="make" formControlName="make" class="form-control"
-          [placeholder]="formModel.make"
-          [ngClass]="{'is-invalid': itemForm.get('make')?.invalid && itemForm.get('make')?.touched}" />
-        <div *ngIf="itemForm.get('make')?.invalid && itemForm.get('make')?.touched" class="invalid-feedback">
-          Make is required and must be at least 2 characters.
+        <!-- Model -->
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Model</mat-label>
+            <input matInput formControlName="model" [placeholder]="formModel.model">
+            <mat-error *ngIf="itemForm.get('model')?.invalid && itemForm.get('model')?.touched">
+              Model is required and must be at least 2 characters.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Status -->
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option value="">{{ formModel.status }}</mat-option>
+              <mat-option value="AVAILABLE">Available</mat-option>
+              <mat-option value="UNAVAILABLE">Unavailable</mat-option>
+            </mat-select>
+            <mat-error *ngIf="itemForm.get('status')?.invalid && itemForm.get('status')?.touched">
+              Status is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Category -->
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category">
+              <mat-option value="">{{ formModel.category }}</mat-option>
+              <mat-option *ngFor="let category of categoryList" [value]="category.id">
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="itemForm.get('category')?.invalid && itemForm.get('category')?.touched">
+              Category is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Manufacture Year -->
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Manufacture Year</mat-label>
+            <input matInput type="date" formControlName="manufactureYear">
+            <mat-error *ngIf="itemForm.get('manufactureYear')?.invalid && itemForm.get('manufactureYear')?.touched">
+              Please enter a valid year.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Registration Number -->
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Registration Number</mat-label>
+            <input matInput formControlName="registrationNumber">
+            <mat-error
+              *ngIf="itemForm.get('registrationNumber')?.invalid && itemForm.get('registrationNumber')?.touched">
+              Please enter a valid registration number.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Rental Rate Per Day -->
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Rental Rate / Day</mat-label>
+            <input matInput formControlName="rentalRatePerDay">
+            <mat-error *ngIf="itemForm.get('rentalRatePerDay')?.invalid && itemForm.get('rentalRatePerDay')?.touched">
+              Rental rate must be a valid number.
+            </mat-error>
+          </mat-form-field>
         </div>
       </div>
 
-      <div class="col-md-6">
-        <label for="model" class="form-label">Model</label>
-        <input id="model" formControlName="model" class="form-control"
-          [placeholder]="formModel.model"
-          [ngClass]="{'is-invalid': itemForm.get('model')?.invalid && itemForm.get('model')?.touched}" />
-        <div *ngIf="itemForm.get('model')?.invalid && itemForm.get('model')?.touched" class="invalid-feedback">
-          Model is required and must be at least 2 characters.
-        </div>
+      <div class="mt-4">
+        <button mat-raised-button color="primary" class="w-100" [disabled]="itemForm.invalid">
+          {{ updateId ? 'Update Car' : 'Add Car' }}
+        </button>
       </div>
-
-      <div class="col-md-6">
-        <label for="status" class="form-label">Status</label>
-        <select id="status" formControlName="status" class="form-select"
-          [ngClass]="{'is-invalid': itemForm.get('status')?.invalid && itemForm.get('status')?.touched}">
-          <option value="">{{formModel.status}}</option>
-          <option value="AVAILABLE">Available</option>
-          <option value="UNAVAILABLE">Unavailable</option>
-        </select>
-        <div *ngIf="itemForm.get('status')?.invalid && itemForm.get('status')?.touched" class="invalid-feedback">
-          Status is required.
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <label for="category" class="form-label">Category</label>
-        <select id="category" formControlName="category" class="form-select"
-          [ngClass]="{'is-invalid': itemForm.get('category')?.invalid && itemForm.get('category')?.touched}">
-          <option value="">{{formModel.category}}</option>
-          <option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</option>
-        </select>
-        <div *ngIf="itemForm.get('category')?.invalid && itemForm.get('category')?.touched" class="invalid-feedback">
-          Category is required.
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <label for="manufactureYear" class="form-label">Manufacture Year</label>
-        <input id="manufactureYear" formControlName="manufactureYear" class="form-control" type="number"
-          [ngClass]="{'is-invalid': itemForm.get('manufactureYear')?.invalid && itemForm.get('manufactureYear')?.touched}" />
-        <div *ngIf="itemForm.get('manufactureYear')?.invalid && itemForm.get('manufactureYear')?.touched" class="invalid-feedback">
-          Please enter a valid year.
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <label for="registrationNumber" class="form-label">Registration Number</label>
-        <input id="registrationNumber" formControlName="registrationNumber" class="form-control"
-          [ngClass]="{'is-invalid': itemForm.get('registrationNumber')?.invalid && itemForm.get('registrationNumber')?.touched}" />
-        <div *ngIf="itemForm.get('registrationNumber')?.invalid && itemForm.get('registrationNumber')?.touched" class="invalid-feedback">
-          Please enter a valid registration number.
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <label for="rentalRatePerDay" class="form-label">Rental Rate</label>
-        <input id="rentalRatePerDay" formControlName="rentalRatePerDay" class="form-control"
-          [ngClass]="{'is-invalid': itemForm.get('rentalRatePerDay')?.invalid && itemForm.get('rentalRatePerDay')?.touched}" />
-        <div *ngIf="itemForm.get('rentalRatePerDay')?.invalid && itemForm.get('rentalRatePerDay')?.touched" class="invalid-feedback">
-          RentalRatePerDay is required.
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-4">
-      <button type="submit" class="btn btn-orange w-100" [disabled]="itemForm.invalid">
-        {{ updateId ? 'Update Car' : 'Add Car' }}
-      </button>
-    </div>
-  </form>
-
-  <hr class="my-4">
-<!-- 
-  <h5 class="mb-3 text-dark">Submitted Car Details:</h5>
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover">
-      <thead class="table-orange text-white">
-        <tr>
-          <th>Make</th>
-          <th>Model</th>
-          <th>Status</th>
-          <th>Category</th>
-          <th>Manufacture Year</th>
-          <th>Registration Number</th>
-          <th>Rental Rate Per Day</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let submittedData of carList">
-          <td>{{ submittedData.make }}</td>
-          <td>{{ submittedData.model }}</td>
-          <td>{{ submittedData.status }}</td>
-          <td>{{ submittedData.category.name }}</td>
-          <td>{{ submittedData.manufactureYear }}</td>
-          <td>{{ submittedData.registrationNumber }}</td>
-          <td>{{ submittedData.rentalRatePerDay }}</td>
-          <td>
-            <button class="btn btn-sm btn-outline-dark" (click)="editCar(submittedData)">Edit</button>
-          </td>
-        </tr>
-      </tbody>
-    </table> -->
-  <!-- </div> -->
+    </form>
+  </mat-card>
 </div>

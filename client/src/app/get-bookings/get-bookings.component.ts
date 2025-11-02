@@ -19,8 +19,8 @@ export class GetBookingsComponent implements OnInit {
 
   bookingList: any[] = [];
   selectedBooking: any = null;
-  updateId: any = null;      // for Book Now
-  paymentId: any = null;     // for Payment
+  updateId: any = null;      
+  paymentId: any = null;     
 
   constructor(
     private router: Router,
@@ -73,7 +73,6 @@ export class GetBookingsComponent implements OnInit {
  
 
 
-  // BOOK NOW – show inline form
   bookNow(booking: any): void {
     this.updateId = booking.id;
     this.paymentId = null;
@@ -81,7 +80,6 @@ export class GetBookingsComponent implements OnInit {
     this.itemForm.reset();
   }
 
-  // PAY – show inline form with pre-filled values
   payment(booking: any): void {
     this.paymentId = booking.id;
     this.updateId = null;
@@ -95,7 +93,6 @@ export class GetBookingsComponent implements OnInit {
     });
   }
 
-  // UPDATE BOOKING STATUS
   onStatusSubmit(): void {
     if (!this.updateId) return;
 
@@ -109,7 +106,6 @@ export class GetBookingsComponent implements OnInit {
     });
   }
 
-  // RECORD PAYMENT
   onPaymentSubmit(): void {
     if (this.itemForm.invalid || !this.paymentId) return;
 
@@ -147,3 +143,10 @@ export class GetBookingsComponent implements OnInit {
     setTimeout(() => this.showMessage = false, 5000);
   }
 }
+
+
+
+
+
+
+

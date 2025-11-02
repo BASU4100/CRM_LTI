@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RegistrationComponent } from './registration/registration.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpService } from '../services/http.service';
 import { DashbaordComponent } from './dashbaord/dashbaord.component';
@@ -21,6 +20,7 @@ import { AuthInterceptor } from './auth.interceptors';
 import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [

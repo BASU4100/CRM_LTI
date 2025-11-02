@@ -2,7 +2,6 @@
 <div class="container mt-4">
   <h2 class="mb-4">Car Bookings</h2>
 
-  <!-- Alerts -->
   <div *ngIf="showMessage" class="alert alert-success alert-dismissible fade show">
     <span [innerHTML]="responseMessage"></span>
     <button type="button" class="btn-close" (click)="showMessage = false"></button>
@@ -12,7 +11,6 @@
     <button type="button" class="btn-close" (click)="showError = false"></button>
   </div>
 
-  <!-- Table -->
   <div class="table-responsive">
     <table class="table table-bordered table-striped">
       <thead class="table-dark">
@@ -66,13 +64,12 @@
             <button 
               class="btn btn-sm btn-success"
               (click)="payment(b)"
-              [disabled]="b.paymentStatus?.toLowerCase() !== 'unpaid'">
+              [disabled]="(b.paymentStatus||'').toLowerCase() !== 'unpaid'">
               Pay
             </button>
           </td>
         </tr>
 
-        <!-- INLINE FORM ROW (BOOK NOW) -->
         <tr *ngIf="updateId && selectedBooking?.id === updateId" class="table-light">
           <td colspan="9" class="p-3">
             <div class="border rounded p-3 bg-white">
@@ -88,7 +85,6 @@
           </td>
         </tr>
 
-        <!-- INLINE FORM ROW (PAYMENT) -->
         <tr *ngIf="paymentId && selectedBooking?.id === paymentId" class="table-light">
           <td colspan="9" class="p-3">
             <form [formGroup]="itemForm" (ngSubmit)="onPaymentSubmit()" class="border rounded p-3 bg-white">
@@ -130,9 +126,9 @@
       </tbody>
     </table>
 
-    <!-- Empty State -->
     <div *ngIf="bookingList.length === 0 && !showError" class="text-center py-5 text-muted">
       <p class="lead">No bookings assigned to you.</p>
     </div>
   </div>
 </div>
+

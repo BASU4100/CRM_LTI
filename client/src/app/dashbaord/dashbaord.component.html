@@ -31,6 +31,14 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <!-- No records -->
+        <tr *matNoDataRow>
+          <td colspan="4" class="text-center py-3">
+            <mat-icon class="text-muted">search_off</mat-icon>
+            <p class="mat-body-1">No payment records found</p>
+          </td>
+        </tr>
       </table>
 
       <span class="spacer"></span>
@@ -114,6 +122,14 @@
           <tr mat-row
             *matRowDef="let row; columns: ['make', 'model', 'status', 'category', 'year', 'reg', 'rate', 'actions']">
           </tr>
+
+          <!-- No records -->
+          <tr *matNoDataRow>
+            <td colspan="8" class="text-center py-3">
+              <mat-icon class="text-muted">search_off</mat-icon>
+              <p class="mat-body-1">No payment records found</p>
+            </td>
+          </tr>
         </table>
 
         <span class="spacer"></span>
@@ -170,7 +186,13 @@
           <tr mat-row *matRowDef="let row; columns: ['id', 'car', 'start', 'end', 'status', 'amount', 'payment']"></tr>
         </table>
 
-        <p *ngIf="bookingList.length === 0">No bookings found.</p>
+        <!-- No records -->
+        <tr *matNoDataRow>
+          <td colspan="7" class="text-center py-3">
+            <mat-icon class="text-muted">search_off</mat-icon>
+            <p class="mat-body-1">No payment records found</p>
+          </td>
+        </tr>
 
         <span class="spacer"></span>
 

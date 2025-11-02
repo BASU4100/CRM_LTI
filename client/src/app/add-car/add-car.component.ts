@@ -22,10 +22,8 @@ export class AddCarComponent implements OnInit {
   responseMessage: any
   updateId: any
 
-  // form structure and placeholder value
   constructor(private router: Router, private httpService: HttpService, private fb: FormBuilder, private authService: AuthService, private route: ActivatedRoute) { }
 
-  // loading all cars on component loading
   ngOnInit(): void {
     if (!this.authService.getLoginStatus) {
       this.router.navigate(['/login'])
@@ -52,17 +50,18 @@ export class AddCarComponent implements OnInit {
     };
 
     this.getAllCategoryList()
-    
+    this.itemForm.reset();
+
     this.updateId = this.route.snapshot.paramMap.get('id')
     if (this.updateId) {
       this.getAllCarsList();
       setTimeout(() => {
         const car = this.carList.find(c => c.id === +this.updateId);
         this.itemForm.patchValue({
-          ...car, 
+          ...car,
           category: {
             name: car.category.name
-          } 
+          }
         });
       }, 100)
     }
@@ -104,7 +103,11 @@ export class AddCarComponent implements OnInit {
     })
   }
 
-  //overides the category field wraps as an obj
+  setYear(event: Date): void {
+    const selectedYear = event.getFullYear();
+    this.itemForm.get('manufactureYear')?.setValue(new Date(selectedYear, 0, 1));
+  }
+
   onSubmit(): void {
     const carData = {
       ...this.itemForm.value,
@@ -152,7 +155,8 @@ export class AddCarComponent implements OnInit {
         error: (error) => {
           this.showError = true
           this.showMessage = false
-          this.responseMessage = error.error.message;
+          this.responseMessage = "";
+          this.errorMessage = "Failed to add Car"
           setTimeout(() => {
             this.showError = false;
             this.errorMessage = '';
@@ -161,4 +165,7 @@ export class AddCarComponent implements OnInit {
       })
     }
   }
+
+
 }
+

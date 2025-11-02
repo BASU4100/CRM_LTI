@@ -1,7 +1,7 @@
 <div class="login-wrapper">
   <!-- Left Side - Image with Text -->
   <div class="left-panel">
-    <div class="overlay-text">Welcome to Rental_gears</div>
+    <div class="overlay-text">Welcome to Rental_Gears</div>
   </div>
 
   <!-- Right Side - Login Form -->
@@ -14,7 +14,7 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Username</mat-label>
           <mat-icon matPrefix>person</mat-icon>
-          <input matInput formControlName="username" placeholder="Enter username">
+          <input matInput formControlName="username" [placeholder]="formModel.username">
           <mat-error *ngIf="itemForm.get('username')?.invalid && itemForm.get('username')?.touched">
             Username is required.
           </mat-error>
@@ -24,7 +24,7 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Password</mat-label>
           <mat-icon matPrefix>lock</mat-icon>
-          <input matInput type="password" formControlName="password" placeholder="Enter password">
+          <input matInput type="password" formControlName="password" [placeholder]="formModel.password">
           <mat-error *ngIf="itemForm.get('password')?.invalid && itemForm.get('password')?.touched">
             Password is required.
           </mat-error>

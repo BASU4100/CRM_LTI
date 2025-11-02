@@ -7,17 +7,17 @@
   <mat-divider></mat-divider>
 
   <mat-card-content>
-    <form class="filter-form">
+    <form [formGroup]="filterForm" class="filter-form">
       <div class="filter-grid">
         <mat-form-field appearance="outline">
-          <mat-label>Customer Name</mat-label>
-          <input matInput [(ngModel)]="customerNameFilter" name="customerName" (input)="applyFilters()" placeholder="Search by customer name..." />
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="customerName" placeholder="Search by username..." />
           <mat-icon matPrefix>person</mat-icon>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Payment Method</mat-label>
-          <mat-select [(ngModel)]="paymentMethodFilter" name="paymentMethod" (selectionChange)="applyFilters()">
+          <mat-select formControlName="paymentMethod">
             <mat-option value="">All Payment Methods</mat-option>
             <mat-option *ngFor="let method of paymentMethods" [value]="method">{{ method }}</mat-option>
           </mat-select>
@@ -25,28 +25,27 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Status</mat-label>
-          <mat-select [(ngModel)]="selectedStatus" name="status" (selectionChange)="applyFilters()">
+          <mat-select formControlName="status">
             <mat-option value="">All Status</mat-option>
             <mat-option value="paid">Paid</mat-option>
             <mat-option value="pending">Pending</mat-option>
-            <mat-option value="failed">Failed</mat-option>
           </mat-select>
         </mat-form-field>
 
-        <div class="reset-button">
-          <button mat-stroked-button color="primary" (click)="resetFilters()">
+        <span class="reset-button">
+          <button mat-stroked-button color="primary" type="button" (click)="resetFilters()">
             <mat-icon>refresh</mat-icon> Reset
           </button>
-        </div>
+        </span>
       </div>
     </form>
 
     <div class="table-container">
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1 spaced-table">
 
-        <ng-container matColumnDef="customerName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer Name</th>
-          <td mat-cell *matCellDef="let payment">{{ payment.customerName }}</td>
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+          <td mat-cell *matCellDef="let payment">{{ payment.booking?.user?.username || 'N/A' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="paymentDate">
@@ -61,19 +60,20 @@
 
         <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-end">Amount</th>
-          <td mat-cell *matCellDef="let payment" class="text-end">{{ formatCurrency(payment.amount) }}</td>
+          <td mat-cell *matCellDef="let payment" class="text-end">
+            {{ payment.amount | currency:'INR':'symbol':'1.2-2':'en-IN' }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-          <td mat-cell *matCellDef="let payment">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-end">Payment Status</th>
+          <td mat-cell *matCellDef="let payment" class="status-cell">
             <span class="status-badge"
                   [ngClass]="{
-                    'paid': payment.paymentStatus === 'paid',
-                    'pending': payment.paymentStatus === 'pending',
-                    'failed': payment.paymentStatus === 'failed'
+                    'paid': payment.booking?.paymentStatus?.toLowerCase() === 'paid',
+                    'pending': payment.booking?.paymentStatus?.toLowerCase() === 'pending'
                   }">
-              {{ payment.paymentStatus | uppercase }}
+              {{ payment.booking?.paymentStatus ? (payment.booking.paymentStatus | uppercase) : 'N/A' }}
             </span>
           </td>
         </ng-container>
@@ -88,7 +88,7 @@
         </tr>
       </table>
 
-      <mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      <mat-paginator [length]="dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
     </div>
   </mat-card-content>
 </mat-card>

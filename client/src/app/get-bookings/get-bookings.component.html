@@ -1,134 +1,197 @@
+<div class="container py-1">
+  <h2 class="mat-headline mb-2 text-center">Recent Bookings</h2>
 
-<div class="container mt-4">
-  <h2 class="mb-4">Car Bookings</h2>
+  <!-- Success / Error Messages -->
+  <mat-card *ngIf="showMessage" class="mb-2 p-1">
+    <mat-card-content class="d-flex align-items-center gap-1 py-1">
+      <mat-icon color="primary" class="fs-5">check_circle</mat-icon>
+      <span [innerHTML]="responseMessage" class="fs-6"></span>
+      <button mat-icon-button (click)="showMessage = false" class="ms-auto">
+        <mat-icon class="fs-6">close</mat-icon>
+      </button>
+    </mat-card-content>
+  </mat-card>
 
-  <div *ngIf="showMessage" class="alert alert-success alert-dismissible fade show">
-    <span [innerHTML]="responseMessage"></span>
-    <button type="button" class="btn-close" (click)="showMessage = false"></button>
-  </div>
-  <div *ngIf="showError" class="alert alert-danger alert-dismissible fade show">
-    {{ errorMessage }}
-    <button type="button" class="btn-close" (click)="showError = false"></button>
-  </div>
+  <mat-card *ngIf="showError" class="mb-2 p-1">
+    <mat-card-content class="d-flex align-items-center gap-1 py-1">
+      <mat-icon color="warn" class="fs-5">error</mat-icon>
+      <span class="fs-6">{{ errorMessage }}</span>
+      <button mat-icon-button (click)="showError = false" class="ms-auto">
+        <mat-icon class="fs-6">close</mat-icon>
+      </button>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="table-responsive">
-    <table class="table table-bordered table-striped">
-      <thead class="table-dark">
-        <tr>
-          <th>#</th>
-          <th>Car</th>
-          <th>User</th>
-          <th>Start</th>
-          <th>End</th>
-          <th>Status</th>
-          <th>Payment</th>
-          <th>Total</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let b of bookingList; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ b.car?.make }} {{ b.car?.model }}</td>
-          <td>{{ b.user?.username }}</td>
-          <td>{{ b.rentalStartDate }}</td>
-          <td>{{ b.rentalEndDate }}</td>
+  <!-- Table + Form Container -->
+  <div class="table-form-container mat-elevation-z8">
+    <!-- Table (no matSort) -->
+    <table mat-table [dataSource]="dataSource" class="w-100 table-full-width">
 
-          <td>
-            <span class="badge"
-                  [class.bg-success]="b.bookingStatus === 'CONFIRMED'"
-                  [class.bg-warning]="b.bookingStatus === 'PENDING'"
-                  [class.bg-danger]="b.bookingStatus === 'CANCELLED'">
-              {{ b.bookingStatus }}
-            </span>
-          </td>
+      <!-- Car -->
+      <ng-container matColumnDef="car">
+        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Car</th>
+        <td mat-cell *matCellDef="let row" class="text-center compact-cell">
+          {{ row.car?.make }} {{ row.car?.model }}
+        </td>
+      </ng-container>
 
-          <td>
-            <span class="badge"
-                  [class.bg-success]="b.paymentStatus === 'PAID'"
-                  [class.bg-secondary]="b.paymentStatus === 'UNPAID'">
-              {{ b.paymentStatus }}
-            </span>
-          </td>
+      <!-- User -->
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">User</th>
+        <td mat-cell *matCellDef="let row" class="text-center compact-cell">
+          {{ row.user?.username }}
+        </td>
+      </ng-container>
 
-          <td class="text-end">₹{{ b.totalAmount | number:'1.0-0' }}</td>
+      <!-- Start -->
+      <ng-container matColumnDef="start">
+        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Start</th>
+        <td mat-cell *matCellDef="let row" class="text-center compact-cell">
+          {{ row.rentalStartDate }}
+        </td>
+      </ng-container>
 
-          <td>
-            <button 
-              class="btn btn-sm btn-primary me-1"
-              (click)="bookNow(b)"
-              [disabled]="b.bookingStatus?.toLowerCase() !== 'pending'">
-              Confirm Now
+      <!-- End -->
+      <ng-container matColumnDef="end">
+        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">End</th>
+        <td mat-cell *matCellDef="let row" class="text-center compact-cell">
+          {{ row.rentalEndDate }}
+        </td>
+      </ng-container>
+
+      <!-- Booking Status -->
+      <ng-container matColumnDef="bookingStatus">
+        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Status</th>
+        <td mat-cell *matCellDef="let row" class="text-center compact-cell">
+          <span class="badge small-badge"
+                [ngClass]="{
+                  'bg-success': row.bookingStatus === 'CONFIRMED',
+                  'bg-warning': row.bookingStatus === 'PENDING',
+                  'bg-danger': row.bookingStatus === 'CANCELLED'
+                }">
+            {{ row.bookingStatus }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Payment Status -->
+      <ng-container matColumnDef="paymentStatus">
+        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Payment</th>
+        <td mat-cell *matCellDef="let row" class="text-center compact-cell">
+          <span class="badge small-badge"
+                [ngClass]="{
+                  'bg-success': row.paymentStatus === 'PAID',
+                  'bg-secondary': row.paymentStatus === 'UNPAID'
+                }">
+            {{ row.paymentStatus }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Total -->
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Total</th>
+        <td mat-cell *matCellDef="let row" class="text-center compact-cell">
+          ₹{{ row.totalAmount | number:'1.0-0' }}
+        </td>
+      </ng-container>
+
+      <!-- Actions -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Actions</th>
+        <td mat-cell *matCellDef="let row" class="text-center compact-cell">
+          <div class="d-flex justify-content-center gap-2">
+            <button mat-stroked-button size="small" color="primary" (click)="bookNow(row)"
+                    [disabled]="row.bookingStatus !== 'PENDING'"
+                    class="w-100">
+              Confirm
             </button>
-          
-            <button 
-              class="btn btn-sm btn-success"
-              (click)="payment(b)"
-              [disabled]="(b.paymentStatus||'').toLowerCase() !== 'unpaid'">
+            <button mat-stroked-button size="small" color="accent" (click)="payment(row)"
+                    [disabled]="row.paymentStatus !== 'UNPAID'"
+                    class="w-100">
               Pay
             </button>
-          </td>
-        </tr>
+          </div>
+        </td>
+      </ng-container>
 
-        <tr *ngIf="updateId && selectedBooking?.id === updateId" class="table-light">
-          <td colspan="9" class="p-3">
-            <div class="border rounded p-3 bg-white">
-              <h6>Confirm Booking for {{ selectedBooking.user?.username }}</h6>
-              <p><strong>Car:</strong> {{ selectedBooking.car?.make }} {{ selectedBooking.car?.model }} | 
-                 <strong>Total:</strong> ₹{{ selectedBooking.totalAmount | number:'1.0-0' }}</p>
-
-              <div class="d-flex gap-2">
-                <button class="btn btn-primary" (click)="onStatusSubmit()">Update Booking</button>
-                <button class="btn btn-secondary" (click)="reset()">Cancel</button>
-              </div>
-            </div>
-          </td>
-        </tr>
-
-        <tr *ngIf="paymentId && selectedBooking?.id === paymentId" class="table-light">
-          <td colspan="9" class="p-3">
-            <form [formGroup]="itemForm" (ngSubmit)="onPaymentSubmit()" class="border rounded p-3 bg-white">
-              <h6>Record Payment – ₹{{ selectedBooking.totalAmount | number:'1.0-0' }}</h6>
-
-              <div class="row g-3">
-                <div class="col-md-3">
-                  <label>Amount</label>
-                  <input type="number" class="form-control" formControlName="amount" readonly>
-                </div>
-                <div class="col-md-3">
-                  <label>Date</label>
-                  <input type="date" class="form-control" formControlName="paymentDate">
-                </div>
-                <div class="col-md-3">
-                  <label>Method</label>
-                  <select class="form-select" formControlName="paymentMethod">
-                    <option value="CREDIT_CARD">Credit Card</option>
-                    <option value="DEBIT_CARD">Debit Card</option>
-                    <option value="UPI">UPI</option>
-                    <option value="CASH">Cash</option>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <label>Status</label>
-                  <input type="text" class="form-control" formControlName="paymentStatus" readonly>
-                </div>
-              </div>
-
-              <div class="mt-3 d-flex gap-2">
-                <button type="submit" class="btn btn-success" [disabled]="itemForm.invalid">
-                  Confirm Payment
-                </button>
-                <button type="button" class="btn btn-secondary" (click)="reset()">Cancel</button>
-              </div>
-            </form>
-          </td>
-        </tr>
-      </tbody>
+      <!-- Header & Rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <div *ngIf="bookingList.length === 0 && !showError" class="text-center py-5 text-muted">
-      <p class="lead">No bookings assigned to you.</p>
+    <!-- Confirm Form -->
+    <div *ngIf="confirmId && selectedBooking?.id === confirmId" class="p-2">
+      <mat-card class="compact-form-card">
+        <mat-card-content class="p-2">
+          <p class="mb-1"><strong>Confirm for:</strong> {{ selectedBooking.user?.username }}</p>
+          <p class="mb-1"><strong>Car:</strong> {{ selectedBooking.car?.make }} {{ selectedBooking.car?.model }}</p>
+          <p class="mb-2"><strong>Total:</strong> ₹{{ selectedBooking.totalAmount | number:'1.0-0' }}</p>
+          <div class="d-flex gap-1 justify-content-center">
+            <button mat-raised-button color="primary" size="small" (click)="onStatusSubmit()">Update</button>
+            <button mat-button size="small" (click)="reset()">Cancel</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Payment Form -->
+    <div *ngIf="paymentId && selectedBooking?.id === paymentId" class="p-2">
+      <mat-card class="compact-form-card">
+        <mat-card-content class="p-2">
+          <form [formGroup]="itemForm" (ngSubmit)="onPaymentSubmit()" class="compact-form">
+            <div class="row g-2">
+              <div class="col-6 col-md-3">
+                <mat-form-field appearance="outline" class="w-100 compact-field">
+                  <mat-label>Amount</mat-label>
+                  <input matInput type="number" formControlName="amount" readonly>
+                </mat-form-field>
+              </div>
+              <div class="col-6 col-md-3">
+                <mat-form-field appearance="outline" class="w-100 compact-field">
+                  <mat-label>Date</mat-label>
+                  <input matInput type="date" formControlName="paymentDate">
+                </mat-form-field>
+              </div>
+              <div class="col-6 col-md-3">
+                <mat-form-field appearance="outline" class="w-100 compact-field">
+                  <mat-label>Method</mat-label>
+                  <mat-select formControlName="paymentMethod">
+                    <mat-option value="CREDIT_CARD">Card</mat-option>
+                    <mat-option value="DEBIT_CARD">Debit</mat-option>
+                    <mat-option value="UPI">UPI</mat-option>
+                    <mat-option value="CASH">Cash</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-6 col-md-3">
+                <mat-form-field appearance="outline" class="w-100 compact-field">
+                  <mat-label>Status</mat-label>
+                  <input matInput value="PAID" readonly>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="mt-2 d-flex gap-1 justify-content-center">
+              <button mat-raised-button color="accent" size="small" type="submit"
+                      [disabled]="itemForm.invalid">Pay Now</button>
+              <button mat-button size="small" type="button" (click)="reset()">Cancel</button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Paginator -->
+    <mat-paginator [pageSize]="3"
+                   [pageSizeOptions]="[]"
+                   showFirstLastButtons
+                   [length]="dataSource.data.length"
+                   class="paginator-compact">
+    </mat-paginator>
+
+    <!-- Empty State -->
+    <div *ngIf="dataSource.data.length === 0 && !showError" class="text-center py-3 text-muted">
+      <p class="mat-body-2">No bookings assigned to you.</p>
     </div>
   </div>
 </div>
-

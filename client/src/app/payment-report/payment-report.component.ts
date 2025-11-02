@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpService } from '../../services/http.service';
@@ -14,48 +14,53 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./payment-report.component.scss']
 })
 export class PaymentReportComponent implements OnInit, AfterViewInit {
-  formModel: any = { status: null };
-  showError: boolean = false;
-  errorMessage: any;
-  carList: any = [];
-  assignModel: any = {};
-  showMessage: any;
-  responseMessage: any;
-  updateId: any;
-  toBook: any = {};
-  bookingList: any = [];
+  bookingList: any[] = [];
   roleName: string | null = null;
+  paymentMethods: string[] = ['UPI', 'Card', 'NetBanking', 'Cash'];
 
-  customerNameFilter: string = '';
-  paymentMethodFilter: string = '';
-  selectedStatus: string = '';
-  paymentMethods: string[] = ['All', 'UPI', 'Card', 'NetBanking', 'Cash'];
-
-  displayedColumns: string[] = ['customerName', 'paymentDate', 'paymentMethod', 'amount', 'status'];
+  displayedColumns: string[] = ['username', 'paymentDate', 'paymentMethod', 'amount', 'status'];
   dataSource = new MatTableDataSource<any>([]);
+  filterForm!: FormGroup;
+
+  showError: boolean = false;
+  errorMessage: string = '';
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    public router: Router,
-    public httpService: HttpService,
-    private formBuilder: FormBuilder,
+    private router: Router,
+    private httpService: HttpService,
+    private fb: FormBuilder,
     private authService: AuthService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (!this.authService.getLoginStatus) {
       this.router.navigate(['/login']);
-    } else {
-      this.roleName = this.authService.getRole;
-      if (this.roleName !== 'ADMINISTRATOR') {
-        this.router.navigate(['/dashboard']);
-      } else {
-        this.getPaymentReport();
-      }
+      return;
     }
+
+    this.roleName = this.authService.getRole;
+    if (this.roleName !== 'ADMINISTRATOR') {
+      this.router.navigate(['/dashboard']);
+      return;
+    }
+
+    this.filterForm = this.fb.group({
+      customerName: [''],
+      paymentMethod: [''],
+      status: ['']
+    });
+
+    this.getPaymentReport();
+
+    this.resetFilters();
+
+    this.filterForm.valueChanges.subscribe(() => {
+      this.applyFilters();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -81,17 +86,14 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
   }
 
   applyFilters(): void {
+    const { customerName, paymentMethod, status } = this.filterForm.value;
+
     const filtered = this.bookingList.filter((payment: any) => {
-      const nameMatch = !this.customerNameFilter ||
-        (payment.customerName || '').toLowerCase().includes(this.customerNameFilter.toLowerCase());
+      const nameMatch = customerName? (payment.booking?.user?.username || '').toLowerCase().includes(customerName.toLowerCase()) : true;
 
-      const methodMatch = !this.paymentMethodFilter ||
-        this.paymentMethodFilter === 'All' ||
-        (payment.paymentMethod || '') === this.paymentMethodFilter;
+      const methodMatch = paymentMethod? payment.paymentMethod === paymentMethod : true;
 
-      const statusMatch = !this.selectedStatus ||
-        (payment.paymentStatus || '').toLowerCase() === this.selectedStatus.toLowerCase();
-
+      const statusMatch = status? (payment.booking?.paymentStatus || '').toLowerCase() === status.toLowerCase(): true;
       return nameMatch && methodMatch && statusMatch;
     });
 
@@ -99,17 +101,8 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
   }
 
   resetFilters(): void {
-    this.customerNameFilter = '';
-    this.paymentMethodFilter = '';
-    this.selectedStatus = '';
+    this.filterForm.reset();
     this.dataSource.data = this.bookingList;
-  }
-
-  formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR'
-    }).format(amount);
   }
 
   closeError(): void {
@@ -117,4 +110,3 @@ export class PaymentReportComponent implements OnInit, AfterViewInit {
     this.errorMessage = '';
   }
 }
-``

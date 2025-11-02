@@ -1,0 +1,69 @@
+.table-form-container {
+  max-height: 75vh;
+  overflow-y: auto;
+  overflow-x: hidden;   /* Critical: removes horizontal scrollbar */
+  border-radius: 8px;
+  background: white;
+}
+
+/* Equal width columns + reduced spacing */
+.table-full-width {
+  width: 100% !important;
+  table-layout: fixed;   /* Forces equal column width */
+  font-size: 0.82rem;
+}
+
+/* Super compact cells */
+.compact-cell {
+  padding: 0.25rem !important;
+  line-height: 1.1 !important;
+  font-size: 0.8rem;
+}
+
+/* Bold headers */
+.bold-header {
+  font-weight: 600 !important;
+  font-size: 0.85rem;
+}
+
+/* Tiny badges */
+.small-badge {
+  padding: 0.15em 0.35em;
+  font-size: 0.6rem;
+  border-radius: 4px;
+}
+
+/* Compact form */
+.compact-form-card {
+  margin: 0.4rem 0;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.compact-field .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.compact-field .mat-form-field-infix {
+  padding: 0.25em 0 !important;
+  font-size: 0.75rem;
+}
+
+.compact-field .mat-select-value,
+.compact-field input {
+  font-size: 0.75rem;
+}
+
+/* Paginator */
+.paginator-compact {
+  font-size: 0.75rem;
+}
+
+/* Container */
+.container { padding: 0.5rem 0.8rem; }
+button.mat-stroked-button[size="small"] {
+  min-width: 60px;
+  padding: 0 8px;
+  line-height: 24px;
+  font-size: 0.75rem;
+}

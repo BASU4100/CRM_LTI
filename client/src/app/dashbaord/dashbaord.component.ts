@@ -125,19 +125,6 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/add-car', car.id])
   }
 
-  sortBy(column: string): void {
-    this.filteredCarList.sort((a, b) => {
-      const valA = this.getNestedValue(a, column)?.toString().toLowerCase();
-      const valB = this.getNestedValue(b, column)?.toString().toLowerCase();
-
-      if (valA < valB) return this.sortDirection ? -1 : 1;
-      if (valA > valB) return this.sortDirection ? 1 : -1;
-      return 0;
-    });
-
-    this.sortDirection = !this.sortDirection;
-  }
-
   getNestedValue(obj: any, path: string): any {
     return path.split('.').reduce((acc, part) => acc && acc[part], obj);
   }

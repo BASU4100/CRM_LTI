@@ -62,41 +62,16 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  // deleteCategory(id: any): void {
-  //   if (confirm('Are you sure you want to delete this category?')) {
-  //     this.httpService.deleteCategoryById(id).subscribe({
-  //       next: () => {
-  //         this.showMessage = true;
-  //         this.getCategories();
-  //         this.responseMessage = 'Category deleted successfully';
-  //         setTimeout(() => {
-  //           this.showMessage = false;
-  //           this.responseMessage = '';
-  //         }, 1500);
-  //       },
-  //       error: (error) => {
-  //         this.showError = true;
-  //         this.errorMessage = error.error.text || 'Failed to delete category';
-  //         setTimeout(() => {
-  //           this.showError = false;
-  //           this.errorMessage = '';
-  //         }, 1500);
-  //       }
-  //     });
-  //   }
-  // }
+  onCancel(): void {
+    this.itemForm.reset();
+    this.updateId = null;
+    this.showMessage = false;
+    this.showError = false;
+    this.responseMessage = '';
+    this.errorMessage = '';
+    this.router.navigate(['/dashboard']);
+  }
 
-
-    
-    onCancel(): void {
-      this.itemForm.reset();
-      this.updateId = null;
-      this.showMessage = false;
-      this.showError = false;
-      this.responseMessage = '';
-      this.errorMessage = '';
-    }
-    
   onSubmit(): void {
     const categoryData = this.itemForm.value;
 

@@ -12,6 +12,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   exports: [
@@ -27,7 +34,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatTooltipModule,
+    MatDialogModule
   ]
 })
 export class MaterialModule {}

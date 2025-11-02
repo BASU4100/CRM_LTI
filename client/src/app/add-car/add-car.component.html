@@ -62,10 +62,10 @@
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100" floatLabel="always">
             <mat-label>Manufacture Year</mat-label>
-            <input matInput [matDatepicker]="yearPicker" formControlName="manufactureYear" [placeholder]="formModel.manufactureYear" readonly />
-            <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+            <input matInput type="number"  formControlName="manufactureYear" [placeholder]="formModel.manufactureYear"/>
+            <!-- <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle> {{{[matDatepicker]="yearPicker"}}}
             <mat-datepicker #yearPicker startView="multi-year" (yearSelected)="setYear($event)"
-              panelClass="year-picker"></mat-datepicker>
+              panelClass="year-picker"></mat-datepicker> -->
             <mat-error *ngIf="itemForm.get('manufactureYear')?.invalid && itemForm.get('manufactureYear')?.touched">
               Valid year is required
             </mat-error>

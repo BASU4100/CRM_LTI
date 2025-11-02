@@ -1,0 +1,96 @@
+.admin-layout {
+  display: flex;
+  gap: 1.5rem;
+  height: calc(100vh - 64px); // Adjust based on your header/navbar height
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.agent-layout, .customer-layout {
+  height: calc(100vh - 64px); // Adjust based on your header/navbar height
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Category card takes full height and scrolls if content overflows */
+.category-card {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.car-list-card, .booking-list-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.mat-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.category-card table {
+  flex: 1;
+  overflow: auto;
+}
+
+/* Ensure table uses full width */
+.full-width {
+  width: 100%;
+}
+
+.mat-header-cell {
+  font-size: medium;
+  color: black;
+  text-align: center;
+  background-color: whitesmoke;
+}
+
+.mat-cell {
+  text-align: center;
+  vertical-align: center;
+}
+
+/* Revenue cards stacked vertically and fill height */
+.revenue-cards {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1.5rem; // Adds space between the two cards
+  height: 100%;
+  justify-content: space-between;
+}
+
+.revenue-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; // Center content horizontally
+  text-align: center;
+  padding: 1rem;
+}
+
+.revenue-card mat-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+.revenue-card mat-card-content {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3f51b5; // Material primary color
+}

@@ -1,3 +1,43 @@
 .sortable {
   cursor: pointer;
 }
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Container */
+.table-container {
+  width: 100%;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-sizing: border-box;
+  overflow-x: hidden; /* No horizontal scroll */
+}
+
+/* Heading */
+h2 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+th.mat-header-cell {
+  color: black;
+  font-size: medium;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: separate;
+  table-layout: auto; /* Force columns to fit */
+}
+

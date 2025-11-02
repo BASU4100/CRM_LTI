@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@angular/flex-layout": "^15.0.0-beta.42",
     "axios": "^1.12.2",
     "bytenode": "^1.5.7",
     "junit-report-merger": "^6.0.2",

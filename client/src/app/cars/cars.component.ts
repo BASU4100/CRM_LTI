@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpService } from '../../services/http.service';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment.development';
+
+//material
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { ViewChild } from '@angular/core'
 
 import { debounce, debounceTime } from 'rxjs';
 @Component({
@@ -32,10 +38,11 @@ export class CarsComponent implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
 
   //filtering
-  filterForm!: FormGroup;
+  // filterForm!: FormGroup;
+  searchControl = new FormControl('');
   filteredCars: any[] = [];
 
-//constructor
+  //constructor
   constructor(
     private router: Router,
     private httpService: HttpService,
@@ -52,42 +59,48 @@ export class CarsComponent implements OnInit {
     });
   }
 
+
+  //material properties
+  displayedColumns: string[] = ['make', 'model', 'manufactureYear', 'registrationNumber', 'rentalRatePerDay', 'category', 'action'];
+  dataSource = new MatTableDataSource<any>();
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+
+
   ngOnInit(): void {
     if (!this.authService.getLoginStatus) {
       this.router.navigate(['/login']);
     }
-
-    this.filterForm = this.fb.group({
-     searchTerm : ['']
-    });
-
-    this.getCars();
-
-    // Listen to filter changes
-    this.filterForm.get('searchTerm')?.valueChanges
+    this.searchControl.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
         this.applyFilters();
       });
+
+    this.getCars();
   }
   // add filter
   applyFilters(): void {
-    const term = this.filterForm.get('searchTerm')?.value?.toLowerCase() || '';
-  
-    this.filteredCars = this.carList.filter(car =>
-      car.make.toLowerCase().includes(term) ||
-      car.model.toLowerCase().includes(term) ||
-      car.category?.name?.toLowerCase().includes(term)
-    );
+    const term = this.searchControl.value?.trim().toLowerCase() || '';
+    this.dataSource.filter = term;
+    this.dataSource.filterPredicate = (data: any, filter: string) =>
+      data.make.toLowerCase().includes(filter) ||
+      data.model.toLowerCase().includes(filter) ||
+      data.category?.name?.toLowerCase().includes(filter);
   }
 
 
-//get all available cars
+
+  //get all available cars
   getCars(): void {
     this.httpService.getCars().subscribe({
       next: (data: any[]) => {
         this.carList = data;
-        this.filteredCars = data;
+        this.dataSource.data = data;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         this.showError = false;
       },
       error: (err: any) => {
@@ -108,7 +121,7 @@ export class CarsComponent implements OnInit {
     }
     return null;
   }
-//sort by column names
+  //sort by column names
   sortBy(column: string): void {
     if (this.sortColumn === column) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';

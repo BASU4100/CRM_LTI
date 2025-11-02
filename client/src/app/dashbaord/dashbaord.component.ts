@@ -7,6 +7,10 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpService } from '../../services/http.service';
 
+//sorting
+import { MatSort } from '@angular/material/sort';
+
+
 @Component({
   selector: 'app-dashbaord',
   templateUrl: './dashbaord.component.html',
@@ -15,7 +19,7 @@ import { HttpService } from '../../services/http.service';
 export class DashbaordComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  @ViewChild(MatSort) sort!: MatSort;
   // admin
   role!: string | null;
   categoryList: any[] = [];
@@ -58,6 +62,7 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   getCustomerBookings() {

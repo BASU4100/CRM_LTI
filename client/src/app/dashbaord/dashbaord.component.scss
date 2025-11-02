@@ -49,16 +49,18 @@
   width: 100%;
 }
 
-.mat-header-cell {
+.mat-header-cell{
   font-size: medium;
   color: black;
-  text-align: center;
+  text-align: center !important;
   background-color: whitesmoke;
+  // display: flex;
 }
 
 .mat-cell {
   text-align: center;
   vertical-align: center;
+  text-align: center;
 }
 
 /* Revenue cards stacked vertically and fill height */

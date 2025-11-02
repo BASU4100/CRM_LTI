@@ -1,0 +1,42 @@
+.full-height {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 128px)
+}
+
+.spacer {
+    flex: 1;
+}
+
+.mat-card {
+    margin: 2rem;
+}
+
+.mat-card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.filter-form {
+    display: flex;
+    gap: 1rem;
+}
+
+.mat-form-field {
+    flex: 1;
+}
+
+.mat-header-cell {
+    font-size: medium;
+    color: black;
+    text-align: center !important;
+    background-color: whitesmoke;
+}
+
+.mat-cell {
+    text-align: center;
+    vertical-align: center;
+    text-align: center;
+}

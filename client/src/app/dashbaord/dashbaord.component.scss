@@ -6,7 +6,8 @@
   box-sizing: border-box;
 }
 
-.agent-layout, .customer-layout {
+.agent-layout,
+.customer-layout {
   height: calc(100vh - 64px); // Adjust based on your header/navbar height
   padding: 1rem;
   box-sizing: border-box;
@@ -21,7 +22,8 @@
   overflow: hidden;
 }
 
-.car-list-card, .booking-list-card {
+.car-list-card,
+.booking-list-card {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -49,7 +51,7 @@
   width: 100%;
 }
 
-.mat-header-cell{
+.mat-header-cell {
   font-size: medium;
   color: black;
   text-align: center !important;

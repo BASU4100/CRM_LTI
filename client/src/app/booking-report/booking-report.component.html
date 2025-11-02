@@ -1,54 +1,91 @@
-
-<div class="container mt-4">
-  <h2>Booking Report</h2>
+<mat-card class="mat-elevation-z4 full-height">
+  <mat-card-title>Booking Report</mat-card-title>
 
   <!-- Error Message -->
-  <div *ngIf="showError" class="alert alert-danger">
+  <mat-card *ngIf="showError" class="mat-elevation-z2"
+    style="background-color: #ffebee; color: #c62828; padding: 1rem;">
     {{ errorMessage }}
-  </div>
+  </mat-card>
 
   <!-- Success Message -->
-  <div *ngIf="showMessage" class="alert alert-success">
+  <mat-card *ngIf="showMessage" class="mat-elevation-z2"
+    style="background-color: #e8f5e9; color: #2e7d32; padding: 1rem;">
     {{ responseMessage }}
-  </div>
+  </mat-card>
 
-  <form [formGroup]="filterForm" class="row g-3 mb-3">
-    <div class="col-md-4">
-      <input type="text" class="form-control" placeholder="Filter by Customer Name" formControlName="customerName">
-    </div>
-    <div class="col-md-4">
-      <input type="text" class="form-control" placeholder="Filter by Car Model" formControlName="carModel">
-    </div>
-    <div class="col-md-4">
-      <input type="text" class="form-control" placeholder="Filter by Status" formControlName="status">
-    </div>
-    </form>
+  <!-- Filter Form -->
+  <form [formGroup]="filterForm" class="filter-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Customer Name</mat-label>
+      <input matInput formControlName="customerName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Car Model</mat-label>
+      <input matInput formControlName="carModel" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Status</mat-label>
+      <input matInput formControlName="status" />
+    </mat-form-field>
+  </form>
 
   <!-- Booking Report Table -->
-  <div class="table-responsive">
-    <table class="table table-bordered table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th>Car Make</th>
-          <th>Car Model</th>
-          <th>Customer Name</th>
-          <th>Rental Start Date</th>
-          <th>Rental End Date</th>
-          <th>Status</th>
-          <th>Payment Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let booking of filteredBookings">
-          <td>{{ booking.car.make }}</td>
-          <td>{{ booking.car.model }}</td>
-          <td>{{ booking.user.username }}</td>
-          <td>{{ booking.rentalStartDate | date: 'medium' }}</td>
-          <td>{{ booking.rentalEndDate | date: 'medium' }}</td>
-          <td>{{ booking.status }}</td>
-          <td>{{ booking.paymentStatus }}</td>
-        </tr>
-      </tbody>
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2" style="width: 100%; overflow: hidden;">
+
+      <!-- Car Make Column -->
+      <ng-container matColumnDef="carMake">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Car Make </th>
+        <td mat-cell *matCellDef="let booking"> {{ booking.car.make }} </td>
+      </ng-container>
+
+      <!-- Car Model Column -->
+      <ng-container matColumnDef="carModel">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Car Model </th>
+        <td mat-cell *matCellDef="let booking"> {{ booking.car.model }} </td>
+      </ng-container>
+
+      <!-- Customer Name Column -->
+      <ng-container matColumnDef="customerName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer Name </th>
+        <td mat-cell *matCellDef="let booking"> {{ booking.user.username }} </td>
+      </ng-container>
+
+      <!-- Rental Start Date Column -->
+      <ng-container matColumnDef="rentalStartDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Rental Start Date </th>
+        <td mat-cell *matCellDef="let booking"> {{ booking.rentalStartDate | date: 'mediumDate' }} </td>
+      </ng-container>
+
+      <!-- Rental End Date Column -->
+      <ng-container matColumnDef="rentalEndDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Rental End Date </th>
+        <td mat-cell *matCellDef="let booking"> {{ booking.rentalEndDate | date: 'mediumDate' }} </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+        <td mat-cell *matCellDef="let booking"> {{ booking.status }} </td>
+      </ng-container>
+
+      <!-- Payment Status Column -->
+      <ng-container matColumnDef="paymentStatus">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment Status </th>
+        <td mat-cell *matCellDef="let booking"> {{ booking.paymentStatus }} </td>
+      </ng-container>
+
+      <!-- Header and Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
-</div>
+
+  <span class="spacer"></span>
+
+  <!-- Paginator -->
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  
+</mat-card>

@@ -13,32 +13,6 @@ mat-card-title {
   width: 100%;
 }
 
-// .form-select:focus {
-//   border-color: #ff6600;
-//   box-shadow: 0 0 5px rgba(255, 102, 0, 0.5);
-// }
-
-// .btn-primary {
-//   background-color: #ff6600;
-//   border-color: #ff6600;
-// }
-
-// .btn-primary:hover {
-//   background-color: #e65c00;
-//   border-color: #e65c00;
-// }
-
-// /* Table header */
-// .table thead {
-//   background-color: #ff6600;
-//   color: white;
-// }
-
-// /* Table row hover */
-// .table tbody tr:hover {
-//   background-color: rgba(255, 165, 0, 0.2);
-// }
-
 /* Card max-width */
 mat-card {
   max-width: 700px;
@@ -74,6 +48,3 @@ mat-card {
 .alert {
   margin-top: 0.5rem !important;   /* was mt-2 */
 }
-// .mt-3 { 
-//   margin-top: 0.75rem !important;
-// }   /* button area */

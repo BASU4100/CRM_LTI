@@ -125,6 +125,7 @@ export class AddCarComponent implements OnInit {
           setTimeout(() => {
             this.showMessage = false;
             this.responseMessage = '';
+            this.router.navigate(['/dashboard']);
           }, 1500);
         },
         error: (error) => {

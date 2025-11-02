@@ -1,17 +1,52 @@
-.table-form-container {
-  max-height: 75vh;
-  overflow-y: auto;
-  overflow-x: hidden;   /* Critical: removes horizontal scrollbar */
-  border-radius: 8px;
-  background: white;
+.full-height {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 128px);
+  overflow: hidden;
 }
 
-/* Equal width columns + reduced spacing */
-.table-full-width {
-  width: 100% !important;
-  table-layout: fixed;   /* Forces equal column width */
-  font-size: 0.82rem;
+.mat-card {
+  margin: 2rem;
 }
+
+.mat-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.mat-header-cell {
+  font-size: medium;
+  color: black;
+  text-align: center !important;
+  background-color: whitesmoke;
+}
+
+.mat-cell {
+  text-align: center;
+  vertical-align: center;
+  text-align: center;
+}
+
+.spacer {
+  flex: 1;
+}
+
+// .table-form-container {
+//   max-height: 75vh;
+//   overflow-y: auto;
+//   overflow-x: hidden;   /* Critical: removes horizontal scrollbar */
+//   border-radius: 8px;
+//   background: white;
+// }
+
+// /* Equal width columns + reduced spacing */
+// .table-full-width {
+//   width: 100% !important;
+//   table-layout: fixed;   /* Forces equal column width */
+//   font-size: 0.82rem;
+// }
 
 /* Super compact cells */
 .compact-cell {
@@ -21,10 +56,10 @@
 }
 
 /* Bold headers */
-.bold-header {
-  font-weight: 600 !important;
-  font-size: 0.85rem;
-}
+// .bold-header {
+//   font-weight: 600 !important;
+//   font-size: 0.85rem;
+// }
 
 /* Tiny badges */
 .small-badge {

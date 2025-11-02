@@ -33,7 +33,7 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
   filteredCarList: any[] = []
   sortDirection: boolean = true
   filterText: string = ''
-  
+
   // customer
   bookingList: any[] = [];
 
@@ -63,6 +63,19 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.dataSource.sortingDataAccessor = (item: any, property: string) => {
+      // AGENT view sorting
+      if (this.role === 'AGENT') {
+        switch (property) {
+          case 'category': return item.category?.name?.toLowerCase();
+          case 'year': return item.manufactureYear;
+          case 'reg': return item.registrationNumber?.toLowerCase();
+          case 'rate': return item.rentalRatePerDay;
+          default: return item[property];
+        }
+      }
+    }
   }
 
   getCustomerBookings() {

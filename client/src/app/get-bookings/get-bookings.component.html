@@ -1,5 +1,5 @@
-<div class="container py-1">
-  <h2 class="mat-headline mb-2 text-center">Recent Bookings</h2>
+<mat-card class="mat-elevation-z4 full-height">
+  <mat-card-title class="mat-headline mb-2 text-center">Recent Bookings</mat-card-title>
 
   <!-- Success / Error Messages -->
   <mat-card *ngIf="showMessage" class="mb-2 p-1">
@@ -22,14 +22,14 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Table + Form Container -->
-  <div class="table-form-container mat-elevation-z8">
+  <!-- Table + Form Container
+  <div class="table-form-container mat-elevation-z8"> -->
     <!-- Table (no matSort) -->
-    <table mat-table [dataSource]="dataSource" class="w-100 table-full-width">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" style="width: 100%; overflow: hidden;">
 
       <!-- Car -->
       <ng-container matColumnDef="car">
-        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Car</th>
+        <th mat-header-cell *matHeaderCellDef>Car</th>
         <td mat-cell *matCellDef="let row" class="text-center compact-cell">
           {{ row.car?.make }} {{ row.car?.model }}
         </td>
@@ -37,7 +37,7 @@
 
       <!-- User -->
       <ng-container matColumnDef="user">
-        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">User</th>
+        <th mat-header-cell *matHeaderCellDef>User</th>
         <td mat-cell *matCellDef="let row" class="text-center compact-cell">
           {{ row.user?.username }}
         </td>
@@ -45,7 +45,7 @@
 
       <!-- Start -->
       <ng-container matColumnDef="start">
-        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Start</th>
+        <th mat-header-cell *matHeaderCellDef>Start</th>
         <td mat-cell *matCellDef="let row" class="text-center compact-cell">
           {{ row.rentalStartDate }}
         </td>
@@ -53,7 +53,7 @@
 
       <!-- End -->
       <ng-container matColumnDef="end">
-        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">End</th>
+        <th mat-header-cell *matHeaderCellDef>End</th>
         <td mat-cell *matCellDef="let row" class="text-center compact-cell">
           {{ row.rentalEndDate }}
         </td>
@@ -61,10 +61,9 @@
 
       <!-- Booking Status -->
       <ng-container matColumnDef="bookingStatus">
-        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Status</th>
+        <th mat-header-cell *matHeaderCellDef>Status</th>
         <td mat-cell *matCellDef="let row" class="text-center compact-cell">
-          <span class="badge small-badge"
-                [ngClass]="{
+          <span class="badge small-badge" [ngClass]="{
                   'bg-success': row.bookingStatus === 'CONFIRMED',
                   'bg-warning': row.bookingStatus === 'PENDING',
                   'bg-danger': row.bookingStatus === 'CANCELLED'
@@ -76,10 +75,9 @@
 
       <!-- Payment Status -->
       <ng-container matColumnDef="paymentStatus">
-        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Payment</th>
+        <th mat-header-cell *matHeaderCellDef>Payment</th>
         <td mat-cell *matCellDef="let row" class="text-center compact-cell">
-          <span class="badge small-badge"
-                [ngClass]="{
+          <span class="badge small-badge" [ngClass]="{
                   'bg-success': row.paymentStatus === 'PAID',
                   'bg-secondary': row.paymentStatus === 'UNPAID'
                 }">
@@ -90,7 +88,7 @@
 
       <!-- Total -->
       <ng-container matColumnDef="total">
-        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Total</th>
+        <th mat-header-cell *matHeaderCellDef>Total</th>
         <td mat-cell *matCellDef="let row" class="text-center compact-cell">
           ₹{{ row.totalAmount | number:'1.0-0' }}
         </td>
@@ -98,17 +96,15 @@
 
       <!-- Actions -->
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Actions</th>
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let row" class="text-center compact-cell">
           <div class="d-flex justify-content-center gap-2">
             <button mat-stroked-button size="small" color="primary" (click)="bookNow(row)"
-                    [disabled]="row.bookingStatus !== 'PENDING'"
-                    class="w-100">
+              [disabled]="row.bookingStatus !== 'PENDING'" class="w-100">
               Confirm
             </button>
             <button mat-stroked-button size="small" color="accent" (click)="payment(row)"
-                    [disabled]="row.paymentStatus !== 'UNPAID'"
-                    class="w-100">
+              [disabled]="row.paymentStatus !== 'UNPAID'" class="w-100">
               Pay
             </button>
           </div>
@@ -118,6 +114,14 @@
       <!-- Header & Rows -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <!-- No records -->
+      <tr *matNoDataRow>
+        <td colspan="8" class="text-center py-3">
+          <mat-icon class="text-muted">search_off</mat-icon>
+          <p class="mat-body-1">No payment records found</p>
+        </td>
+      </tr>
     </table>
 
     <!-- Confirm Form -->
@@ -172,8 +176,8 @@
               </div>
             </div>
             <div class="mt-2 d-flex gap-1 justify-content-center">
-              <button mat-raised-button color="accent" size="small" type="submit"
-                      [disabled]="itemForm.invalid">Pay Now</button>
+              <button mat-raised-button color="accent" size="small" type="submit" [disabled]="itemForm.invalid">Pay
+                Now</button>
               <button mat-button size="small" type="button" (click)="reset()">Cancel</button>
             </div>
           </form>
@@ -181,17 +185,15 @@
       </mat-card>
     </div>
 
+    <span class="spacer"></span>
+
     <!-- Paginator -->
-    <mat-paginator [pageSize]="3"
-                   [pageSizeOptions]="[]"
-                   showFirstLastButtons
-                   [length]="dataSource.data.length"
-                   class="paginator-compact">
+    <mat-paginator [pageSize]="3" showFirstLastButtons [length]="dataSource.data.length" class="paginator-compact">
     </mat-paginator>
 
-    <!-- Empty State -->
+    <!-- Empty State
     <div *ngIf="dataSource.data.length === 0 && !showError" class="text-center py-3 text-muted">
       <p class="mat-body-2">No bookings assigned to you.</p>
-    </div>
-  </div>
-</div>
+    </div> -->
+  <!-- </div> -->
+</mat-card>

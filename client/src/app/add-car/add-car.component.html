@@ -110,11 +110,11 @@
 
       <!-- Submit Button -->
       <div class="button-row"> <!-- Reduced: mt-4 → mt-3 -->
-        <button mat-raised-button color="warn" class="w-100" [routerLink]="['/dashboard']">
+        <button mat-raised-button color="warn" [routerLink]="['/dashboard']">
           Cancel
         </button>
 
-        <button mat-raised-button color="primary" class="w-100" [disabled]="itemForm.invalid">
+        <button mat-raised-button color="primary" [disabled]="itemForm.invalid">
           {{ updateId ? 'Update Car' : 'Add Car' }}
         </button>
       </div>

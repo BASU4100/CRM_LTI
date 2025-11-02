@@ -7,6 +7,10 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpService } from '../../services/http.service';
 
+//sorting
+import { MatSort } from '@angular/material/sort';
+
+
 @Component({
   selector: 'app-dashbaord',
   templateUrl: './dashbaord.component.html',
@@ -15,7 +19,7 @@ import { HttpService } from '../../services/http.service';
 export class DashbaordComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  @ViewChild(MatSort) sort!: MatSort;
   // admin
   role!: string | null;
   categoryList: any[] = [];
@@ -58,6 +62,7 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   getCustomerBookings() {
@@ -118,19 +123,6 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
 
   editCar(car: any): void {
     this.router.navigate(['/add-car', car.id])
-  }
-
-  sortBy(column: string): void {
-    this.filteredCarList.sort((a, b) => {
-      const valA = this.getNestedValue(a, column)?.toString().toLowerCase();
-      const valB = this.getNestedValue(b, column)?.toString().toLowerCase();
-
-      if (valA < valB) return this.sortDirection ? -1 : 1;
-      if (valA > valB) return this.sortDirection ? 1 : -1;
-      return 0;
-    });
-
-    this.sortDirection = !this.sortDirection;
   }
 
   getNestedValue(obj: any, path: string): any {

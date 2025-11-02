@@ -121,24 +121,6 @@ export class CarsComponent implements OnInit {
     }
     return null;
   }
-  //sort by column names
-  sortBy(column: string): void {
-    if (this.sortColumn === column) {
-      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-      this.sortColumn = column;
-      this.sortDirection = 'asc';
-    }
-
-    this.carList.sort((a, b) => {
-      const valA = a[column];
-      const valB = b[column];
-
-      if (valA < valB) return this.sortDirection === 'asc' ? -1 : 1;
-      if (valA > valB) return this.sortDirection === 'asc' ? 1 : -1;
-      return 0;
-    });
-  }
   // Open booking modal/form for a specific car
   book(val: any): void {
     this.toBook = { ...val }; // Copy car details

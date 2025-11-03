@@ -182,4 +182,22 @@ export class GetBookingsComponent implements OnInit, AfterViewInit {
     this.showMessage = true;
     setTimeout(() => this.showMessage = false, 5000);
   }
+
+  deleteBooking(id: number): void { 
+    this.http.deleteBookingByAgent(id).subscribe({
+      next: () => {
+      
+        this.setSuccess('Booking deleted successfully.');
+        this.getBookings(); // Refresh the list
+        this.dataSource.data = this.dataSource.data.filter(b=>b.id !==id)
+        this.getBookings()
+        this.reset()
+      },
+      error: err => {
+        this.setError('Delete failed: ' + (err.error?.message || err.message))
+        this.ngOnInit();
+      }
+    
+    });
+  }
 }

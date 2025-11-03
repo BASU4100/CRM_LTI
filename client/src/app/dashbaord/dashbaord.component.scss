@@ -11,6 +11,7 @@
   height: calc(100vh - 64px); // Adjust based on your header/navbar height
   padding: 1rem;
   box-sizing: border-box;
+ 
 }
 
 /* Category card takes full height and scrolls if content overflows */
@@ -87,4 +88,8 @@
   font-size: 2rem;
   font-weight: bold;
   color: #3f51b5; // Material primary color
+}
+
+.mat-paginator{
+  margin-top: auto;
 }

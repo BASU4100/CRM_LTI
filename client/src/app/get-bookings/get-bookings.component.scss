@@ -105,3 +105,18 @@ mat-card-content {
 .d-flex {
   justify-content: space-around;
 }
+
+.clickable-icon{
+  cursor: pointer;
+  color: #f44336;
+}
+
+.smallicon{
+  font-size: 20px;
+  vertical-align: middle;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1px;
+  
+}

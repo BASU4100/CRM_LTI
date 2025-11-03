@@ -66,4 +66,11 @@ public class AgentController {
     public ResponseEntity<Payment> createPayment(@PathVariable Long bookingId, @RequestBody Payment paymentRequest) {
         return new ResponseEntity<>(paymentService.generateInvoice(bookingId, paymentRequest), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/api/agent/bookings/{id}")
+    public ResponseEntity<String> deleteBookingByAgent(@PathVariable Long id) {
+        bookingService.deleteBookingByAgent(id);
+        return new ResponseEntity<>("Booking deleted successfully!", HttpStatus.OK);
+    }
 }
+

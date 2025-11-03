@@ -69,6 +69,10 @@ export class HttpService {
   getBookingByAgent(): Observable<any[]> {
     return this.http.get<any[]>(`${this.serverName}/api/agent/bookings`);
   }
+
+  deleteBookingByAgent(id:number): Observable<any> {
+    return this.http.delete<any>(`${this.serverName}/api/agent/bookings/${id}`);
+  }
  
   // Add payment details
   bookingPayment(details: any, bookingId: any): Observable<any> {
@@ -134,4 +138,6 @@ export class HttpService {
   getCustomerBookings(): Observable<any>{
     return this.http.get(`${this.serverName}/api/customers/booking`);
   }
+
+
 }

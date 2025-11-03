@@ -59,7 +59,9 @@ export class AddCarComponent implements OnInit {
     if (!this.authService.getLoginStatus) {
       this.router.navigate(['/login']);
     }
-
+    else if (this.authService.getRole !== 'AGENT') {
+      this.router.navigate(['/dashboard']);
+    }
     this.getAllCategoryList();
     this.getAllCarsList();
 

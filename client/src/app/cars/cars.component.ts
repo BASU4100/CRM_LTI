@@ -74,6 +74,9 @@ export class CarsComponent implements OnInit {
     if (!this.authService.getLoginStatus) {
       this.router.navigate(['/login']);
     }
+    else if (this.authService.getRole !== 'CUSTOMER') {
+      this.router.navigate(['/dashboard']);
+    }
     this.searchControl.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {

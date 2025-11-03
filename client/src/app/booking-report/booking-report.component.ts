@@ -21,7 +21,7 @@ export class BookingReportComponent implements OnInit, AfterViewInit {
   carList: any[] = [];
   assignModel: any;
   bookingList: any[] = [];
-  displayedColumns: string[] = [  'carMake',  'carModel',  'customerName',  'rentalStartDate',  'rentalEndDate',  'status',  'paymentStatus'];
+  displayedColumns: string[] = ['carMake', 'carModel', 'customerName', 'rentalStartDate', 'rentalEndDate', 'status', 'paymentStatus'];
   toBook: any;
   showMessage: any;
   responseMessage: any;
@@ -39,21 +39,25 @@ export class BookingReportComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    if(!this.authService.getLoginStatus){
+    if (!this.authService.getLoginStatus) {
       this.router.navigate(['/login']);
     }
-     this.filterForm = this.fb.group({
-        customerName: [''],
-        carModel: [''],
-        status: ['']
-      });
+    else if (this.authService.getRole !== 'ADMINISTRATOR') {
+      this.router.navigate(['/dashboard']);
+    }
+
+    this.filterForm = this.fb.group({
+      customerName: [''],
+      carModel: [''],
+      status: ['']
+    });
     this.getBookingReport();
     this.filterForm.valueChanges.subscribe(() => {
-        this.applyFilters();
-      });
+      this.applyFilters();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -63,15 +67,15 @@ export class BookingReportComponent implements OnInit, AfterViewInit {
 
   applyFilters(): void {
     const { customerName, carModel, status } = this.filterForm.value;
-  
+
     this.filteredBookings = this.bookingList.filter(booking => {
       const matchesCustomer = customerName ? booking.user?.username?.toLowerCase().includes(customerName.toLowerCase()) : true;
       const matchesModel = carModel ? booking.car?.model?.toLowerCase().includes(carModel.toLowerCase()) : true;
       const matchesStatus = status ? booking.status?.toLowerCase().includes(status.toLowerCase()) : true;
-  
+
       return matchesCustomer && matchesModel && matchesStatus;
     });
-  
+
     this.dataSource.data = this.filteredBookings;
   }
 

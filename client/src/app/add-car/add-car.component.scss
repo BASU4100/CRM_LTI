@@ -48,3 +48,62 @@ mat-card {
 .alert {
   margin-top: 0.5rem !important;   /* was mt-2 */
 }
+// .mt-3 { 
+//   margin-top: 0.75rem !important;
+// }   /* button area */
+.form-wrapper {
+  padding: 20px;
+}
+
+.mat-card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.form-control-file {
+  margin-top: 10px;
+}
+
+.alert {
+  max-width: 800px;
+  margin: 10px auto;
+}
+
+.btn-close-sm {
+  font-size: 0.8rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.mat-card-image {
+  object-fit: cover;
+}
+
+.file-input {
+  margin-top: 8px;
+}
+.full-width {
+  width: 100%;
+}
+mat-form-field {
+  width: 100%;
+}
+
+img {
+  border-radius: 4px;
+  margin-top: 8px;
+}
+

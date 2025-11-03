@@ -1,6 +1,7 @@
 package com.wecp.car_rental_management_system.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -35,18 +36,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = passwordEncoder;
     }
 
+    
+
     // to inform the application what kind of authentication provider we are using and algorithm for password encoding
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
+    
 
     // checks authorization for actions
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/user/register", "/api/user/login").permitAll()
+                .antMatchers("/api/user/register", "/api/user/login", "/images/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/administrator/car-categories").hasAnyAuthority("ADMINISTRATOR","AGENT")
                 .antMatchers("/api/administrator/**").hasAuthority("ADMINISTRATOR")
                 .antMatchers("/api/customers/**").hasAuthority("CUSTOMER")

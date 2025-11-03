@@ -62,8 +62,7 @@
 
   
   <!-- Available Cars Section -->
-  <mat-card class="car-list-card mat-elevation-z2">
-  <div *ngIf="!toBook" class="car-section-container">
+  <mat-card *ngIf="!toBook" class="car-section-container car-list-card mat-elevation-z2">
     <h2 class="mat-headline mb-4">Available Cars for Rent</h2>
 
     <div *ngIf="showError" class="alert alert-danger">
@@ -100,6 +99,5 @@
 
       <button class="scroll-btn right" (click)="scrollRight()" [disabled]="isAtEnd">&#9654;</button>
     </div>
-  </div>
   </mat-card>
 </div>

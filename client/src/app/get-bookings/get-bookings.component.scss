@@ -6,7 +6,7 @@
 }
 
 .mat-card {
-  margin: 2rem;
+  margin: 2rem 4rem;
 }
 
 .mat-card-title {
@@ -29,23 +29,8 @@
   text-align: center;
 }
 
-.spacer {
-  flex: 1;
-}
-
-// .table-form-container {
-//   max-height: 75vh;
-//   overflow-y: auto;
-//   overflow-x: hidden;   /* Critical: removes horizontal scrollbar */
-//   border-radius: 8px;
-//   background: white;
-// }
-
-// /* Equal width columns + reduced spacing */
-// .table-full-width {
-//   width: 100% !important;
-//   table-layout: fixed;   /* Forces equal column width */
-//   font-size: 0.82rem;
+// .spacer {
+//   flex: 1;
 // }
 
 /* Super compact cells */
@@ -54,12 +39,6 @@
   line-height: 1.1 !important;
   font-size: 0.8rem;
 }
-
-/* Bold headers */
-// .bold-header {
-//   font-weight: 600 !important;
-//   font-size: 0.85rem;
-// }
 
 /* Tiny badges */
 .small-badge {
@@ -121,4 +100,12 @@ button.mat-stroked-button[size="small"] {
 mat-card,
 mat-card-content {
   overflow: hidden !important;
+}
+
+.table-container {
+  flex:1
+}
+
+.d-flex {
+  justify-content: space-around;
 }

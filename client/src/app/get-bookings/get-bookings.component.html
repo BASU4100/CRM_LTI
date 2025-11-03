@@ -22,8 +22,8 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Table + Form Container
-  <div class="table-form-container mat-elevation-z8"> -->
+  <!-- Table + Form Container -->
+  <div class="table-container">
     <!-- Table (no matSort) -->
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" style="width: 100%; overflow: hidden;">
 
@@ -59,60 +59,32 @@
         </td>
       </ng-container>
 
-      <!-- <ng-container matColumnDef="bookingStatus">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let row" class="text-center compact-cell">
-          <span class="badge small-badge" [ngClass]="{
-                  'bg-success': row.bookingStatus === 'CONFIRMED',
-                  'bg-warning': row.bookingStatus === 'PENDING',
-                  'bg-danger': row.bookingStatus === 'CANCELLED'
-                }">
-            {{ row.bookingStatus }}
-          </span>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="paymentStatus">
-        <th mat-header-cell *matHeaderCellDef>Payment</th>
-        <td mat-cell *matCellDef="let row" class="text-center compact-cell">
-          <span class="badge small-badge" [ngClass]="{
-                  'bg-success': row.paymentStatus === 'PAID',
-                  'bg-secondary': row.paymentStatus === 'UNPAID'
-                }">
-            {{ row.paymentStatus }}
-          </span>
-        </td>
-      </ng-container> -->
-
-
       <ng-container matColumnDef="bookingStatus">
-      <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Status</th>
-      <td mat-cell *matCellDef="let row" class="text-center compact-cell">
-      <!-- NEW: .status-badge applied -->
-      <span class="status-badge"
-                [ngClass]="{
+        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Status</th>
+        <td mat-cell *matCellDef="let row" class="text-center compact-cell">
+          <!-- NEW: .status-badge applied -->
+          <span class="status-badge" [ngClass]="{
                   'bg-success': row.bookingStatus === 'CONFIRMED',
                   'bg-warning': row.bookingStatus === 'PENDING',
                   'bg-danger' : row.bookingStatus === 'CANCELLED'
                 }">
             {{ row.bookingStatus }}
-      </span>
-      </td>
+          </span>
+        </td>
       </ng-container>
-       
+
       <!-- ==================== PAYMENT STATUS COLUMN ==================== -->
       <ng-container matColumnDef="paymentStatus">
-      <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Payment</th>
-      <td mat-cell *matCellDef="let row" class="text-center compact-cell">
-      <!-- NEW: .status-badge applied (same colours as before) -->
-      <span class="status-badge"
-                [ngClass]="{
+        <th mat-header-cell *matHeaderCellDef class="text-center bold-header">Payment</th>
+        <td mat-cell *matCellDef="let row" class="text-center compact-cell">
+          <!-- NEW: .status-badge applied (same colours as before) -->
+          <span class="status-badge" [ngClass]="{
                   'bg-success' : row.paymentStatus === 'PAID',
                   'bg-secondary': row.paymentStatus === 'UNPAID'
                 }">
             {{ row.paymentStatus }}
-      </span>
-      </td>
+          </span>
+        </td>
       </ng-container>
 
       <!-- Total -->
@@ -157,12 +129,16 @@
     <div *ngIf="confirmId && selectedBooking?.id === confirmId" class="p-2">
       <mat-card class="compact-form-card">
         <mat-card-content class="p-2">
-          <p class="mb-1"><strong>Confirm for:</strong> {{ selectedBooking.user?.username }}</p>
-          <p class="mb-1"><strong>Car:</strong> {{ selectedBooking.car?.make }} {{ selectedBooking.car?.model }}</p>
-          <p class="mb-2"><strong>Total:</strong> ₹{{ selectedBooking.totalAmount | number:'1.0-0' }}</p>
+          <div class="d-flex gap-1 w-100">
+            <p class="mb-1"><strong>Confirm for:</strong> {{ selectedBooking.user?.username }}</p>
+            <p class="mb-1"><strong>Car:</strong> {{ selectedBooking.car?.make }} {{ selectedBooking.car?.model }}</p>
+            <p class="mb-2"><strong>Total:</strong> ₹{{ selectedBooking.totalAmount | number:'1.0-0' }}</p>
+          </div>
           <div class="d-flex gap-1 justify-content-center">
             <button mat-raised-button color="primary" size="small" (click)="onStatusSubmit()">Update</button>
-            <button mat-button size="small" (click)="reset()">Cancel</button>
+            <button mat-raised-button color="warn" (click)="reset()">
+              Cancel
+            </button>
           </div>
         </mat-card-content>
       </mat-card>
@@ -183,7 +159,9 @@
               <div class="col-6 col-md-3">
                 <mat-form-field appearance="outline" class="w-100 compact-field">
                   <mat-label>Date</mat-label>
-                  <input matInput type="date" formControlName="paymentDate">
+                  <input matInput [matDatepicker]="startPicker" formControlName="paymentDate">
+                  <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #startPicker></mat-datepicker>
                 </mat-form-field>
               </div>
               <div class="col-6 col-md-3">
@@ -213,16 +191,9 @@
         </mat-card-content>
       </mat-card>
     </div>
+  </div>
 
-    <span class="spacer"></span>
-
-    <!-- Paginator -->
-    <mat-paginator [pageSize]="3" showFirstLastButtons [length]="dataSource.data.length" class="paginator-compact">
-    </mat-paginator>
-
-    <!-- Empty State
-    <div *ngIf="dataSource.data.length === 0 && !showError" class="text-center py-3 text-muted">
-      <p class="mat-body-2">No bookings assigned to you.</p>
-    </div> -->
-  <!-- </div> -->
+  <!-- Paginator -->
+  <mat-paginator [pageSize]="3" showFirstLastButtons [length]="dataSource.data.length" class="paginator-compact">
+  </mat-paginator>
 </mat-card>

@@ -91,8 +91,6 @@ export class CarsComponent implements OnInit {
       data.category?.name?.toLowerCase().includes(filter);
   }
 
-
-
   //get all available cars
   getCars(): void {
     this.httpService.getCars().subscribe({
@@ -121,6 +119,7 @@ export class CarsComponent implements OnInit {
     }
     return null;
   }
+
   // Open booking modal/form for a specific car
   book(val: any): void {
     this.toBook = { ...val }; // Copy car details
@@ -165,11 +164,20 @@ export class CarsComponent implements OnInit {
         this.itemForm.reset();
         this.closeModal();
         this.getCars(); // Refresh available cars
+        setTimeout(() => {
+          this.showMessage = false;
+          this.responseMessage = '';
+          this.router.navigate(['/dashboard'])
+        }, 1000);
       },
       error: (err: any) => {
         this.showError = true;
         this.errorMessage = err.error?.message || 'Booking failed. Please try again.';
         console.error(err);
+        setTimeout(() => {
+          this.showError = false;
+          this.errorMessage = '';
+        }, 1000);
       }
     });
   }

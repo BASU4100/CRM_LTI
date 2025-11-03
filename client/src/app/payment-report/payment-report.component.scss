@@ -87,17 +87,6 @@ table {
   vertical-align: middle;
 }
 
-.mat-cell.status-cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.mat-header-cell.text-end,
-.mat-cell.text-end {
-  text-align: center !important;
-}
-
 .status-badge {
   padding: 0.25rem 0.625rem;
   border-radius: 0.75rem;

@@ -12,16 +12,6 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="showError" class="mb-2 p-1">
-    <mat-card-content class="d-flex align-items-center gap-1 py-1">
-      <mat-icon color="warn" class="fs-5">error</mat-icon>
-      <span class="fs-6">{{ errorMessage }}</span>
-      <button mat-icon-button (click)="showError = false" class="ms-auto">
-        <mat-icon class="fs-6">close</mat-icon>
-      </button>
-    </mat-card-content>
-  </mat-card>
-
   <!-- Table + Form Container -->
   <div class="table-container">
     <!-- Table (no matSort) -->
@@ -107,6 +97,13 @@
               [disabled]="row.paymentStatus !== 'UNPAID'" class="w-100">
               Pay
             </button>
+            <!-- <button mat-stroked-button size="small" color="accent" (click)="deleteBooking(row.id)" aria-label="Delete Booking" matTooltip="Delete Booking">
+            <mat-icon></mat-icon>
+          </button> -->
+            <mat-icon class="clickable-icon smallicon" (click)="deleteBooking(row.id)" aria-label="Delete Booking"
+              matTooltip="Delete Booking">
+              delete
+            </mat-icon>
           </div>
         </td>
       </ng-container>

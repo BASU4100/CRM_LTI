@@ -141,47 +141,48 @@
       </mat-card>
     </div>
   </div>
-</ng-template>
-<ng-template #customer>
-  <div class="customer-layout">
-    <mat-card class="booking-list-card mat-elevation-z2">
-      <mat-card-title>My Bookings</mat-card-title>
+
+  
+ <ng-template #customer>
+    <div class="customer-layout">
+      <mat-card class="booking-list-card mat-elevation-z2">
+        <mat-card-title>My Bookings</mat-card-title>
 
       <div class="table-container">
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1 w-100">
 
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Booking ID</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortColumn('id')" class="sortable">Booking ID</th>
             <td mat-cell *matCellDef="let booking">{{ booking.id }}</td>
           </ng-container>
 
           <ng-container matColumnDef="car">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Car</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  (click)="sortColumn('car')" class="sortable">Car</th>
             <td mat-cell *matCellDef="let booking">{{ booking.car.make }} {{ booking.car.model }}</td>
           </ng-container>
 
           <ng-container matColumnDef="start">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortColumn('start')" class="sortable">Start Date</th>
             <td mat-cell *matCellDef="let booking">{{ booking.rentalStartDate | date:'dd-MM-yyyy' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="end">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortColumn('end')" class="sortable">End Date</th>
             <td mat-cell *matCellDef="let booking">{{ booking.rentalEndDate | date:'dd-MM-yyyy' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortColumn('status')" class="sortable">Status</th>
             <td mat-cell *matCellDef="let booking">{{ booking.status }}</td>
           </ng-container>
 
           <ng-container matColumnDef="amount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Amount</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortColumn('amount')" class="sortable">Total Amount</th>
             <td mat-cell *matCellDef="let booking">{{ booking.totalAmount | currency:'INR' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="payment">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Status</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortColumn('payment')" class="sortable">Payment Status</th>
             <td mat-cell *matCellDef="let booking">{{ booking.paymentStatus }}</td>
           </ng-container>
 
@@ -199,7 +200,8 @@
         </table>
       </div>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-    </mat-card>
-  </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </mat-card>
+    </div>
+  </ng-template>
 </ng-template>

@@ -34,6 +34,8 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
 
   // customer
   bookingList: any[] = [];
+  private sortKey: string | null = null;   // 'id' | 'car' | 'start' | 'end' | ...
+  private sortAsc = true;
 
   constructor(private router: Router, private authService: AuthService, private httpService: HttpService) { }
 
@@ -57,6 +59,58 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
       this.getCustomerBookings();
     }
   }
+  sortColumn(key: string) {
+    // Only run for customer
+    if (this.role !== null && this.role !== 'ADMINISTRATOR' && this.role !== 'AGENT') {
+      if (this.sortKey === key) {
+        this.sortAsc = !this.sortAsc;           // toggle direction
+      } else {
+        this.sortKey = key;
+        this.sortAsc = true;
+      }
+
+      const data = [...this.bookingList];
+      data.sort((a, b) => this.compare(a, b, key, this.sortAsc));
+      this.dataSource.data = data;
+    }
+  }
+
+  private compare(a: any, b: any, key: string, asc: boolean): number {
+    let valA = this.getCustomerValue(a, key);
+    let valB = this.getCustomerValue(b, key);
+
+    // Handle null/undefined
+    if (valA == null) valA = asc ? -Infinity : Infinity;
+    if (valB == null) valB = asc ? -Infinity : Infinity;
+
+    // Dates → timestamp
+    if (valA instanceof Date) valA = valA.getTime();
+    if (valB instanceof Date) valB = valB.getTime();
+
+    // Strings → lowercase
+    if (typeof valA === 'string') valA = valA.toLowerCase();
+    if (typeof valB === 'string') valB = valB.toLowerCase();
+
+    let result = 0;
+    if (valA < valB) result = -1;
+    if (valA > valB) result = 1;
+
+    return asc ? result : -result;
+  }
+
+  private getCustomerValue(item: any, key: string): any {
+    switch (key) {
+      case 'id': return item.id;
+      case 'car': return `${item.car?.make || ''} ${item.car?.model || ''}`.trim();
+      case 'start': return new Date(item.rentalStartDate);
+      case 'end': return new Date(item.rentalEndDate);
+      case 'status': return item.status;
+      case 'amount': return item.totalAmount;
+      case 'payment': return item.paymentStatus;
+      default: return item[key];
+    }
+  }
+
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -64,14 +118,22 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
 
     this.dataSource.sortingDataAccessor = (item: any, property: string) => {
       // AGENT view sorting
-      if (this.role === 'AGENT') {
-        switch (property) {
-          case 'category': return item.category?.name?.toLowerCase();
-          case 'year': return item.manufactureYear;
-          case 'reg': return item.registrationNumber?.toLowerCase();
-          case 'rate': return item.rentalRatePerDay;
-          default: return item[property];
-        }
+      switch (property) {
+        case 'category': return item.category?.name?.toLowerCase();
+        case 'year': return item.manufactureYear;
+        case 'reg': return item.registrationNumber?.toLowerCase();
+        case 'rate': return item.rentalRatePerDay;
+    
+        //customer
+        case 'id': return item.id;
+        case 'car': return `${item.car?.make} ${item.car?.model}`.toLowerCase();
+        case 'start': return new Date(item.rentalStartDate);
+        case 'end': return new Date(item.rentalEndDate);
+        case 'status': return item.status?.toLowerCase();
+        case 'amount': return item.totalAmount;
+        case 'payment': return item.paymentStatus?.toLowerCase();
+
+        default: return item[property];
       }
     }
   }

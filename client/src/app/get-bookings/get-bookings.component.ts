@@ -71,7 +71,7 @@ export class GetBookingsComponent implements OnInit, AfterViewInit {
   private createForm(): void {
     this.itemForm = this.fb.group({
       amount: [{ value: '', disabled: true }, Validators.required],
-      paymentDate: ['', Validators.required],
+      paymentDate: [{ value: '', disabled: true }, Validators.required],
       paymentMethod: ['', Validators.required],
       paymentStatus: [{ value: 'PAID', disabled: true }, Validators.required]
     });
@@ -181,5 +181,23 @@ export class GetBookingsComponent implements OnInit, AfterViewInit {
     this.responseMessage = msg;
     this.showMessage = true;
     setTimeout(() => this.showMessage = false, 1500);
+  }
+
+  deleteBooking(id: number): void { 
+    this.http.deleteBookingByAgent(id).subscribe({
+      next: () => {
+      
+        this.setSuccess('Booking deleted successfully.');
+        this.getBookings(); // Refresh the list
+        this.dataSource.data = this.dataSource.data.filter(b=>b.id !==id)
+        this.getBookings()
+        this.reset()
+      },
+      error: err => {
+        this.setError('Delete failed: ' + (err.error?.message || err.message))
+        this.ngOnInit();
+      }
+    
+    });
   }
 }

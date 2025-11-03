@@ -138,18 +138,6 @@
         <button type="button" class="btn-close btn-close-sm" (click)="showError = false"></button>
       </div>
 
-      <!-- SUCCESS ALERT -->
-      <div *ngIf="showMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
-        {{ responseMessage }}
-        <button type="button" class="btn-close btn-close-sm" (click)="showMessage = false"></button>
-      </div>
-
-      <!-- ERROR ALERT -->
-      <div *ngIf="showError" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
-        {{ errorMessage }}
-        <button type="button" class="btn-close btn-close-sm" (click)="showError = false"></button>
-      </div>
-
       <!-- Submit Button -->
       <div class="button-row"> <!-- Reduced: mt-4 → mt-3 -->
         <button mat-raised-button color="warn" [routerLink]="['/dashboard']">

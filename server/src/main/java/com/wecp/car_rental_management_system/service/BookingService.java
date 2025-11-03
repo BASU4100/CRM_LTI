@@ -85,4 +85,11 @@ public class BookingService {
     public List<Booking> getBookingsByUserId(Long userId) {
         return bookingRepository.findByUserId(userId);
     }
+
+    @Transactional
+    public void deleteBookingByAgent(Long bookId) {
+        Booking book = bookingRepository.findById(bookId)
+            .orElseThrow(() -> new ResourceNotFoundException("Car category not found."));
+        bookingRepository.delete(book);
+    }
 }

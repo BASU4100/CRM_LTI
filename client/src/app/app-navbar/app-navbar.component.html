@@ -21,6 +21,17 @@
 
   <span class="spacer"></span>
 
+   <!-- Profile Icon -->
+   <div class="profile-logout-container">
+    <div class="profile-container" (click)="toggleProfile()" aria-label="User Profile">
+      <mat-icon class="profile-icon">account_circle</mat-icon>
+      <div *ngIf="showProfile" class="profile-dropdown mat-elevation-z4">
+        <p><strong>Username:</strong> {{ username }}</p>
+        <p><strong>Email:</strong> {{ userEmail }}</p>
+        <p><strong>Role:</strong> {{ roleName }}</p>
+      </div>
+    </div>
+  </div>
   <button mat-raised-button color="warn" (click)="logout()">Logout</button>
 </mat-toolbar> 
 

@@ -2,25 +2,31 @@
   display: flex;
   height: 100vh;
   overflow: hidden;
+  gap: 40px; // Adds spacing between left and right panels
+  padding: 0 40px; // Optional: adds spacing on the outer edges
+  
 }
 
 .left-panel {
   flex: 1;
-  background-image: url('../../assets/harrison-hargrave-N2CaCHiX4a4-unsplash.jpg'); /* Replace with your image */
+  background-image: url('../../assets/rental.png');
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: center;
   position: relative;
+  right: 3.26%;
+  bottom: 3.85%;
 }
 
 .overlay-text {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 10%;
+  left: 80%;
   transform: translate(-50%, -50%);
   color: white;
   font-size: 2rem;
   font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .right-panel {
@@ -28,15 +34,102 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f5f5f5;
 }
 
 .login-card {
-  width: 100%;
-  max-width: 400px;
+  width: 380px;
   padding: 2rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: black;
+  text-align: center;
+
+
 }
 
 .full-width {
   width: 100%;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 3.4%;
+  
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  font-weight: 650;
+  color: black;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.sign-in-btn {
+  width: 80%;
+  background-color: #3f51b5  !important;
+  color: white !important;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+  margin-left: 37px;
+  padding: 0.7rem;
+  font-weight: 600;
+  height: 45px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-section {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.register-section a {
+  color: #3f51b5;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+::ng-deep .mat-form-field-label {
+  color: black !important;
+}
+
+::ng-deep .mat-input-element {
+  color: black !important;
+}
+
+::ng-deep .mat-input-element::placeholder {
+  color: black(255, 255, 255, 0.7) !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #3f51b5 !important;
+  border-color: #3f51b5 !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #3f51b5 !important;
+  border-color:#3f51b5 !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: #3f51b5 !important;
+}
+
+::ng-deep .mat-error {
+  color: red !important;
+}
+
+::ng-deep .mat-hint {
+  color: rgb(210, 111, 111) !important;
+}
+
+p {
+  color: black;
 }

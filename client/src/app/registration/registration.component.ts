@@ -28,7 +28,7 @@ export class RegistrationComponent implements OnInit {
     });
 
     this.formModel = {
-      username: 'username',
+      username: 'Username',
       email: 'name@example.com',
       password: '********',
       role: 'Select Role'

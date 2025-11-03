@@ -10,7 +10,7 @@
             <div class="col-md-6">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Rental Start Date</mat-label>
-                <input matInput [matDatepicker]="startPicker" formControlName="rentalStartDate">
+                <input matInput [matDatepicker]="startPicker" formControlName="rentalStartDate" (dateChange)="endDate = $event.value" [min]="startDate">
                 <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
                 <mat-datepicker #startPicker></mat-datepicker>
                 <mat-error
@@ -23,7 +23,7 @@
             <div class="col-md-6">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Rental End Date</mat-label>
-                <input matInput [matDatepicker]="endPicker" formControlName="rentalEndDate">
+                <input matInput [matDatepicker]="endPicker" formControlName="rentalEndDate" [min]="endDate" [disabled]="itemForm.get('rentalStartDate')?.invalid ?? true">
                 <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
                 <mat-datepicker #endPicker></mat-datepicker>
                 <mat-error

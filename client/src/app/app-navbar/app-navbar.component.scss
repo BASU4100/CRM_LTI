@@ -14,3 +14,63 @@
   object-fit: contain;
   cursor: pointer;
 }
+
+.profile-container {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+// .profile-dropdown {
+//   position: absolute;
+//   top: 40px;
+//   right: 0;
+//   background: white;
+//   color: black;
+//   padding: 10px;
+//   border-radius: 4px;
+//   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+//   z-index: 1000;
+//   min-width: 200px;
+// }
+
+.profile-logout-container {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Space between icon and logout */
+  position: relative;
+}
+
+
+.profile-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.profile-icon {
+  font-size: 40px; /* Increased icon size */
+  color: white;
+  display:flex;
+  height: 40px;
+  width: 50px;
+  gap: 16px;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: #fff;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 13px; /* Reduced font size */
+  min-width: 220px;
+  z-index: 1000;
+}
+
+.profile-dropdown p {
+  margin: 4px 0;
+}

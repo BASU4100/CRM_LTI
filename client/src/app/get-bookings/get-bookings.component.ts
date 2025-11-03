@@ -174,12 +174,12 @@ export class GetBookingsComponent implements OnInit, AfterViewInit {
   private setError(msg: string): void {
     this.errorMessage = msg;
     this.showError = true;
-    setTimeout(() => this.showError = false, 5000);
+    setTimeout(() => this.showError = false, 1500);
   }
 
   private setSuccess(msg: string): void {
     this.responseMessage = msg;
     this.showMessage = true;
-    setTimeout(() => this.showMessage = false, 5000);
+    setTimeout(() => this.showMessage = false, 1500);
   }
 }

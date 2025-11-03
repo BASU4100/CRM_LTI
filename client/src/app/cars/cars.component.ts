@@ -13,6 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { ViewChild } from '@angular/core'
 
 import { debounce, debounceTime } from 'rxjs';
+
 @Component({
   selector: 'app-cars',
   templateUrl: './cars.component.html',
@@ -21,7 +22,7 @@ import { debounce, debounceTime } from 'rxjs';
 export class CarsComponent implements OnInit {
 
   // Variables as per requirement
-  itemForm: FormGroup;
+  itemForm!: FormGroup;
   formModel: any = {};
   showError: boolean = false;
   errorMessage: any = '';
@@ -37,10 +38,14 @@ export class CarsComponent implements OnInit {
   sortColumn: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  //filtering
+  // filtering
   // filterForm!: FormGroup;
   searchControl = new FormControl('');
   filteredCars: any[] = [];
+
+  // start date should not be below current date
+  startDate: Date = new Date();
+  endDate: Date | null = null;
 
   //constructor
   constructor(
@@ -50,13 +55,7 @@ export class CarsComponent implements OnInit {
     private authService: AuthService,
     private datePipe: DatePipe
   ) {
-    // Initialize Reactive Form
-    this.itemForm = this.fb.group({
-      rentalStartDate: ['', Validators.required],
-      rentalEndDate: ['', Validators.required]
-    }, {
-      validators: [this.dateRangeValidator]
-    });
+
   }
 
   //material properties
@@ -77,6 +76,19 @@ export class CarsComponent implements OnInit {
     else if (this.authService.getRole !== 'CUSTOMER') {
       this.router.navigate(['/dashboard']);
     }
+
+    // Initialize Reactive Form
+    this.itemForm = this.fb.group({
+      rentalStartDate: ['', Validators.required],
+      rentalEndDate: ['', Validators.required]
+    }, {
+      validators: [this.dateRangeValidator]
+    });
+
+    this.itemForm.get('rentalStartDate')?.valueChanges.subscribe((startDate: Date) => {
+      this.endDate = startDate;
+    });
+
     this.searchControl.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -130,7 +142,7 @@ export class CarsComponent implements OnInit {
 
   // Open booking modal/form for a specific car
   book(val: any): void {
-    this.toBook = { ...val }; // Copy car details
+    this.toBook = { ...val };
     this.updateId = null;
     this.itemForm.reset();
     this.showMessage = false;
@@ -154,11 +166,6 @@ export class CarsComponent implements OnInit {
     }
 
     const userId = this.authService.getUserId(); // Assume AuthService stores user ID after login
-    if (!userId) {
-      this.showError = true;
-      this.errorMessage = 'User not logged in.';
-      return;
-    }
 
     const bookingData = {
       rentalStartDate: this.datePipe.transform(this.itemForm.value.rentalStartDate, 'yyyy-MM-dd HH:mm:ss'),
@@ -194,6 +201,7 @@ export class CarsComponent implements OnInit {
     this.toBook = null;
     this.itemForm.reset();
   }
+  
   // Close modal helper
   closeModal(): void {
     const modal = document.getElementById('bookCarModal');

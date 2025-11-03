@@ -44,48 +44,45 @@ public class BookingService {
     }
 
     // Book a car
-        public Booking bookCar(Long userId, Long carId, Date rentalStartDate, Date rentalEndDate) {
-            // Fetch user
-            Optional<User> optionalUser = userRepository.findById(userId);
-            if (!optionalUser.isPresent()) {
-                throw new RuntimeException("User not found with id: " + userId);
-            }
-    
-            // Fetch car
-            Optional<Car> optionalCar = carRepository.findById(carId);
-            if (!optionalCar.isPresent()) {
-                throw new RuntimeException("Car not found with id: " + carId);
-            }
-    
-            Car car = optionalCar.get();
-            // Check if car is available
-            if (!"available".equalsIgnoreCase(car.getStatus())) {
-                throw new RuntimeException("Car is not available for booking");
-            }
-    
-            // Calculate total amount based on rental duration and car's rental rate
-            long diffInMillies = Math.abs(rentalEndDate.getTime() - rentalStartDate.getTime());
-            long days = diffInMillies / (1000 * 60 * 60 * 24) + 1; // Include both start and end day
-            double totalAmount = days * car.getRentalRatePerDay();
-    
-            // Create new booking
-            Booking booking = new Booking();
-            booking.setUser(optionalUser.get());
-            booking.setCar(car);
-            booking.setRentalStartDate(rentalStartDate);
-            booking.setRentalEndDate(rentalEndDate);
-            booking.setStatus("pending");
-            booking.setTotalAmount(totalAmount);
-            booking.setPaymentStatus("unpaid");
-    
-            // Update car status to booked
-            car.setStatus("booked");
-            carRepository.save(car);
-    
-            // Save booking
-            return bookingRepository.save(booking);
+    public Booking bookCar(Long userId, Long carId, Date rentalStartDate, Date rentalEndDate) {
+        // Fetch user
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (!optionalUser.isPresent()) {
+            throw new RuntimeException("User not found with id: " + userId);
         }
-    public List<Booking> getBookingsByUserId(Long userId){
+
+        // Fetch car
+        Optional<Car> optionalCar = carRepository.findById(carId);
+        if (!optionalCar.isPresent()) {
+            throw new RuntimeException("Car not found with id: " + carId);
+        }
+
+        Car car = optionalCar.get();
+        // Check if car is available
+        if (!"available".equalsIgnoreCase(car.getStatus())) {
+            throw new RuntimeException("Car is not available for booking");
+        }
+
+        // Calculate total amount based on rental duration and car's rental rate
+        long diffInMillies = Math.abs(rentalEndDate.getTime() - rentalStartDate.getTime());
+        long days = diffInMillies / (1000 * 60 * 60 * 24) + 1; // Include both start and end day
+        double totalAmount = days * car.getRentalRatePerDay();
+
+        // Create new booking
+        Booking booking = new Booking();
+        booking.setUser(optionalUser.get());
+        booking.setCar(car);
+        booking.setRentalStartDate(rentalStartDate);
+        booking.setRentalEndDate(rentalEndDate);
+        booking.setStatus("PENDING");
+        booking.setTotalAmount(totalAmount);
+        booking.setPaymentStatus("UNPAID");
+
+        // Save booking
+        return bookingRepository.save(booking);
+    }
+
+    public List<Booking> getBookingsByUserId(Long userId) {
         return bookingRepository.findByUserId(userId);
     }
 }

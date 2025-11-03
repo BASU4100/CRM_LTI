@@ -100,7 +100,7 @@
         <td mat-cell *matCellDef="let row" class="text-center compact-cell">
           <div class="d-flex justify-content-center gap-2">
             <button mat-stroked-button size="small" color="primary" (click)="bookNow(row)"
-              [disabled]="row.bookingStatus !== 'PENDING'" class="w-100">
+              [disabled]="row.bookingStatus !== 'PENDING' || row.paymentStatus === 'UNPAID'" class="w-100">
               Confirm
             </button>
             <button mat-stroked-button size="small" color="accent" (click)="payment(row)"

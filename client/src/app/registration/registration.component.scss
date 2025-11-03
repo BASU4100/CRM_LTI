@@ -1,14 +1,55 @@
-.registration-card {
-  max-width: 400px;
-  width: 100%;
-  margin: auto;
-  padding: 20px;
-  border-radius: 10px;
-  background-color: #ffffff;
+.register-wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  gap: 40px;
+  padding: 0 40px;
+}
+
+.left-panel {
+  flex: 1.8;
+  background-image: url('../../assets/rental_car.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  right: 3%;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 10%;
+  left: 80%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.register-panel {
+  flex: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 3.4%;
+}
+
+.form-card {
+  width: 380px;
+  padding: 1.6rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: black;
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1px;
 }
 
 .toolbar {
@@ -24,16 +65,11 @@
   font-weight: 600;
 }
 
-.registration-form {
+.register-form {
   display: flex;
   flex-direction: column;
   margin-top: 16px;
   overflow: hidden;
-}
-
-.full-width {
-  width: 100%;
-  margin-bottom: 10px;
 }
 
 .button-group {
@@ -43,30 +79,13 @@
 }
 
 button mat-icon {
-  margin-right: 4px;
-}
-
-.response-message {
-  height: 40px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  transition: opacity 0.3s ease;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.response-message.ng-star-inserted {
-  opacity: 1;
-  pointer-events: auto;
+  margin-right: 5px;
 }
 
 .alert-card {
   padding: 10px;
   font-weight: 500;
   border-radius: 6px;
-  margin-top: 0;
-  margin-bottom: 0;
   font-size: 14px;
   box-shadow: none;
   border: 1px solid transparent;
@@ -85,11 +104,24 @@ button mat-icon {
 }
 
 @media (max-width: 480px) {
-  .registration-card {
-    max-width: 90%;
-    margin: auto;
-    top: 50%;
-    transform: translateY(-50%);
+  .register-wrapper {
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+
+  .left-panel {
+    height: 40vh;
+    right: 0;
+  }
+
+  .register-panel {
+    padding: 0 20px;
+  }
+
+  .form-card {
+    width: 100%;
+    margin-top: 20px;
   }
 
   .button-group {
@@ -102,10 +134,40 @@ button mat-icon {
   }
 }
 
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  overflow: hidden;
-  background-color: #f5f5f5;
+::ng-deep .mat-form-field-label {
+  color: black !important;
+}
+
+::ng-deep .mat-input-element {
+  color: black !important;
+}
+
+::ng-deep .mat-input-element::placeholder {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #3f51b5 !important;
+  border-color: #3f51b5 !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #3f51b5 !important;
+  border-color: #3f51b5 !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: #3f51b5 !important;
+}
+
+::ng-deep .mat-error {
+  color: red !important;
+}
+
+::ng-deep .mat-hint {
+  color: rgb(210, 111, 111) !important;
+}
+
+p {
+  color: black;
 }

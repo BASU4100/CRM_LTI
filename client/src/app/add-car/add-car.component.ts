@@ -122,6 +122,8 @@ export class AddCarComponent implements OnInit {
           this.responseMessage = 'Car Updated Successfully'
           this.getAllCategoryList()
           this.getAllCarsList()
+          this.itemForm.reset()
+          this.itemForm.untouched
           setTimeout(() => {
             this.showMessage = false;
             this.responseMessage = '';
@@ -147,6 +149,8 @@ export class AddCarComponent implements OnInit {
           this.responseMessage = 'Car Saved Successfully'
           this.getAllCategoryList()
           this.getAllCarsList()
+          this.itemForm.reset()
+          this.itemForm.untouched
           setTimeout(() => {
             this.showMessage = false;
             this.responseMessage = '';

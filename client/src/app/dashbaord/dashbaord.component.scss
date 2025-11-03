@@ -30,20 +30,11 @@
   overflow: hidden;
 }
 
-.spacer {
-  flex: 1;
-}
-
 .mat-card-title {
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 1rem;
   width: 100%;
-}
-
-.category-card table {
-  flex: 1;
-  overflow: auto;
 }
 
 /* Ensure table uses full width */
@@ -60,9 +51,8 @@
 }
 
 .mat-cell {
-  text-align: center;
+  // text-align: center;
   vertical-align: center;
-  text-align: center;
 }
 
 /* Revenue cards stacked vertically and fill height */

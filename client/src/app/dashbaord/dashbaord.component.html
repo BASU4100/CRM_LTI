@@ -5,43 +5,43 @@
 
       <mat-card-title>Category List</mat-card-title>
 
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1 full-width">
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-          <td mat-cell *matCellDef="let category">{{ category.name }}</td>
-        </ng-container>
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1 full-width">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let category">{{ category.name }}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-          <td mat-cell *matCellDef="let category">{{ category.description }}</td>
-        </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+            <td mat-cell *matCellDef="let category">{{ category.description }}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="baseRate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Base Rate</th>
-          <td mat-cell *matCellDef="let category">{{ category.baseRate }}</td>
-        </ng-container>
+          <ng-container matColumnDef="baseRate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Base Rate</th>
+            <td mat-cell *matCellDef="let category">{{ category.baseRate }}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
-          <td mat-cell *matCellDef="let category">
-            <button mat-button color="primary" (click)="editCategory(category)">Edit</button>
-            <button mat-button color="warn" (click)="deleteCategory(category.id)">Delete</button>
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let category">
+              <button mat-button color="primary" (click)="editCategory(category)">Edit</button>
+              <button mat-button color="warn" (click)="deleteCategory(category.id)">Delete</button>
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-        <!-- No records -->
-        <tr *matNoDataRow>
-          <td colspan="4" class="text-center py-3">
-            <mat-icon class="text-muted">search_off</mat-icon>
-            <p class="mat-body-1">No payment records found</p>
-          </td>
-        </tr>
-      </table>
-
-      <span class="spacer"></span>
+          <!-- No records -->
+          <tr *matNoDataRow>
+            <td colspan="4" class="text-center py-3">
+              <mat-icon class="text-muted">search_off</mat-icon>
+              <p class="mat-body-1">No payment records found</p>
+            </td>
+          </tr>
+        </table>
+      </div>
 
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </mat-card>
@@ -72,65 +72,67 @@
             placeholder="Search by Make, Model, or Registration Number">
         </mat-form-field>
 
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1 full-width">
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1 full-width">
 
-          <ng-container matColumnDef="make">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Make</th>
-            <td mat-cell *matCellDef="let car">{{ car.make }}</td>
-          </ng-container>
+            <ng-container matColumnDef="make">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Make</th>
+              <td mat-cell *matCellDef="let car">{{ car.make }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="model">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Model</th>
-            <td mat-cell *matCellDef="let car">{{ car.model }}</td>
-          </ng-container>
+            <ng-container matColumnDef="model">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Model</th>
+              <td mat-cell *matCellDef="let car">{{ car.model }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-            <td mat-cell *matCellDef="let car">{{ car.status }}</td>
-          </ng-container>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+              <td mat-cell *matCellDef="let car">{{ car.status }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
-            <td mat-cell *matCellDef="let car">{{ car.category.name }}</td>
-          </ng-container>
+            <ng-container matColumnDef="category">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+              <td mat-cell *matCellDef="let car">{{ car.category.name }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="year">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Manufacture Year</th>
-            <td mat-cell *matCellDef="let car">{{ car.manufactureYear }}</td>
-          </ng-container>
+            <ng-container matColumnDef="year">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Manufacture Year</th>
+              <td mat-cell *matCellDef="let car">{{ car.manufactureYear }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="reg">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Registration Number</th>
-            <td mat-cell *matCellDef="let car">{{ car.registrationNumber }}</td>
-          </ng-container>
+            <ng-container matColumnDef="reg">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Registration Number</th>
+              <td mat-cell *matCellDef="let car">{{ car.registrationNumber }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="rate">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Rental Rate / Day</th>
-            <td mat-cell *matCellDef="let car">{{ car.rentalRatePerDay }}</td>
-          </ng-container>
+            <ng-container matColumnDef="rate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Rental Rate / Day</th>
+              <td mat-cell *matCellDef="let car">{{ car.rentalRatePerDay }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Actions</th>
-            <td mat-cell *matCellDef="let car">
-              <button mat-button color="primary" (click)="editCar(car)">Edit</button>
-            </td>
-          </ng-container>
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let car">
+                <button mat-button color="primary" (click)="editCar(car)">Edit</button>
+              </td>
+            </ng-container>
 
-          <tr mat-header-row
-            *matHeaderRowDef="['make', 'model', 'status', 'category', 'year', 'reg', 'rate', 'actions']">
-          </tr>
-          <tr mat-row
-            *matRowDef="let row; columns: ['make', 'model', 'status', 'category', 'year', 'reg', 'rate', 'actions']">
-          </tr>
+            <tr mat-header-row
+              *matHeaderRowDef="['make', 'model', 'status', 'category', 'year', 'reg', 'rate', 'actions']">
+            </tr>
+            <tr mat-row
+              *matRowDef="let row; columns: ['make', 'model', 'status', 'category', 'year', 'reg', 'rate', 'actions']">
+            </tr>
 
-          <!-- No records -->
-          <tr *matNoDataRow>
-            <td colspan="8" class="text-center py-3">
-              <mat-icon class="text-muted">search_off</mat-icon>
-              <p class="mat-body-1">No payment records found</p>
-            </td>
-          </tr>
-        </table>
+            <!-- No records -->
+            <tr *matNoDataRow>
+              <td colspan="8" class="text-center py-3">
+                <mat-icon class="text-muted">search_off</mat-icon>
+                <p class="mat-body-1">No payment records found</p>
+              </td>
+            </tr>
+          </table>
+        </div>
 
         <span class="spacer"></span>
 
@@ -145,56 +147,58 @@
       <mat-card class="booking-list-card mat-elevation-z2">
         <mat-card-title>My Bookings</mat-card-title>
 
-        <table mat-table [dataSource]="dataSource" matSort *ngIf="bookingList.length > 0" class="mat-elevation-z1">
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1">
 
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Booking ID</th>
-            <td mat-cell *matCellDef="let booking">{{ booking.id }}</td>
-          </ng-container>
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Booking ID</th>
+              <td mat-cell *matCellDef="let booking">{{ booking.id }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="car">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Car</th>
-            <td mat-cell *matCellDef="let booking">{{ booking.car.make }} {{ booking.car.model }}</td>
-          </ng-container>
+            <ng-container matColumnDef="car">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Car</th>
+              <td mat-cell *matCellDef="let booking">{{ booking.car.make }} {{ booking.car.model }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="start">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
-            <td mat-cell *matCellDef="let booking">{{ booking.rentalStartDate | date:'dd-MM-yyyy' }}</td>
-          </ng-container>
+            <ng-container matColumnDef="start">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+              <td mat-cell *matCellDef="let booking">{{ booking.rentalStartDate | date:'dd-MM-yyyy' }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="end">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
-            <td mat-cell *matCellDef="let booking">{{ booking.rentalEndDate | date:'dd-MM-yyyy' }}</td>
-          </ng-container>
+            <ng-container matColumnDef="end">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
+              <td mat-cell *matCellDef="let booking">{{ booking.rentalEndDate | date:'dd-MM-yyyy' }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-            <td mat-cell *matCellDef="let booking">{{ booking.status }}</td>
-          </ng-container>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+              <td mat-cell *matCellDef="let booking">{{ booking.status }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="amount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Amount</th>
-            <td mat-cell *matCellDef="let booking">{{ booking.totalAmount | currency:'INR' }}</td>
-          </ng-container>
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Amount</th>
+              <td mat-cell *matCellDef="let booking">{{ booking.totalAmount | currency:'INR' }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="payment">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Status</th>
-            <td mat-cell *matCellDef="let booking">{{ booking.paymentStatus }}</td>
-          </ng-container>
+            <ng-container matColumnDef="payment">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Status</th>
+              <td mat-cell *matCellDef="let booking">{{ booking.paymentStatus }}</td>
+            </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="['id', 'car', 'start', 'end', 'status', 'amount', 'payment']"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['id', 'car', 'start', 'end', 'status', 'amount', 'payment']"></tr>
-        </table>
+            <tr mat-header-row *matHeaderRowDef="['id', 'car', 'start', 'end', 'status', 'amount', 'payment']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['id', 'car', 'start', 'end', 'status', 'amount', 'payment']">
+            </tr>
 
-        <!-- No records -->
-        <tr *matNoDataRow>
-          <td colspan="7" class="text-center py-3">
-            <mat-icon class="text-muted">search_off</mat-icon>
-            <p class="mat-body-1">No payment records found</p>
-          </td>
-        </tr>
+            <!-- No records -->
+            <tr *matNoDataRow>
+              <td colspan="7" class="text-center py-3">
+                <mat-icon class="text-muted">search_off</mat-icon>
+                <p class="mat-body-1">No payment records found</p>
+              </td>
+            </tr>
+          </table>
+        </div>
 
-        <span class="spacer"></span>
 
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
       </mat-card>

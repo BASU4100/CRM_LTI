@@ -4,11 +4,8 @@
     <mat-card-subtitle>Manage and track all payment transactions</mat-card-subtitle>
   </mat-card-header>
 
-  <mat-divider></mat-divider>
-
   <mat-card-content>
     <form [formGroup]="filterForm" class="filter-form">
-      <div class="filter-grid">
         <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
           <input matInput formControlName="customerName" placeholder="Search by username..." />
@@ -37,7 +34,6 @@
             <mat-icon>refresh</mat-icon> Reset
           </button>
         </span>
-      </div>
     </form>
 
     <div class="table-container">
@@ -87,8 +83,8 @@
           </td>
         </tr>
       </table>
-
-      <mat-paginator [length]="dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
     </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </mat-card-content>
 </mat-card>

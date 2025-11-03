@@ -1,5 +1,4 @@
 <div class="container mt-4">
-
   <!-- Booking Form Section -->
   <div *ngIf="toBook" class="mt-5">
     <div class="card shadow-sm">
@@ -8,34 +7,30 @@
         <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label">Rental Start Date & Time</label>
+              <label class="form-label">Rental Start Date</label>
               <input type="date" class="form-control" formControlName="rentalStartDate"
                 [class.is-invalid]="itemForm.get('rentalStartDate')?.touched && itemForm.get('rentalStartDate')?.invalid">
               <div class="invalid-feedback" *ngIf="itemForm.get('rentalStartDate')?.touched && itemForm.get('rentalStartDate')?.errors?.['required']">
                 Start date is required.
               </div>
             </div>
-
             <div class="col-md-6">
-              <label class="form-label">Rental End Date & Time</label>
+              <label class="form-label">Rental End Date</label>
               <input type="date" class="form-control" formControlName="rentalEndDate"
                 [class.is-invalid]="itemForm.get('rentalEndDate')?.touched && itemForm.get('rentalEndDate')?.invalid">
               <div class="invalid-feedback" *ngIf="itemForm.get('rentalEndDate')?.touched && itemForm.get('rentalEndDate')?.errors?.['required']">
                 End date is required.
               </div>
-              <div class="text-danger" *ngIf="itemForm.errors?.['dateRangeInvalid']">
+              <div class="text-danger" *ngIf="itemForm.errors?.['dateRangeInvalid'] && itemForm.touched">
                 End date must be after start date.
               </div>
-
             </div>
           </div>
-
           <div class="mt-4">
             <button type="submit" class="btn btn-success me-2" [disabled]="itemForm.invalid">Confirm Booking</button>
             <button type="button" class="btn btn-outline-secondary" (click)="cancelBooking()">Cancel</button>
           </div>
         </form>
-
         <!-- Success Message -->
         <div *ngIf="showMessage" class="alert alert-success mt-3">
           {{ responseMessage }}
@@ -43,79 +38,44 @@
       </div>
     </div>
   </div>
-  
 
-  <!-- Available Cars Section  -->
+  <!-- Available Cars Section -->
   <div *ngIf="!toBook" class="car-section-container">
-  
     <h2 class="mb-4">Available Cars for Rent</h2>
-  
+
     <!-- Error Alert -->
     <div *ngIf="showError" class="alert alert-danger">
       {{ errorMessage }}
     </div>
-  
+
+    <!-- Search Field -->
     <mat-form-field appearance="outline" class="search-field">
       <mat-label>Search Cars</mat-label>
       <input matInput [formControl]="searchControl" placeholder="Search by make, model, or category">
     </mat-form-field>
-  
-    <div class="table-container">
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-  
-        <!-- Columns Definitions -->
-        <!-- Make Column -->
-        <ng-container matColumnDef="make">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Make</th>
-          <td mat-cell *matCellDef="let car">{{ car.make }}</td>
-        </ng-container>
-  
-        <!-- Model Column -->
-        <ng-container matColumnDef="model">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Model</th>
-          <td mat-cell *matCellDef="let car">{{ car.model }}</td>
-        </ng-container>
-  
-        <!-- Year Column -->
-        <ng-container matColumnDef="manufactureYear">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
-          <td mat-cell *matCellDef="let car">{{ car.manufactureYear }}</td>
-        </ng-container>
-  
-        <!-- Registration Column -->
-        <ng-container matColumnDef="registrationNumber">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Registration</th>
-          <td mat-cell *matCellDef="let car">{{ car.registrationNumber }}</td>
-        </ng-container>
-  
-        <!-- Rate Column -->
-        <ng-container matColumnDef="rentalRatePerDay">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Rate/Day</th>
-          <td mat-cell *matCellDef="let car">₹ {{ car.rentalRatePerDay }}</td>
-        </ng-container>
-  
-        <!-- Category Column -->
-        <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
-          <td mat-cell *matCellDef="let car">{{ car.category?.name }}</td>
-        </ng-container>
-  
-        <!-- Action Column -->
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
-          <td mat-cell *matCellDef="let car">
-            <button mat-button color="primary" (click)="book(car)">Book Now</button>
-          </td>
-        </ng-container>
-  
-        <!-- Header and Row Declarations -->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-    </div>
-  
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-  
-  </div>
 
+    <!-- Car Cards -->
+    <div class="card-grid">
+      <mat-card *ngFor="let car of dataSource.filteredData" class="car-card mat-elevation-z4">
+        <div class="card-image-container">
+          <img mat-card-image [src]="car.imageUrl" alt="{{ car.make }} {{ car.model }}" class="car-image" />
+          <div class="card-overlay">
+            <div class="overlay-content">
+              <h3>{{ car.make }} {{ car.model }}</h3>
+              <p><strong>Year:</strong> {{ car.manufactureYear }}</p>
+              <p><strong>Registration:</strong> {{ car.registrationNumber }}</p>
+              <p><strong>Rate/Day:</strong> ₹{{ car.rentalRatePerDay }}</p>
+              <p><strong>Category:</strong> {{ car.category?.name || 'N/A' }}</p>
+            </div>
+          </div>
+        </div>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="book(car)">Book Now</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!-- Paginator -->
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
 </div>

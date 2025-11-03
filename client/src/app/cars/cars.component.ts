@@ -59,7 +59,6 @@ export class CarsComponent implements OnInit {
     });
   }
 
-
   //material properties
   displayedColumns: string[] = ['make', 'model', 'manufactureYear', 'registrationNumber', 'rentalRatePerDay', 'category', 'action'];
   dataSource = new MatTableDataSource<any>();
@@ -67,7 +66,9 @@ export class CarsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  public serverName = environment.apiUrl;
 
+  private imageBaseUrl = `${this.serverName}/images/`;
 
   ngOnInit(): void {
     if (!this.authService.getLoginStatus) {
@@ -91,25 +92,27 @@ export class CarsComponent implements OnInit {
       data.category?.name?.toLowerCase().includes(filter);
   }
 
-
-
   //get all available cars
-  getCars(): void {
-    this.httpService.getCars().subscribe({
-      next: (data: any[]) => {
-        this.carList = data;
-        this.dataSource.data = data;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.showError = false;
-      },
-      error: (err: any) => {
-        this.showError = true;
-        this.errorMessage = 'Failed to load available cars. Please try again.';
-        console.error(err);
-      }
-    });
-  }
+   getCars(): void {
+      this.httpService.getCars().subscribe({
+        next: (data: any[]) => {
+          // Map car data to include imageUrl
+          this.carList = data.map(car => ({
+            ...car,
+            imageUrl: car.imageUrl ? `${this.imageBaseUrl}${car.imageUrl}` : 'assets/default-car.jpg'
+          }));
+          this.dataSource.data = this.carList;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.showError = false;
+        },
+        error: (err: any) => {
+          this.showError = true;
+          this.errorMessage = 'Failed to load available cars. Please try again.';
+          console.error(err);
+        }
+      });
+    }
 
   //Validate date 
   dateRangeValidator(formGroup: FormGroup) {

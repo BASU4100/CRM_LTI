@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,15 +28,12 @@ public class AgentController {
         this.paymentService = paymentService;
     }
 
-    // add a car and return created car
-    @PostMapping("/api/agent/car")
-    public ResponseEntity<Car> addCar(@RequestBody Car car) {
-        // car = carService.addCar(car);
-        // if (car==null) {
-        // return new ResponseEntity<>(HttpStatus.IM_USED);
-        // }
-        return new ResponseEntity<Car>(carService.addCar(car), HttpStatus.CREATED);
-    }
+    //add car with image
+    @PostMapping(value = "/api/agent/car", consumes = { "multipart/form-data" })
+        public ResponseEntity<Car> addCar(@RequestPart("car") Car car, @RequestPart(value = "image", required = false) MultipartFile image) {
+            Car createdCar = carService.addCar(car, image);
+            return ResponseEntity.status(201).body(createdCar);
+        }
 
     // get all cars
     @GetMapping("/api/agent/cars")
@@ -45,10 +43,11 @@ public class AgentController {
     }
 
     // update a car
-    @PutMapping("/api/agent/car/{carId}")
-    public ResponseEntity<Car> updateCar(@PathVariable Long carId, @RequestBody Car updatedCar) {
-        return new ResponseEntity<>(carService.updateCar(carId, updatedCar), HttpStatus.OK);
-    }
+    @PutMapping(value = "/api/agent/car/{carId}", consumes = { "multipart/form-data" })
+        public ResponseEntity<Car> updateCar(@PathVariable Long carId, @RequestPart("car") Car updatedCar, @RequestPart(value = "image", required = false) MultipartFile image) {
+            Car updated = carService.updateCar(carId, updatedCar, image);
+            return ResponseEntity.ok(updated);
+        }
 
     // get all bookings
     @GetMapping("/api/agent/bookings")

@@ -2,14 +2,11 @@ import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpService } from '../../services/http.service';
-
-//sorting
-import { MatSort } from '@angular/material/sort';
-
 
 @Component({
   selector: 'app-dashbaord',
@@ -20,6 +17,7 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
   // admin
   role!: string | null;
   categoryList: any[] = [];
@@ -60,10 +58,66 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
+ngAfterViewInit(): void {
+  this.dataSource.paginator = this.paginator;
+  this.dataSource.sort = this.sort;
+
+  this.dataSource.sortingDataAccessor = (item: any, property: string) => {
+    // AGENT view sorting
+    if (this.role === 'AGENT') {
+      switch (property) {
+        case 'category': return item.category?.name?.toLowerCase();
+        case 'year': return item.manufactureYear;
+        case 'reg': return item.registrationNumber?.toLowerCase();
+        case 'rate': return item.rentalRatePerDay;
+        default: return item[property];
+      }
+    }
+
+    // CUSTOMER view sorting
+    if (this.role === 'CUSTOMER') {
+      console.log('Role:', this.role);
+      console.log('Sorting initialized:', this.dataSource.sortingDataAccessor);
+      switch (property) {
+        case 'car': return `${item.car?.make} ${item.car?.model}`.toLowerCase();
+        case 'start': return new Date(item.rentalStartDate);
+        case 'end': return new Date(item.rentalEndDate);
+        case 'amount': return item.totalAmount;
+        case 'payment': return item.paymentStatus?.toLowerCase();
+        default: return item[property];
+      }
+    }
+
+    // ADMINISTRATOR or fallback
+    return item[property];
+  };
+}
+
+
+  // ngAfterViewInit(): void {
+  //   this.dataSource.paginator = this.paginator;
+  //   this.dataSource.sort = this.sort;
+  
+  //   this.dataSource.sortingDataAccessor = (item: any, property: string) => {
+  //     switch (property) {
+  //       // AGENT view fields
+  //       case 'category': return item.category?.name?.toLowerCase();
+  //       case 'year': return item.manufactureYear;
+  //       case 'reg': return item.registrationNumber?.toLowerCase();
+  //       case 'rate': return item.rentalRatePerDay;
+  
+  //       // CUSTOMER view fields
+  //       case 'car': return `${item.car?.make} ${item.car?.model}`.toLowerCase();
+  //       case 'start': return new Date(item.rentalStartDate);
+  //       case 'end': return new Date(item.rentalEndDate);
+  //       case 'amount': return item.totalAmount;
+  //       case 'payment': return item.paymentStatus?.toLowerCase();
+  
+  //       default: return item[property];
+  //     }
+  //   };
+  // }
+
 
   getCustomerBookings() {
     this.httpService.getCustomerBookings().subscribe(

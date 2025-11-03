@@ -1,97 +1,148 @@
 <div class="form-wrapper">
-  <mat-card class="mat-elevation-z4 p-4">
+  <mat-card class="mat-elevation-z4 p-3">
+    <mat-card-title class="text-center mb-4">{{ updateId ? 'Update' : 'Add' }} Car</mat-card-title>
+
     <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
-      <div class="row g-3">
+      <div class="row g-2">
         <!-- Make -->
         <div class="col-md-6">
-          <mat-form-field appearance="outline" class="w-100">
+          <mat-form-field appearance="outline" class="w-100" floatLabel="always">
             <mat-label>Make</mat-label>
             <input matInput formControlName="make" [placeholder]="formModel.make">
             <mat-error *ngIf="itemForm.get('make')?.invalid && itemForm.get('make')?.touched">
-              Make is required.
+              Make is required
             </mat-error>
           </mat-form-field>
         </div>
 
         <!-- Model -->
         <div class="col-md-6">
-          <mat-form-field appearance="outline" class="w-100">
+          <mat-form-field appearance="outline" class="w-100" floatLabel="always">
             <mat-label>Model</mat-label>
             <input matInput formControlName="model" [placeholder]="formModel.model">
             <mat-error *ngIf="itemForm.get('model')?.invalid && itemForm.get('model')?.touched">
-              Model is required and must be at least 2 characters.
+              Model must have min 2 chars
             </mat-error>
           </mat-form-field>
         </div>
 
         <!-- Status -->
         <div class="col-md-6">
-          <mat-form-field appearance="outline" class="w-100">
+          <mat-form-field appearance="outline" class="w-100" floatLabel="always">
             <mat-label>Status</mat-label>
-            <mat-select formControlName="status">
-              <mat-option value="">{{ formModel.status }}</mat-option>
+            <mat-select formControlName="status" [placeholder]="formModel.status">
               <mat-option value="AVAILABLE">Available</mat-option>
               <mat-option value="UNAVAILABLE">Unavailable</mat-option>
+              <mat-option value="MAINTENANCE">Maintenance</mat-option>
             </mat-select>
             <mat-error *ngIf="itemForm.get('status')?.invalid && itemForm.get('status')?.touched">
-              Status is required.
+              Status is required
             </mat-error>
           </mat-form-field>
         </div>
 
         <!-- Category -->
         <div class="col-md-6">
-          <mat-form-field appearance="outline" class="w-100">
+          <mat-form-field appearance="outline" class="w-100" floatLabel="always">
             <mat-label>Category</mat-label>
-            <mat-select formControlName="category">
-              <mat-option value="">{{ formModel.category }}</mat-option>
+            <mat-select formControlName="category" [placeholder]="formModel.category">
               <mat-option *ngFor="let category of categoryList" [value]="category.id">
                 {{ category.name }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="itemForm.get('category')?.invalid && itemForm.get('category')?.touched">
-              Category is required.
+              Category is required
             </mat-error>
           </mat-form-field>
         </div>
 
         <!-- Manufacture Year -->
         <div class="col-md-6">
-          <mat-form-field appearance="outline" class="w-100">
+          <mat-form-field appearance="outline" class="w-100" floatLabel="always">
             <mat-label>Manufacture Year</mat-label>
-            <input matInput type="date" formControlName="manufactureYear">
+            <input matInput [matDatepicker]="yearPicker" formControlName="manufactureYear" [placeholder]="formModel.manufactureYear" readonly />
+            <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+            <mat-datepicker #yearPicker startView="multi-year" (yearSelected)="setYear($event)" panelClass="year-picker"></mat-datepicker>
             <mat-error *ngIf="itemForm.get('manufactureYear')?.invalid && itemForm.get('manufactureYear')?.touched">
-              Please enter a valid year.
+              Valid year is required
             </mat-error>
           </mat-form-field>
         </div>
 
         <!-- Registration Number -->
         <div class="col-md-6">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Registration Number</mat-label>
-            <input matInput formControlName="registrationNumber">
-            <mat-error
-              *ngIf="itemForm.get('registrationNumber')?.invalid && itemForm.get('registrationNumber')?.touched">
-              Please enter a valid registration number.
+          <mat-form-field appearance="outline" class="w-100" floatLabel="always">
+            <mat-label>Reg. No.</mat-label>
+            <input matInput formControlName="registrationNumber" [placeholder]="formModel.registrationNumber">
+            <mat-error *ngIf="itemForm.get('registrationNumber')?.invalid && itemForm.get('registrationNumber')?.touched">
+              Registration number is required
             </mat-error>
           </mat-form-field>
         </div>
 
         <!-- Rental Rate Per Day -->
         <div class="col-md-6">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Rental Rate / Day</mat-label>
-            <input matInput formControlName="rentalRatePerDay">
+          <mat-form-field appearance="outline" class="w-100" floatLabel="always">
+            <mat-label>Rate / Day</mat-label>
+            <input matInput formControlName="rentalRatePerDay" [placeholder]="formModel.rentalRatePerDay">
             <mat-error *ngIf="itemForm.get('rentalRatePerDay')?.invalid && itemForm.get('rentalRatePerDay')?.touched">
-              Rental rate must be a valid number.
+              Enter a valid number
             </mat-error>
           </mat-form-field>
         </div>
+
+        <!-- Image Upload -->
+        <!-- <div class="col-md-6">
+          <div class="form-group">
+            <label>Car Image</label>
+            <input type="file" class="form-control-file" (change)="onFileSelected($event)" accept="image/*">
+            <small class="form-text text-muted">Max file size: 5MB (JPEG, PNG)</small>
+            <div *ngIf="imagePreview" class="mt-2">
+              <img [src]="imagePreview" alt="Image Preview" style="max-height: 150px; object-fit: cover;">
+            </div>
+          </div>
+        </div> -->
+
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100" floatLabel="always">
+            <mat-label>Car Image</mat-label>
+            <input matInput [value]="selectedFile?.name || ''" placeholder="Choose an image" readonly>
+            <button mat-icon-button matSuffix (click)="fileInput.click()" [disabled]="itemForm.disabled">
+              <mat-icon>attach_file</mat-icon>
+            </button>
+            <input type="file" #fileInput hidden (change)="onFileSelected($event)" accept="image/*">
+            <mat-hint>Max file size: 5MB (JPEG, PNG)</mat-hint>
+            <mat-error *ngIf="itemForm.get('image')?.invalid && itemForm.get('image')?.touched">
+              Please select a valid image
+            </mat-error>
+          </mat-form-field>
+          <div *ngIf="imagePreview" class="mt-2">
+            <img [src]="imagePreview" alt="Image Preview" style="max-height: 150px; object-fit: cover;">
+          </div>
+        </div>
+        
+
+
       </div>
 
-      <div class="mt-4">
-        <button mat-raised-button color="primary" class="w-100" [disabled]="itemForm.invalid">
+      <!-- Success Alert -->
+      <div *ngIf="showMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+        {{ responseMessage }}
+        <button type="button" class="btn-close btn-close-sm" (click)="showMessage = false"></button>
+      </div>
+
+      <!-- Error Alert -->
+      <div *ngIf="showError" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+        {{ errorMessage }}
+        <button type="button" class="btn-close btn-close-sm" (click)="showError = false"></button>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="button-row mt-3">
+        <button mat-raised-button color="warn" class="w-100" [routerLink]="['/dashboard']">
+          Cancel
+        </button>
+        <button mat-raised-button color="primary" class="w-100" type="submit" [disabled]="itemForm.invalid">
           {{ updateId ? 'Update Car' : 'Add Car' }}
         </button>
       </div>

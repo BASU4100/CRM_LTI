@@ -81,14 +81,37 @@ export class HttpService {
   }
  
   // Create car related to Add Car nav bar tab
-  createCar(details: any): Observable<any> {
-   // details.category = { id: details.category};
-    return this.http.post<any>(`${this.serverName}/api/agent/car`, details);
-  }
- 
+  // createCar(details: any): Observable<any> {
+  //  // details.category = { id: details.category};
+  //   return this.http.post<any>(`${this.serverName}/api/agent/car`, details);
+  // }
+  createCar(details: any, image?: File): Observable<any> {
+     const formData = new FormData();
+     formData.append('car', new Blob([JSON.stringify(details)], { type: 'application/json' }));
+     if (image) {
+       formData.append('image', image, image.name);
+     }
+    //  const headers = new HttpHeaders({
+    //    'Authorization': `Bearer ${localStorage.getItem('token')}`
+    //  });
+     return this.http.post<any>(`${this.serverName}/api/agent/car`, formData);
+   }
+
+
   // Update car info in the database
-  updateCar(updateId: any,details: any): Observable<any> {
-    return this.http.put<any>(`${this.serverName}/api/agent/car/${updateId}`, details);
+  // updateCar(updateId: any,details: any): Observable<any> {
+  //   return this.http.put<any>(`${this.serverName}/api/agent/car/${updateId}`, details);
+  // }
+ updateCar(updateId: any, details: any, image?: File | null): Observable<any> {
+    const formData = new FormData();
+    formData.append('car', new Blob([JSON.stringify(details)], { type: 'application/json' }));
+    if (image) {
+      formData.append('image', image, image.name);
+    }
+    // const headers = new HttpHeaders({
+    //   'Authorization': `Bearer ${localStorage.getItem('token')}`
+    // });
+    return this.http.put<any>(`${this.serverName}/api/agent/car/${updateId}`, formData);
   }
  
   // Features used by Customer

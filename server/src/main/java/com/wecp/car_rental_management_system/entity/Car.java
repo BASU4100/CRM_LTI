@@ -26,6 +26,10 @@ public class Car {
     private String status;
     private Double rentalRatePerDay;
 
+    //image variable to store the path of the image
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @ManyToOne
     private CarCategory category;
 
@@ -36,7 +40,7 @@ public class Car {
     // constructors
 
     public Car(Long id, String make, String model, String manufactureYear, String registrationNumber, String status,
-            Double rentalRatePerDay, CarCategory category, List<Booking> bookings) {
+            Double rentalRatePerDay, CarCategory category,String imageUrl, List<Booking> bookings) {
         this.id = id;
         this.make = make;
         this.manufactureYear = manufactureYear;
@@ -44,6 +48,7 @@ public class Car {
         this.status = status;
         this.rentalRatePerDay = rentalRatePerDay;
         this.category = category;
+        this.imageUrl = imageUrl;
         this.bookings = bookings;
         this.model = model;
     }
@@ -136,5 +141,13 @@ public class Car {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -41,7 +41,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ2VudCIsInJvbGUiOiJBR0VOV
 ### Get all cars
 GET http://localhost:5000/api/agent/cars
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQUdFTlQiLCJpYXQiOjE3NjE3NTYzMDEsImV4cCI6MTc2MTg0MjcwMX0.oH61PGam9ydjbST7GQ4BBlNeoJzj5UJMJcOkHKrKH3FuTAWzaQqhkF0o4HylVZP49tgPHxBXBpisga7LeCMI6w
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ2VudCIsInJvbGUiOiJBR0VOVCIsImlhdCI6MTc2MjA5MjUzNSwiZXhwIjoxNzYyMTc4OTM1fQ.5G3n2z7HrbXlFos1hPwghSGidSuV-C4LV0gCj04moyqfPqtMpIT5JOMaok_gMTrL18kS96fhzOh_SLJW28u7IA
 
 ### update an existing car
 PUT http://localhost:5000/api/agent/car/1
@@ -57,6 +57,73 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ2VudCIsInJvbGUiOiJBR0VOV
     "rentalRatePerDay": 300000,
     "category": { "id": 2}
 }
+###
+# POST http://localhost:5000/api/agent/car
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ2VudCIsInJvbGUiOiJBR0VOVCIsImlhdCI6MTc2MTgyMzk3NCwiZXhwIjoxNzYxOTEwMzc0fQ.LUrBOMHO4PVR8gYg97aNRkRvUUdBjh1-qkjGeW3M5hBVXUQKifwomuB30WoCBHJR46YHpxqGUy5VLtBV-MvntQ
+
+
+# {
+#     "make": "Audi Make",
+#     "model": "Audi Model",
+#     "manufactureYear": "1983",
+#     "registrationNumber": "TZ123456",
+#     "status": "available",
+#     "rentalRatePerDay": 20000,
+#     "category": { "id": 1}
+# }
+
+###image
+# POST http://localhost:5000/api/agent/car
+# Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ2VudCIsInJvbGUiOiJBR0VOVCIsImlhdCI6MTc2MjA5MjUzNSwiZXhwIjoxNzYyMTc4OTM1fQ.5G3n2z7HrbXlFos1hPwghSGidSuV-C4LV0gCj04moyqfPqtMpIT5JOMaok_gMTrL18kS96fhzOh_SLJW28u7IA
+# Content-Type: multipart/form-data
+
+# --boundary
+# Content-Disposition: form-data; name="car"
+# Content-Type: application/json
+
+# {
+#   "make": "Toyota",
+#   "model": "Corolla",
+#   "manufactureYear": "2020",
+#   "registrationNumber": "ABC123",
+#   "status": "available",
+#   "rentalRatePerDay": 25.0,
+#   "category": {
+#     "id": 1
+#   }
+# }
+# --boundary
+# Content-Disposition: form-data; name="image"; filename="car.jpg"
+# Content-Type: image/jpeg
+
+# < ./car.jpg
+# ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+POST http://localhost:5000/api/agent/car
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ2VudCIsInJvbGUiOiJBR0VOVCIsImlhdCI6MTc2MjEwNzY4MywiZXhwIjoxNzYyMTk0MDgzfQ.ElBvOi-KxLQpa1cPxxuOdXH1GPvU0nlHbDjkYx8vpFQkjjXcDaMa4QR4I7QNVNYp_sO_TP4O7A6R_EKnlpzzHw
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary
+Content-Disposition: form-data; name="car"
+Content-Type: application/json
+
+{
+  "make": "Ferari",
+  "model": "model 2",
+  "manufactureYear": "2020",
+  "registrationNumber": "ABC12345",
+  "status": "available",
+  "rentalRatePerDay": 25.0,
+  "category": {
+    "id": 1
+  }
+}
+--MyBoundary
+Content-Disposition: form-data; name="image"; filename="car.jpg"
+Content-Type: image/jpeg
+
+< ./maxresdefault.jpg
+--MyBoundary--
 
 ### Get all bookings
 GET http://localhost:5000/api/agent/bookings
@@ -79,3 +146,5 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSVZFSzQxMDAiLCJyb2xlIjoiQ
     "paymentMethod":"UPI",
     "paymentStatus":"Paid"
 }
+
+###

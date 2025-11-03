@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -13,10 +13,25 @@ import { MatSort } from '@angular/material/sort';
 import { ViewChild } from '@angular/core'
 
 import { debounce, debounceTime } from 'rxjs';
+
+//animation
+import { trigger, state, style, animate, transition } from '@angular/animations';
+
 @Component({
   selector: 'app-cars',
   templateUrl: './cars.component.html',
-  styleUrls: ['./cars.component.scss']
+  styleUrls: ['./cars.component.scss'],
+  animations: [
+      trigger('cardAnimation', [
+        transition(':enter', [
+          style({ opacity: 0, transform: 'scale(0.95)' }),
+          animate('300ms ease-out', style({ opacity: 1, transform: 'scale(1)' }))
+        ]),
+        transition(':leave', [
+          animate('200ms ease-in', style({ opacity: 0, transform: 'scale(0.95)' }))
+        ])
+      ])
+    ]
 })
 export class CarsComponent implements OnInit {
 
@@ -69,6 +84,29 @@ export class CarsComponent implements OnInit {
   public serverName = environment.apiUrl;
 
   private imageBaseUrl = `${this.serverName}/images/`;
+
+
+@ViewChild('carousel', { static: false }) carousel!: ElementRef;
+isAtStart = true;
+isAtEnd = false;
+
+ngAfterViewInit() {
+  this.carousel.nativeElement.addEventListener('scroll', () => {
+    const el = this.carousel.nativeElement;
+    this.isAtStart = el.scrollLeft === 0;
+    this.isAtEnd = el.scrollLeft + el.offsetWidth >= el.scrollWidth;
+  });
+}
+
+scrollLeft() {
+  this.carousel.nativeElement.scrollBy({ left: -300, behavior: 'smooth' });
+}
+
+scrollRight() {
+  this.carousel.nativeElement.scrollBy({ left: 300, behavior: 'smooth' });
+}
+  
+
 
   ngOnInit(): void {
     if (!this.authService.getLoginStatus) {

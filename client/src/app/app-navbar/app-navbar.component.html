@@ -1,6 +1,5 @@
-<mat-toolbar color="primary" class="mat-elevation-z4">
-  <span class="logo" [routerLink]="['/dashboard']" style="cursor: pointer;">CRMS</span>
-
+ <mat-toolbar color="primary" class="mat-elevation-z4">
+  <img src="assets/logo.png" class="logo" alt="Logo" [routerLink]="['/dashboard']" style="cursor:pointer">
   <ng-container *ngIf="roleName === 'ADMINISTRATOR'; else agentNav">
     <button mat-button [routerLink]="['/category']">Category</button>
     <button mat-button [routerLink]="['/booking-report']">Booking Report</button>
@@ -23,4 +22,7 @@
   <span class="spacer"></span>
 
   <button mat-raised-button color="warn" (click)="logout()">Logout</button>
-</mat-toolbar>
+</mat-toolbar> 
+
+
+  

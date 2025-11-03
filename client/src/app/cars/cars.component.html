@@ -1,42 +1,58 @@
 <div class="container mt-4">
   <!-- Booking Form Section -->
   <div *ngIf="toBook" class="mt-5">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h4 class="card-title mb-4">Book Car: {{ toBook.make }} {{ toBook.model }}</h4>
+    <mat-card class="mat-elevation-z4 full-height">
+      <mat-card-title class="mat-headline mb-2 text-center">Book Car: {{ toBook.make }} {{ toBook.model
+        }}</mat-card-title>
+      <mat-card-content>
         <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label">Rental Start Date</label>
-              <input type="date" class="form-control" formControlName="rentalStartDate"
-                [class.is-invalid]="itemForm.get('rentalStartDate')?.touched && itemForm.get('rentalStartDate')?.invalid">
-              <div class="invalid-feedback" *ngIf="itemForm.get('rentalStartDate')?.touched && itemForm.get('rentalStartDate')?.errors?.['required']">
-                Start date is required.
-              </div>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Rental Start Date</mat-label>
+                <input matInput [matDatepicker]="startPicker" formControlName="rentalStartDate">
+                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker></mat-datepicker>
+                <mat-error
+                  *ngIf="itemForm.get('rentalStartDate')?.touched && itemForm.get('rentalStartDate')?.hasError('required')">
+                  Start date is required.
+                </mat-error>
+              </mat-form-field>
             </div>
+
             <div class="col-md-6">
-              <label class="form-label">Rental End Date</label>
-              <input type="date" class="form-control" formControlName="rentalEndDate"
-                [class.is-invalid]="itemForm.get('rentalEndDate')?.touched && itemForm.get('rentalEndDate')?.invalid">
-              <div class="invalid-feedback" *ngIf="itemForm.get('rentalEndDate')?.touched && itemForm.get('rentalEndDate')?.errors?.['required']">
-                End date is required.
-              </div>
-              <div class="text-danger" *ngIf="itemForm.errors?.['dateRangeInvalid'] && itemForm.touched">
-                End date must be after start date.
-              </div>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Rental End Date</mat-label>
+                <input matInput [matDatepicker]="endPicker" formControlName="rentalEndDate">
+                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+                <mat-error
+                  *ngIf="itemForm.get('rentalEndDate')?.touched && itemForm.get('rentalEndDate')?.hasError('required')">
+                  End date is required.
+                </mat-error>
+                <mat-error *ngIf="itemForm.errors?.['dateRangeInvalid']">
+                  End date must be after start date.
+                </mat-error>
+              </mat-form-field>
             </div>
           </div>
-          <div class="mt-4">
-            <button type="submit" class="btn btn-success me-2" [disabled]="itemForm.invalid">Confirm Booking</button>
-            <button type="button" class="btn btn-outline-secondary" (click)="cancelBooking()">Cancel</button>
+
+          <div class="mt-4 d-flex gap-3">
+            <button mat-raised-button color="primary" type="submit" [disabled]="itemForm.invalid">Confirm
+              Booking</button>
+            <button mat-stroked-button color="warn" type="button" (click)="cancelBooking()">Cancel</button>
           </div>
         </form>
-        <!-- Success Message -->
-        <div *ngIf="showMessage" class="alert alert-success mt-3">
-          {{ responseMessage }}
-        </div>
-      </div>
-    </div>
+
+        <mat-card *ngIf="showMessage" class="mt-3">
+          <mat-card-content class="d-flex align-items-center" style="display: flex; align-items: center; gap: 8px;">
+            <mat-icon color="primary">check_circle</mat-icon>
+            <span>{{ responseMessage }}</span>
+          </mat-card-content>
+        </mat-card>
+
+      </mat-card-content>
+    </mat-card>
   </div>
 
   <!-- Available Cars Section -->

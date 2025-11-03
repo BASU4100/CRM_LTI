@@ -2,7 +2,15 @@
     flex: 1 1 auto;
 }
 
+
+
+// .logo {
+//   font-weight: bold;
+//   font-size: 20px;
+// }
 .logo {
-    font-weight: bold;
-    font-size: 20px;
+  width: 120px;
+  height: 200px;
+  object-fit: contain;
+  cursor: pointer;
 }

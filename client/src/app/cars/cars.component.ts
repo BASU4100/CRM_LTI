@@ -87,25 +87,27 @@ export class CarsComponent implements OnInit {
   private imageBaseUrl = `${this.serverName}/images/`;
 
 
-  @ViewChild('carousel', { static: false }) carousel!: ElementRef;
-  isAtStart = true;
-  isAtEnd = false;
+@ViewChild('carousel', { static: false }) carousel!: ElementRef;
+isAtStart = true;
+isAtEnd = false;
 
-  ngAfterViewInit() {
-    this.carousel.nativeElement.addEventListener('scroll', () => {
-      const el = this.carousel.nativeElement;
-      this.isAtStart = el.scrollLeft === 0;
-      this.isAtEnd = el.scrollLeft + el.offsetWidth >= el.scrollWidth;
-    });
-  }
+ngAfterViewInit() {
+  this.carousel.nativeElement.addEventListener('scroll', () => {
+    const el = this.carousel.nativeElement;
+    this.isAtStart = el.scrollLeft === 0;
+    this.isAtEnd = el.scrollLeft + el.offsetWidth >= el.scrollWidth;
+  });
+}
 
-  scrollLeft() {
-    this.carousel.nativeElement.scrollBy({ left: -300, behavior: 'smooth' });
-  }
+scrollLeft() {
+  this.carousel.nativeElement.scrollBy({ left: -300, behavior: 'smooth' });
+}
 
-  scrollRight() {
-    this.carousel.nativeElement.scrollBy({ left: 300, behavior: 'smooth' });
-  }
+scrollRight() {
+  this.carousel.nativeElement.scrollBy({ left: 300, behavior: 'smooth' });
+}
+  
+
 
   ngOnInit(): void {
     if (!this.authService.getLoginStatus) {

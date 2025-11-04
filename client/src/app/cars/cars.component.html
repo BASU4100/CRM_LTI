@@ -68,6 +68,7 @@
     </mat-card>
   </div>
 
+  
   <!-- Available Cars Section -->
   <mat-card *ngIf="!toBook" class="car-section-container car-list-card mat-elevation-z2">
     <h2 class="mat-headline mb-4">Available Cars for Rent</h2>
@@ -84,6 +85,25 @@
     <div class="carousel-wrapper">
       <button class="scroll-btn left" (click)="scrollLeft()" [disabled]="isAtStart">&#9664;</button>
 
+      <!-- <div class="card-carousel" #carousel>
+        <mat-card *ngFor="let car of dataSource.filteredData" class="car-card mat-elevation-z4" [@cardAnimation]>
+          <div class="card-image-container">
+            <img mat-card-image [src]="car.imageUrl" alt="{{ car.make }} {{ car.model }}" class="car-image" />
+            <div class="card-overlay">
+              <div class="overlay-content">
+                <h3>{{ car.make }} {{ car.model }}</h3>
+                <p><strong>Year:</strong> {{ car.manufactureYear }}</p>
+                <p><strong>Registration:</strong> {{ car.registrationNumber }}</p>
+                <p><strong>Rate/Day:</strong> ₹{{ car.rentalRatePerDay }}</p>
+                <p><strong>Category:</strong> {{ car.category?.name || 'N/A' }}</p>
+              </div>
+            </div>
+          </div>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="book(car)">Book Now</button>
+          </mat-card-actions>
+        </mat-card>
+      </div> -->
       <div class="card-carousel" #carousel>
         <mat-card *ngFor="let car of dataSource.filteredData" class="car-card mat-elevation-z4" [@cardAnimation]>
           <div class="card-image-container">
@@ -98,6 +118,13 @@
               </div>
             </div>
           </div>
+      
+          <!-- Default visible info -->
+          <div class="card-basic-info">
+            <span class="car-name">{{ car.make }} {{ car.model }}</span>
+            <span class="car-price">₹{{ car.rentalRatePerDay }}/day</span>
+          </div>
+      
           <mat-card-actions>
             <button mat-raised-button color="primary" (click)="book(car)">Book Now</button>
           </mat-card-actions>

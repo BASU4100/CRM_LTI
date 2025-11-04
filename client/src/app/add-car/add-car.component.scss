@@ -2,25 +2,36 @@
 .form-wrapper {
   display: flex;
   justify-content: center;
-  padding: 1rem;
+  padding: 20px;
   margin: 2rem auto;
 }
 
+/* Card styling */
+mat-card {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem !important;
+  min-height: 500px; /* Fixed card height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* Card title */
 mat-card-title {
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Material form fields */
+mat-form-field {
   width: 100%;
 }
 
-/* Card max-width */
-mat-card {
-  max-width: 700px;
-  width: 100%;
-  padding: 1rem !important;
-}
-
-/* Make Material fields a bit shorter */
 ::ng-deep .mat-mdc-form-field {
   font-size: 14px;
 }
@@ -34,6 +45,7 @@ mat-card {
   min-height: 48px !important;
 }
 
+/* Button row */
 .button-row {
   display: flex;
   justify-content: space-between;
@@ -44,36 +56,7 @@ mat-card {
   flex: 1;
 }
 
-/* Reduce margins around alerts & button */
-.alert {
-  margin-top: 0.5rem !important;   /* was mt-2 */
-}
-// .mt-3 { 
-//   margin-top: 0.75rem !important;
-// }   /* button area */
-.form-wrapper {
-  padding: 20px;
-}
-
-.mat-card {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.w-100 {
-  width: 100%;
-}
-
-.button-row {
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-}
-
-.form-control-file {
-  margin-top: 10px;
-}
-
+/* Alerts */
 .alert {
   max-width: 800px;
   margin: 10px auto;
@@ -83,27 +66,55 @@ mat-card {
   font-size: 0.8rem;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-.mat-card-image {
-  object-fit: cover;
-}
-
-.file-input {
-  margin-top: 8px;
-}
-.full-width {
+/* Image preview container */
+.image-container {
   width: 100%;
-}
-mat-form-field {
-  width: 100%;
-}
-
-img {
+  height: 150px; /* Fixed height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid #ccc;
   border-radius: 4px;
   margin-top: 8px;
+  background-color: #f8f8f8; /* Placeholder background */
 }
 
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Prevent distortion */
+  border-radius: 4px;
+}
+
+/* Disable Angular Material default image behavior */
+.mat-card-image {
+  display: none !important;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  mat-card {
+    max-width: 95%;
+    min-height: auto;
+  }
+
+  .button-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+// .image-container {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-top: 10px;
+// }
+
+::ng-deep .preview-img {
+  width: 150px;       /* Fixed width */
+  height: 150px;      /* Fixed height */
+  object-fit: cover;  /* Ensures image fills the box without distortion */
+  border-radius: 8px; /* Optional for rounded corners */
+  border: 1px solid #ccc; /* Optional for styling */
+}

@@ -117,8 +117,8 @@
               Please select a valid image
             </mat-error>
           </mat-form-field>
-          <div *ngIf="imagePreview" class="mt-2">
-            <img [src]="imagePreview" alt="Image Preview" style="max-height: 150px; object-fit: cover;">
+          <div *ngIf="imagePreview" class="image-container">
+            <img [src]="imagePreview" alt="Image Preview" class="preview-img" style="max-height: 150px; object-fit: cover;">
           </div>
         </div>
         

@@ -197,7 +197,7 @@ export class AddCarComponent implements OnInit {
           this.responseMessage = 'Car Updated Successfully';
           this.getAllCategoryList();
           this.getAllCarsList();
-          this.itemForm.reset();
+          // this.itemForm.reset();
           this.selectedFile = null;
           this.imagePreview = null;
           this.updateId = null;
@@ -226,7 +226,7 @@ export class AddCarComponent implements OnInit {
           this.responseMessage = 'Car Saved Successfully';
           this.getAllCategoryList();
           this.getAllCarsList();
-          this.itemForm.reset();
+          // this.itemForm.reset();
           this.selectedFile = null;
           this.imagePreview = null;
           this.itemForm.markAsUntouched();
@@ -234,7 +234,7 @@ export class AddCarComponent implements OnInit {
             this.showMessage = false;
             this.responseMessage = '';
             this.router.navigate(['/dashboard']);
-          }, 50);
+          }, 2000);
         },
         error: (error) => {
           this.showError = true;
@@ -251,4 +251,3 @@ export class AddCarComponent implements OnInit {
 
 
 }
-

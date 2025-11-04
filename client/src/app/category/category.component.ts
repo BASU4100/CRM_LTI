@@ -82,7 +82,7 @@ export class CategoryComponent implements OnInit {
           this.showMessage = true;
           this.responseMessage = 'Category updated successfully';
           this.updateId = null;
-          this.itemForm.reset();
+          // this.itemForm.reset();
           setTimeout(() => {
             this.showMessage = false;
             this.responseMessage = '';
@@ -104,7 +104,7 @@ export class CategoryComponent implements OnInit {
         next: () => {
           this.showMessage = true;
           this.responseMessage = 'Category added successfully';
-          this.itemForm.reset();
+          // this.itemForm.reset();
           setTimeout(() => {
             this.showMessage = false;
             this.responseMessage = '';

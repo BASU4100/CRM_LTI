@@ -10,7 +10,7 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Username</mat-label>
           <mat-icon matPrefix>person</mat-icon>
-          <input matInput formControlName="username" placeholder="Username" />
+          <input matInput formControlName="username" [placeholder]="formModel.username" />
           <mat-error *ngIf="itemForm.get('username')?.invalid && itemForm.get('username')?.touched">
             Username is required
           </mat-error>
@@ -19,7 +19,7 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Password</mat-label>
           <mat-icon matPrefix>lock</mat-icon>
-          <input matInput type="password" formControlName="password" placeholder="Password" />
+          <input matInput type="password" formControlName="password" [placeholder]="formModel.password" />
           <mat-error *ngIf="itemForm.get('password')?.invalid && itemForm.get('password')?.touched">
             Password is required
           </mat-error>
@@ -33,7 +33,7 @@
 
 
         <div class="register-section">
-          <p>Dont have an account yet?
+          <p>Don't have an account yet?
             <a href="javascript:void(0)" (click)="registration()">Register</a>
           </p>
         </div>

@@ -1,10 +1,10 @@
 .payment-report-card {
-  // max-width: 62.5rem;
   margin: 2rem 4rem;
   padding: 0;
-  // background-color: #fff;
+  height: calc(100vh - 128px);
   border-radius: 0.75rem;
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 mat-card-header {
@@ -27,6 +27,8 @@ mat-card-subtitle {
 }
 
 mat-card-content {
+  display: flex;
+  flex-direction: column;
   padding: 1.5rem;
 }
 
@@ -54,9 +56,21 @@ mat-divider {
   font-size: 0.875rem;
 }
 
+// .table-container {
+//   margin-top: 1.5rem;
+//   width: 100%;
+// }
+
 .table-container {
-  margin-top: 1.5rem;
-  width: 100%;
+  flex: 1;
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+      display: none;
+  }
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 table {

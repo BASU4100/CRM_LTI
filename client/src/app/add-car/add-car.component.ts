@@ -25,6 +25,7 @@ export class AddCarComponent implements OnInit {
   selectedFile: File | null = null;
   imagePreview: string | null = null; // For image preview
   private imageBaseUrl = `${environment.apiUrl}/images/`;
+  maxYear: number = new Date().getFullYear();
 
   constructor(
     private router: Router,
@@ -39,7 +40,7 @@ export class AddCarComponent implements OnInit {
       manufactureYear: ['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
       registrationNumber: ['', Validators.required],
       status: ['AVAILABLE', Validators.required],
-      rentalRatePerDay: ['', [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/)]],
+      rentalRatePerDay: ['', [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/),this.rentalRateValidator()]],
       category: ['', Validators.required],
       image: [null, Validators.required]
     });
@@ -54,7 +55,22 @@ export class AddCarComponent implements OnInit {
       category: 'Choose Category'
     };
   }
-
+private rentalRateValidator() {
+  return (control: any): { [key: string]: any } | null => {
+    if (!this.itemForm || !this.categoryList.length) {
+      return null; // Skip validation if form or category list is not ready
+    }
+    const selectedCategoryId = this.itemForm.get('category')?.value;
+    const rentalRate = parseFloat(control.value);
+    if (selectedCategoryId && !isNaN(rentalRate)) {
+      const selectedCategory = this.categoryList.find(category => category.id === selectedCategoryId);
+      if (selectedCategory && selectedCategory.baseRate && rentalRate < selectedCategory.baseRate) {
+        return { rateBelowBase: `Rate must be at least ${selectedCategory.baseRate}` };
+      }
+    }
+    return null;
+  };
+}
   ngOnInit(): void {
     if (!this.authService.getLoginStatus) {
       this.router.navigate(['/login']);
@@ -64,7 +80,10 @@ export class AddCarComponent implements OnInit {
     }
     this.getAllCategoryList();
     this.getAllCarsList();
-
+this.itemForm.get('category')?.valueChanges.subscribe(() => {
+    this.itemForm.get('rentalRatePerDay')?.updateValueAndValidity();
+  });
+    
     this.updateId = this.route.snapshot.paramMap.get('id');
     if (this.updateId) {
       this.httpService.getAllCars().subscribe({

@@ -138,6 +138,4 @@ export class HttpService {
   getCustomerBookings(): Observable<any>{
     return this.http.get(`${this.serverName}/api/customers/booking`);
   }
-
-
 }

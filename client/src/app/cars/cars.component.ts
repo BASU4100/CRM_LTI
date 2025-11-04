@@ -12,7 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ViewChild } from '@angular/core'
 
-import { debounce, debounceTime } from 'rxjs';
+import { debounce, debounceTime, filter } from 'rxjs';
 
 //animation
 import { trigger, state, style, animate, transition } from '@angular/animations';
@@ -22,16 +22,16 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   templateUrl: './cars.component.html',
   styleUrls: ['./cars.component.scss'],
   animations: [
-      trigger('cardAnimation', [
-        transition(':enter', [
-          style({ opacity: 0, transform: 'scale(0.95)' }),
-          animate('300ms ease-out', style({ opacity: 1, transform: 'scale(1)' }))
-        ]),
-        transition(':leave', [
-          animate('200ms ease-in', style({ opacity: 0, transform: 'scale(0.95)' }))
-        ])
+    trigger('cardAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.95)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'scale(1)' }))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in', style({ opacity: 0, transform: 'scale(0.95)' }))
       ])
-    ]
+    ])
+  ]
 })
 export class CarsComponent implements OnInit {
 
@@ -61,6 +61,9 @@ export class CarsComponent implements OnInit {
   startDate: Date = new Date();
   endDate: Date | null = null;
 
+  // to have multiple bookings
+  bookingList: any[] = [];
+
   //constructor
   constructor(
     private router: Router,
@@ -84,27 +87,25 @@ export class CarsComponent implements OnInit {
   private imageBaseUrl = `${this.serverName}/images/`;
 
 
-@ViewChild('carousel', { static: false }) carousel!: ElementRef;
-isAtStart = true;
-isAtEnd = false;
+  @ViewChild('carousel', { static: false }) carousel!: ElementRef;
+  isAtStart = true;
+  isAtEnd = false;
 
-ngAfterViewInit() {
-  this.carousel.nativeElement.addEventListener('scroll', () => {
-    const el = this.carousel.nativeElement;
-    this.isAtStart = el.scrollLeft === 0;
-    this.isAtEnd = el.scrollLeft + el.offsetWidth >= el.scrollWidth;
-  });
-}
+  ngAfterViewInit() {
+    this.carousel.nativeElement.addEventListener('scroll', () => {
+      const el = this.carousel.nativeElement;
+      this.isAtStart = el.scrollLeft === 0;
+      this.isAtEnd = el.scrollLeft + el.offsetWidth >= el.scrollWidth;
+    });
+  }
 
-scrollLeft() {
-  this.carousel.nativeElement.scrollBy({ left: -300, behavior: 'smooth' });
-}
+  scrollLeft() {
+    this.carousel.nativeElement.scrollBy({ left: -300, behavior: 'smooth' });
+  }
 
-scrollRight() {
-  this.carousel.nativeElement.scrollBy({ left: 300, behavior: 'smooth' });
-}
-  
-
+  scrollRight() {
+    this.carousel.nativeElement.scrollBy({ left: 300, behavior: 'smooth' });
+  }
 
   ngOnInit(): void {
     if (!this.authService.getLoginStatus) {
@@ -145,26 +146,26 @@ scrollRight() {
   }
 
   //get all available cars
-   getCars(): void {
-      this.httpService.getCars().subscribe({
-        next: (data: any[]) => {
-          // Map car data to include imageUrl
-          this.carList = data.map(car => ({
-            ...car,
-            imageUrl: car.imageUrl ? `${this.imageBaseUrl}${car.imageUrl}` : 'assets/default-car.jpg'
-          }));
-          this.dataSource.data = this.carList;
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          this.showError = false;
-        },
-        error: (err: any) => {
-          this.showError = true;
-          this.errorMessage = 'Failed to load available cars. Please try again.';
-          console.error(err);
-        }
-      });
-    }
+  getCars(): void {
+    this.httpService.getCars().subscribe({
+      next: (data: any[]) => {
+        // Map car data to include imageUrl
+        this.carList = data.map(car => ({
+          ...car,
+          imageUrl: car.imageUrl ? `${this.imageBaseUrl}${car.imageUrl}` : 'assets/default-car.jpg'
+        }));
+        this.dataSource.data = this.carList;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.showError = false;
+      },
+      error: (err: any) => {
+        this.showError = true;
+        this.errorMessage = 'Failed to load available cars. Please try again.';
+        console.error(err);
+      }
+    });
+  }
 
   //Validate date 
   dateRangeValidator(formGroup: FormGroup) {
@@ -186,6 +187,8 @@ scrollRight() {
     this.itemForm.reset();
     this.formModel = {};
 
+    console.log(this.toBook);
+
     // Open modal or show form (assumes Bootstrap modal with ID #bookCarModal)
     const modal = document.getElementById('bookCarModal');
     if (modal) {
@@ -196,49 +199,136 @@ scrollRight() {
   }
 
   // Submit booking
+  // onSubmit(): void {
+  //   if (this.itemForm.invalid) {
+  //     this.itemForm.markAllAsTouched();
+  //     return;
+  //   }
+
+  //   const userId = this.authService.getUserId(); // Assume AuthService stores user ID after login
+
+  //   const bookingData = {
+  //     rentalStartDate: this.datePipe.transform(this.itemForm.value.rentalStartDate, 'yyyy-MM-dd HH:mm:ss'),
+  //     rentalEndDate: this.datePipe.transform(this.itemForm.value.rentalEndDate, 'yyyy-MM-dd HH:mm:ss')
+  //   };
+
+  //   this.httpService.getBookingByAgent().subscribe(
+  //     data => this.bookingList = data.filter(item => item.car.id === this.toBook.id)
+  //     );
+  //     const newStart = new Date(bookingData.rentalStartDate!);
+  //     const newEnd = new Date(bookingData.rentalEndDate!);
+  //     console.log(newStart + " " + newEnd);
+      
+  //     const overlappingBookings = this.bookingList.filter(booking => {
+  //       const existingStart = new Date(booking.rentalStartDate);
+  //       const existingEnd = new Date(booking.rentalEndDate);
+  
+  //       console.log(existingStart + " " + existingEnd);
+  //       console.log(newStart < existingEnd && newEnd > existingStart);
+  
+  //       return newStart < existingEnd && newEnd > existingStart;
+  //     })
+  
+  //     if (overlappingBookings.length > 0) {
+  //       this.showError = true;
+  //       this.errorMessage = 'Booking overlaps with existing reservations.';
+  //       setTimeout(() => {
+  //         this.showError = false;
+  //         this.errorMessage = '';
+  //       }, 1000);
+  //       console.warn('Booking overlaps with existing reservations.');
+  //       return;
+  //     }
+
+
+  //   this.httpService.bookACar(bookingData, userId, this.toBook.id).subscribe({
+  //     next: () => {
+  //       this.showMessage = true;
+  //       this.responseMessage = 'Car booked successfully!';
+  //       this.itemForm.reset();
+  //       this.closeModal();
+  //       this.getCars(); // Refresh available cars
+  //       setTimeout(() => {
+  //         this.showMessage = false;
+  //         this.responseMessage = '';
+  //         this.router.navigate(['/dashboard'])
+  //       }, 1000);
+  //     },
+  //     error: (err: any) => {
+  //       this.showError = true;
+  //       this.errorMessage = err.error?.message || 'Booking failed. Please try again.';
+  //       console.error(err);
+  //       setTimeout(() => {
+  //         this.showError = false;
+  //         this.errorMessage = '';
+  //       }, 1000);
+  //     }
+  //   });
+  // }
+
   onSubmit(): void {
     if (this.itemForm.invalid) {
       this.itemForm.markAllAsTouched();
       return;
     }
 
-    const userId = this.authService.getUserId(); // Assume AuthService stores user ID after login
-
+    const userId = this.authService.getUserId();
     const bookingData = {
       rentalStartDate: this.datePipe.transform(this.itemForm.value.rentalStartDate, 'yyyy-MM-dd HH:mm:ss'),
       rentalEndDate: this.datePipe.transform(this.itemForm.value.rentalEndDate, 'yyyy-MM-dd HH:mm:ss')
     };
 
-    this.httpService.bookACar(bookingData, userId, this.toBook.id).subscribe({
-      next: (response: any) => {
-        this.showMessage = true;
-        this.responseMessage = 'Car booked successfully!';
-        this.itemForm.reset();
-        this.closeModal();
-        this.getCars(); // Refresh available cars
-        setTimeout(() => {
-          this.showMessage = false;
-          this.responseMessage = '';
-          this.router.navigate(['/dashboard'])
-        }, 1000);
-      },
-      error: (err: any) => {
+    this.httpService.getBookingByAgent().subscribe(data => {
+      this.bookingList = data.filter(item => item.car.id === this.toBook.id);
+      const newStart = new Date(bookingData.rentalStartDate!);
+      const newEnd = new Date(bookingData.rentalEndDate!);
+      const overlappingBookings = this.bookingList.filter(booking => {
+        const existingStart = new Date(booking.rentalStartDate);
+        const existingEnd = new Date(booking.rentalEndDate);
+        return newStart < existingEnd && newEnd > existingStart;
+      });
+      if (overlappingBookings.length > 0) {
         this.showError = true;
-        this.errorMessage = err.error?.message || 'Booking failed. Please try again.';
-        console.error(err);
+        this.errorMessage = 'Booking overlaps with existing reservations.';
         setTimeout(() => {
           this.showError = false;
           this.errorMessage = '';
         }, 1000);
+        return;
       }
+      
+      this.httpService.bookACar(bookingData, userId, this.toBook.id).subscribe({
+        next: () => {
+          this.showMessage = true;
+          this.responseMessage = 'Car booked successfully!';
+          this.itemForm.reset();
+          this.closeModal();
+          this.getCars(); // Refresh available cars
+          setTimeout(() => {
+            this.showMessage = false;
+            this.responseMessage = '';
+            this.router.navigate(['/dashboard']);
+          }, 1000);
+        },
+        error: (err: any) => {
+          this.showError = true;
+          this.errorMessage = err.error?.message || 'Booking failed. Please try again.';
+          console.error(err);
+          setTimeout(() => {
+            this.showError = false;
+            this.errorMessage = '';
+          }, 1000);
+        }
+      });
     });
   }
+   
 
   cancelBooking() {
     this.toBook = null;
     this.itemForm.reset();
   }
-  
+
   // Close modal helper
   closeModal(): void {
     const modal = document.getElementById('bookCarModal');

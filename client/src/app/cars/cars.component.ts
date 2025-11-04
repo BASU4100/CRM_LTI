@@ -301,7 +301,7 @@ export class CarsComponent implements OnInit {
         next: () => {
           this.showMessage = true;
           this.responseMessage = 'Car booked successfully!';
-          this.itemForm.reset();
+          // this.itemForm.reset();
           this.closeModal();
           this.getCars(); // Refresh available cars
           setTimeout(() => {

@@ -245,15 +245,13 @@ this.itemForm.get('category')?.valueChanges.subscribe(() => {
           this.responseMessage = 'Car Saved Successfully';
           this.getAllCategoryList();
           this.getAllCarsList();
-          this.itemForm.reset();
           this.selectedFile = null;
           this.imagePreview = null;
-          this.itemForm.markAsUntouched();
           setTimeout(() => {
             this.showMessage = false;
             this.responseMessage = '';
             this.router.navigate(['/dashboard']);
-          }, 50);
+          }, 1500);
         },
         error: (error) => {
           this.showError = true;

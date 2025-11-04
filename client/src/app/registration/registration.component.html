@@ -40,7 +40,7 @@
           <input matInput type="password" formControlName="password" [placeholder]="formModel.password" />
           <mat-error *ngIf="itemForm.get('password')?.hasError('required')">Password is required.</mat-error>
           <mat-error *ngIf="itemForm.get('password')?.hasError('pattern')">
-            Must contain at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character (!@$%&*?).
+            At least 1 uppercase, 1 digit, and 1 special character (!@$%&*?).
           </mat-error>
         </mat-form-field>
 

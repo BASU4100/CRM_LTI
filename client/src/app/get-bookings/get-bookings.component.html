@@ -97,9 +97,7 @@
               [disabled]="row.paymentStatus !== 'UNPAID'" class="w-100">
               Pay
             </button>
-            <!-- <button mat-stroked-button size="small" color="accent" (click)="deleteBooking(row.id)" aria-label="Delete Booking" matTooltip="Delete Booking">
-            <mat-icon></mat-icon>
-          </button> -->
+
             <mat-icon class="clickable-icon smallicon" (click)="deleteBooking(row.id)" aria-label="Delete Booking"
               matTooltip="Delete Booking">
               delete
@@ -116,7 +114,7 @@
       <tr *matNoDataRow>
         <td colspan="8" class="text-center py-3">
           <mat-icon class="text-muted">search_off</mat-icon>
-          <p class="mat-body-1">No payment records found</p>
+          <p class="mat-body-1">No recent bookings found</p>
         </td>
       </tr>
     </table>

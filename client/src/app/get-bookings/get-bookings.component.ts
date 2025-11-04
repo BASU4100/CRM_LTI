@@ -80,6 +80,7 @@ export class GetBookingsComponent implements OnInit, AfterViewInit {
   private getBookings(): void {
     this.http.getBookingByAgent().subscribe({
       next: (data: any[]) => {
+        console.log(data);
         const mapped: Booking[] = data.map(b => {
           const rawStatus = b.status || 'PENDING';
           const displayStatus = rawStatus.toUpperCase() === 'BOOKED'

@@ -95,19 +95,6 @@
             </mat-error>
           </mat-form-field>
         </div>
-        
-
-        <!-- Image Upload -->
-        <!-- <div class="col-md-6">
-          <div class="form-group">
-            <label>Car Image</label>
-            <input type="file" class="form-control-file" (change)="onFileSelected($event)" accept="image/*">
-            <small class="form-text text-muted">Max file size: 5MB (JPEG, PNG)</small>
-            <div *ngIf="imagePreview" class="mt-2">
-              <img [src]="imagePreview" alt="Image Preview" style="max-height: 150px; object-fit: cover;">
-            </div>
-          </div>
-        </div> -->
 
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100" floatLabel="always">
@@ -138,18 +125,6 @@
       </div>
 
       <!-- Error Alert -->
-      <div *ngIf="showError" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
-        {{ errorMessage }}
-        <button type="button" class="btn-close btn-close-sm" (click)="showError = false"></button>
-      </div>
-
-      <!-- SUCCESS ALERT -->
-      <div *ngIf="showMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
-        {{ responseMessage }}
-        <button type="button" class="btn-close btn-close-sm" (click)="showMessage = false"></button>
-      </div>
-
-      <!-- ERROR ALERT -->
       <div *ngIf="showError" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
         {{ errorMessage }}
         <button type="button" class="btn-close btn-close-sm" (click)="showError = false"></button>

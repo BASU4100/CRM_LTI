@@ -38,12 +38,11 @@
           </p>
         </div>
       </form>
-    </div>
+
+      <!-- Error Message -->
+      <mat-error *ngIf="showError" class="text-center mt-3">
+        {{ errorMessage }}
+      </mat-error>
+    </div>   
   </div>
-
-
-  <!-- Error Message -->
-  <mat-error *ngIf="showError" class="text-center mt-3">
-    {{ errorMessage }}
-  </mat-error>
 </div>

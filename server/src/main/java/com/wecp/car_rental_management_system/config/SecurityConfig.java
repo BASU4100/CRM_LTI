@@ -55,8 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/administrator/**").hasAuthority("ADMINISTRATOR")
                 .antMatchers("/api/customers/**").hasAuthority("CUSTOMER")
                // .antMatchers("/api/customers/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/agent/bookings").hasAuthority("CUSTOMER")
-                .antMatchers("/api/agent/**").hasAuthority("AGENT")
+               .antMatchers(HttpMethod.GET, "/api/agent/bookings").hasAnyAuthority("CUSTOMER","AGENT")
+               .antMatchers("/api/agent/**").hasAuthority("AGENT")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

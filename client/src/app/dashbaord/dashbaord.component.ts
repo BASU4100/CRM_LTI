@@ -142,7 +142,7 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
     this.httpService.getCustomerBookings().subscribe(
       (response: any) => {
         console.log('Bookings response:', response); // Debug log
-        this.bookingList = response;
+        this.bookingList = response.reverse();
         this.dataSource.data = response;
       },
       (error: any) => {
@@ -154,7 +154,7 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
   getCategories(): void {
     this.httpService.getAllCategories().subscribe({
       next: (res: any[]) => {
-        this.categoryList = res;
+        this.categoryList = res.reverse();
         this.dataSource.data = res;
       },
       error: () => console.error('Failed to load categories')
@@ -184,8 +184,8 @@ export class DashbaordComponent implements OnInit, AfterViewInit {
   getAllCarsList(): void {
     this.httpService.getAllCars().subscribe({
       next: (res: any[]) => {
-        this.carList = res;
-        this.filteredCarList = res;
+        this.carList = res.reverse();
+        this.filteredCarList = res.reverse();
         this.dataSource.data = res;
       },
       error: () => {

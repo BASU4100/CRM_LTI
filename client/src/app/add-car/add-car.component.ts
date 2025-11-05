@@ -216,7 +216,6 @@ this.itemForm.get('category')?.valueChanges.subscribe(() => {
           this.responseMessage = 'Car Updated Successfully';
           this.getAllCategoryList();
           this.getAllCarsList();
-          this.itemForm.reset();
           this.selectedFile = null;
           this.imagePreview = null;
           this.updateId = null;
